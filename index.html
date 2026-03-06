@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>பாரத் பாய்ஸ் நற்பணி மன்றம்</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080B12;--surface:#0F1320;--surface2:#161B2E;--surface3:#1C2238;--orange:#FF5500;--orange2:#FF8830;--teal:#00C4A7;--teal2:#00EDCA;--crimson:#E53935;--gold:#F5A623;--sky:#29B6F6;--green:#4CAF50;--text:#EEF0FF;--text2:#A0A8C8;--muted:#5A6080;--border:rgba(255,255,255,0.07);--border2:rgba(255,85,0,0.2);--glow-o:0 0 40px rgba(255,85,0,0.3);--glow-t:0 0 40px rgba(0,196,167,0.25);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}body{font-family:"Noto Sans Tamil",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6;}img{display:block;max-width:100%;}a{text-decoration:none;color:inherit;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:var(--orange);border-radius:2px;}::selection{background:var(--orange);color:#fff;}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);}
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;align-items:center;padding:0 5%;background:rgba(8,11,18,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:.3s;}
+.nav-inner{max-width:1300px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.nbrand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nlogo-wrap{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--orange);display:flex;align-items:center;justify-content:center;background:rgba(255,85,0,0.08);overflow:hidden;cursor:pointer;position:relative;box-shadow:0 0 12px rgba(255,85,0,0.2);flex-shrink:0;}
+.nlogo-wrap img{width:100%;height:100%;object-fit:contain;}
+.nlogo-edit{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;font-size:.6rem;color:#fff;text-align:center;border-radius:50%;}
+.admin-mode .nlogo-wrap:hover .nlogo-edit{display:flex;}
+.ntxt strong{display:block;font-size:.78rem;font-weight:800;color:var(--orange);line-height:1.2;letter-spacing:.02em;}
+.ntxt span{font-size:.48rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-family:"DM Mono",monospace;}
+.nmenu{display:flex;align-items:center;gap:1px;list-style:none;}
+.nmenu a{display:block;padding:6px 11px;font-size:.68rem;font-weight:600;color:var(--text2);border-radius:6px;white-space:nowrap;transition:.2s;letter-spacing:.02em;}
+.nmenu a:hover{background:rgba(255,85,0,0.1);color:var(--orange);}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:rgba(255,85,0,0.08);border:1px solid var(--border2);border-radius:8px;}
+.ham span{width:20px;height:1.5px;background:var(--orange);display:block;transition:.3s;}
+.mobm{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(8,11,18,0.98);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1.2rem 5%;z-index:899;}
+.mobm a{display:block;padding:10px 0;font-size:.88rem;font-weight:600;color:var(--text2);border-bottom:1px solid var(--border);}
+.mobm a:hover{color:var(--orange);}.mobm a:last-child{border:none;}.mobm.show{display:block;}
+.n-admin-btn{padding:6px 14px;font-size:.65rem;font-weight:700;background:rgba(255,85,0,0.1);border:1px solid var(--border2);color:var(--orange);border-radius:6px;cursor:pointer;font-family:inherit;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:4px;}
+.n-admin-btn:hover{background:var(--orange);color:#fff;}
+#hero{position:relative;overflow:hidden;min-height:100vh;padding:100px 5% 80px;display:flex;align-items:center;justify-content:center;}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,85,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,85,0,0.04) 1px,transparent 1px);background-size:56px 56px;animation:gridMove 18s linear infinite;}
+@keyframes gridMove{from{background-position:0 0;}to{background-position:56px 56px;}}
+.hblob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.hb1{width:500px;height:500px;background:radial-gradient(circle,rgba(255,85,0,0.12),transparent);top:-10%;right:-5%;}
+.hb2{width:400px;height:400px;background:radial-gradient(circle,rgba(0,196,167,0.08),transparent);bottom:-10%;left:-5%;}
+.hb3{width:300px;height:300px;background:radial-gradient(circle,rgba(229,57,53,0.06),transparent);top:40%;left:45%;}
+.hero-col{position:relative;z-index:2;max-width:960px;width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;}
+.hero-logo-ring{width:180px;height:180px;border-radius:50%;border:2px solid rgba(255,85,0,0.3);background:transparent;display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:2rem;animation:logoPulse 4s ease-in-out infinite;cursor:pointer;overflow:hidden;box-shadow:0 0 0 8px rgba(255,85,0,0.04),0 0 0 18px rgba(255,85,0,0.02),var(--glow-o);}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 0 8px rgba(255,85,0,0.04),0 0 0 18px rgba(255,85,0,0.02),var(--glow-o);}50%{box-shadow:0 0 0 14px rgba(255,85,0,0.07),0 0 0 28px rgba(255,85,0,0.03),0 0 60px rgba(255,85,0,0.4);}}
+.hero-logo-ring img{width:100%;height:100%;object-fit:contain;padding:12px;}
+.hero-logo-edit{position:absolute;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;flex-direction:column;gap:2px;border-radius:50%;}
+.hero-logo-edit span{font-size:.9rem;}
+.hero-logo-edit p{font-size:.55rem;color:rgba(255,255,255,.8);letter-spacing:.05em;}
+.admin-mode .hero-logo-ring:hover .hero-logo-edit{display:flex;}.hero-title{font-size:clamp(2rem,5.5vw,4.2rem);font-weight:900;line-height:1.1;margin-bottom:2rem;white-space:nowrap;}
+.ht-w{color:var(--text);}.ht-o{background:linear-gradient(135deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;overflow:hidden;backdrop-filter:blur(10px);}
+.hstat{flex:1;padding:1.4rem 2rem;text-align:center;border-right:1px solid var(--border);position:relative;}
+.hstat:last-child{border-right:none;}
+.hstat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:0;transition:.3s;}
+.hstat:hover::before{opacity:1;}
+.hsn{font-family:"Orbitron",monospace;font-size:2.2rem;font-weight:800;line-height:1;}.hsl{font-size:.62rem;color:var(--text2);margin-top:4px;font-weight:600;letter-spacing:.04em;}
+.sc1{color:var(--orange);}.sc2{color:var(--teal);}.sc3{color:var(--gold);}
+.quote-slider{width:100%;max-width:680px;margin-bottom:2.5rem;position:relative;min-height:90px;}
+.q-slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity .7s ease,transform .7s ease;transform:translateY(10px);}
+.q-slide.on{opacity:1;transform:translateY(0);position:relative;}.q-slide.out{opacity:0;transform:translateY(-10px);}
+.q-text{font-size:clamp(.9rem,2vw,1.05rem);color:var(--text2);font-style:italic;line-height:1.9;padding:1.2rem 1.8rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-left:3px solid var(--orange);border-radius:0 12px 12px 0;position:relative;}
+.q-text::before{content:"❝";position:absolute;top:-10px;left:12px;font-size:1.3rem;color:var(--orange);opacity:.5;}
+.q-cite{font-size:.72rem;color:var(--orange);font-weight:700;margin-top:.5rem;font-family:"DM Mono",monospace;letter-spacing:.06em;}
+.q-dots{display:flex;gap:6px;justify-content:center;margin-top:1rem;}
+.qdot{width:6px;height:6px;border-radius:50%;background:rgba(255,85,0,0.2);cursor:pointer;transition:.3s;}.qdot.on{background:var(--orange);width:20px;border-radius:3px;}
+.leaders-row{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;width:100%;margin-bottom:2.5rem;}
+.leader-card{width:220px;background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:.35s;position:relative;}
+.leader-card::before{content:"";display:block;height:2px;}.lc1::before{background:linear-gradient(90deg,var(--orange),var(--gold));}.lc2::before{background:linear-gradient(90deg,var(--teal),var(--teal2));}
+.leader-card:hover{transform:translateY(-6px);border-color:rgba(255,85,0,0.3);box-shadow:var(--glow-o);}
+.limg-wrap{height:190px;overflow:hidden;background:var(--surface2);display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;}
+.limg-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;transition:.5s;}.leader-card:hover .limg-wrap img{transform:scale(1.04);}
+.limg-wrap .emoji-fallback{font-size:4rem;}
+.limg-edit-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.65);display:none;align-items:center;justify-content:center;flex-direction:column;gap:6px;}
+.limg-edit-overlay span{font-size:1.5rem;}.limg-edit-overlay p{font-size:.58rem;color:rgba(255,255,255,.8);letter-spacing:.04em;text-align:center;}
+.admin-mode .limg-wrap:hover .limg-edit-overlay{display:flex;}
+.lbody{padding:.9rem 1rem;}.lname1{font-size:.85rem;font-weight:800;color:var(--orange);margin-bottom:.1rem;}.lname2{font-size:.85rem;font-weight:800;color:var(--teal);margin-bottom:.1rem;}
+.lquote{font-size:.68rem;color:var(--text2);line-height:1.6;font-style:italic;}
+.lrem-btn{position:absolute;top:6px;right:6px;background:rgba(229,57,53,0.8);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.7rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:5;}
+.admin-mode .lrem-btn{display:flex;}
+.contact-strip{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;background:rgba(0,196,167,0.04);border:1px solid rgba(0,196,167,0.15);border-radius:14px;padding:1.2rem 2rem;width:100%;max-width:700px;}
+.cstrip-left{display:flex;align-items:center;gap:.8rem;}.cstrip-ico{font-size:1.8rem;}
+.cstrip-lbl{font-size:.63rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;font-family:"DM Mono",monospace;}
+.cstrip-nums{display:flex;gap:.6rem;flex-wrap:wrap;}
+.cstrip-n a{font-size:.82rem;font-weight:700;color:var(--sky);background:rgba(41,182,246,0.08);padding:5px 14px;border-radius:50px;border:1px solid rgba(41,182,246,0.15);transition:.2s;display:block;}
+.cstrip-n a:hover{background:var(--sky);color:#fff;}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-top:2rem;}
+.hbtn{padding:13px 26px;border-radius:10px;font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .25s;border:none;display:inline-flex;align-items:center;gap:.5rem;letter-spacing:.02em;}
+.hbf{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 4px 20px rgba(255,85,0,0.4);}.hbf:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,85,0,0.5);}
+.hbo{background:transparent;color:var(--text);border:1.5px solid var(--border);backdrop-filter:blur(8px);}.hbo:hover{border-color:var(--orange);color:var(--orange);}
+section{padding:80px 5%;}.si{max-width:1300px;margin:0 auto;}
+.stag{display:inline-flex;align-items:center;gap:6px;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:4px 14px;border-radius:50px;margin-bottom:.8rem;font-family:"DM Mono",monospace;}
+.ts{background:rgba(255,85,0,0.1);color:var(--orange);border:1px solid rgba(255,85,0,0.15);}.tt{background:rgba(0,196,167,0.1);color:var(--teal);border:1px solid rgba(0,196,167,0.15);}.tc{background:rgba(229,57,53,0.1);color:var(--crimson);border:1px solid rgba(229,57,53,0.15);}.tg{background:rgba(245,166,35,0.1);color:var(--gold);border:1px solid rgba(245,166,35,0.15);}
+.sh{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:900;line-height:1.2;margin-bottom:.4rem;}
+.shr{width:36px;height:2px;border-radius:2px;margin:.5rem 0 .9rem;}.sd{font-size:.82rem;color:var(--text2);max-width:500px;line-height:1.85;}.shdr{margin-bottom:2.4rem;}.shdr.center{text-align:center;}.shdr.center .shr{margin:0 auto .8rem;}.shdr.center .sd{margin:0 auto;}
+.hrs{background:linear-gradient(90deg,var(--orange),transparent);}.hrt{background:linear-gradient(90deg,var(--teal),transparent);}.hrc{background:linear-gradient(90deg,var(--crimson),transparent);}.hrg{background:linear-gradient(90deg,var(--gold),transparent);}
+.cs{color:var(--orange);}.ct{color:var(--teal);}.cc{color:var(--crimson);}.cg{color:var(--gold);}
+.grd-o{background:linear-gradient(135deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.grd-t{background:linear-gradient(135deg,var(--teal),var(--teal2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}.rv.vis{opacity:1;transform:none;}
+.rv.d1{transition-delay:.08s;}.rv.d2{transition-delay:.16s;}.rv.d3{transition-delay:.24s;}.rv.d4{transition-delay:.32s;}
+#ideology{background:var(--surface);}
+.idg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;}
+.idc{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:1.5rem;position:relative;overflow:hidden;transition:all .35s;}
+.idc::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;border-radius:2px 2px 0 0;}
+.id1::before{background:linear-gradient(90deg,var(--orange),var(--orange2));}.id2::before{background:linear-gradient(90deg,var(--teal),var(--teal2));}.id3::before{background:linear-gradient(90deg,#9C27B0,#CE93D8);}.id4::before{background:linear-gradient(90deg,var(--gold),#FFD54F);}
+.idc:hover{transform:translateY(-5px);border-color:rgba(255,85,0,0.2);}
+.id1:hover{box-shadow:0 12px 40px rgba(255,85,0,0.12);}.id2:hover{box-shadow:0 12px 40px rgba(0,196,167,0.1);}.id3:hover{box-shadow:0 12px 40px rgba(156,39,176,0.1);}.id4:hover{box-shadow:0 12px 40px rgba(245,166,35,0.1);}
+.idnum{position:absolute;top:.6rem;right:1rem;font-size:2.5rem;font-weight:900;opacity:.04;color:#fff;font-family:"Orbitron",monospace;}
+.idico{font-size:1.7rem;margin-bottom:.75rem;}.idtitle{font-size:.9rem;font-weight:800;margin-bottom:.45rem;}.iddesc{font-size:.77rem;color:var(--text2);line-height:1.85;}
+.idq{margin-top:.8rem;padding:.6rem .85rem;border-radius:0 8px 8px 0;border-left:2px solid;font-style:italic;font-size:.7rem;color:var(--text2);line-height:1.6;}
+.iqs{background:rgba(255,85,0,0.05);border-color:var(--orange);}.iqt{background:rgba(0,196,167,0.05);border-color:var(--teal);}.iqv{background:rgba(156,39,176,0.05);border-color:#9C27B0;}.iqg{background:rgba(245,166,35,0.05);border-color:var(--gold);}
+#bloodteam{background:var(--bg);}
+.blood-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+.blood-form-row{grid-column:1/-1;display:flex;justify-content:center;margin-top:.5rem;}.blood-form-inner{width:100%;max-width:640px;}
+.donor-stage{}.dss{max-width:380px;}
+.dssf{background:var(--surface);border:1px solid rgba(229,57,53,0.15);border-radius:16px;padding:1.6rem 1.4rem;text-align:center;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.dssf::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--crimson),#FF6B6B,var(--crimson));}
+.dssf::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(229,57,53,0.05),transparent 60%);pointer-events:none;}
+.dsl{display:none;flex-direction:column;align-items:center;animation:dsi .4s ease;}.dsl.active{display:flex;}
+@keyframes dsi{from{opacity:0;transform:translateX(20px);}to{opacity:1;transform:translateX(0);}}
+.dav{width:68px;height:68px;border-radius:50%;border:2px solid var(--crimson);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:.65rem;overflow:hidden;position:relative;background:rgba(229,57,53,0.08);box-shadow:0 4px 16px rgba(229,57,53,0.2);}
+.dav img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.dgrp{color:#fff;font-size:.66rem;font-weight:800;padding:3px 14px;border-radius:50px;margin-bottom:.5rem;font-family:"DM Mono",monospace;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+.dname{font-size:.98rem;font-weight:900;margin-bottom:.15rem;}.drole{font-size:.62rem;color:var(--text2);margin-bottom:.65rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.dph a{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;color:var(--sky);background:rgba(41,182,246,0.08);padding:7px 16px;border-radius:50px;transition:.2s;border:1px solid rgba(41,182,246,0.2);}
+.dph a:hover{background:var(--sky);color:#fff;}
+.dctr{font-size:.58rem;color:var(--muted);margin-top:.6rem;font-family:"DM Mono",monospace;letter-spacing:.04em;}
+.dadm{margin-top:.85rem;display:none;gap:.5rem;justify-content:center;}.dadm.show{display:flex;}
+.admbar{display:none;justify-content:flex-end;margin-bottom:.8rem;align-items:center;gap:.6rem;}.admbar.show{display:flex;}
+.admtag{background:linear-gradient(135deg,var(--orange),var(--gold));color:#fff;font-size:.6rem;font-weight:700;padding:4px 12px;border-radius:50px;font-family:"DM Mono",monospace;letter-spacing:.06em;}
+.addbtn{background:var(--surface);border:1px solid var(--border);color:var(--text2);font-size:.7rem;font-weight:700;padding:6px 16px;border-radius:50px;cursor:pointer;font-family:inherit;transition:.2s;}
+.addbtn:hover{border-color:var(--orange);color:var(--orange);}
+.dsctrl{display:flex;align-items:center;justify-content:center;gap:1.2rem;margin-top:1.3rem;}
+.dsbtn{width:40px;height:40px;border-radius:50%;border:1px solid rgba(229,57,53,0.2);background:var(--surface);color:var(--crimson);font-size:.95rem;cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;}
+.dsbtn:hover{background:var(--crimson);color:#fff;border-color:var(--crimson);}
+.dsdots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:240px;}.dsdot{width:6px;height:6px;border-radius:50%;background:rgba(229,57,53,0.15);cursor:pointer;transition:.2s;}.dsdot.on{background:var(--crimson);width:16px;border-radius:3px;}
+.blood-right{}.cstrip2{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.4rem 1.6rem;margin-bottom:1.5rem;}
+.cstrip2-ico{font-size:1.7rem;margin-bottom:.4rem;}.cstrip2-lbl{font-size:.63rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.7rem;font-family:"DM Mono",monospace;}
+.cstrip2-nums{display:flex;flex-direction:column;gap:.5rem;}
+.csn a{font-size:.86rem;font-weight:700;color:var(--sky);background:rgba(41,182,246,0.07);padding:8px 16px;border-radius:10px;border:1px solid rgba(41,182,246,0.15);transition:.2s;display:block;}
+.csn a:hover{background:var(--sky);color:#fff;}
+.bfbox{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.bfbox::before{content:"";display:block;height:2px;background:linear-gradient(90deg,var(--crimson),#FF6B6B);}
+.bfinner{padding:1.4rem;}.bfhd{display:flex;align-items:center;gap:.8rem;margin-bottom:1.2rem;}
+.bfico{font-size:1.5rem;}.bfhd h3{font-size:.9rem;font-weight:800;margin-bottom:.1rem;}.bfhd p{font-size:.63rem;color:var(--text2);}
+.fg{margin-bottom:.7rem;}.fg label{display:block;font-size:.62rem;font-weight:700;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.07em;font-family:"DM Mono",monospace;}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:.78rem;color:var(--text);font-family:inherit;outline:none;transition:.2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--crimson);background:rgba(229,57,53,0.04);}
+.fg select option{background:var(--surface);}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+.wabtn{display:flex;align-items:center;justify-content:center;gap:.5rem;background:#25D366;color:#fff;border:none;border-radius:10px;padding:11px;font-size:.75rem;font-weight:800;cursor:pointer;font-family:inherit;width:100%;margin-top:.5rem;transition:.2s;letter-spacing:.04em;}
+.wabtn:hover{background:#1EAD55;transform:translateY(-1px);}
+#events{background:var(--surface);}
+.gallery-wrap{display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:3rem;align-items:start;}
+.phone-wrap{position:relative;}
+.phone-glow{position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,85,0,0.2),transparent);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;filter:blur(30px);}
+.phone{width:100%;max-width:250px;margin:0 auto;background:#0A0A14;border-radius:34px;overflow:hidden;border:2px solid #1E1E30;box-shadow:0 30px 80px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.04);}
+.pnotch{height:26px;background:#050508;display:flex;align-items:center;justify-content:center;}.pnotch-pill{width:60px;height:7px;background:#000;border-radius:0 0 8px 8px;}
+.pscreen{height:440px;position:relative;overflow:hidden;background:#000;cursor:pointer;}
+.rprog{position:absolute;top:0;left:0;right:0;height:3px;z-index:10;display:flex;gap:2px;padding:0 4px;}
+.rp-bar{flex:1;background:rgba(255,255,255,0.18);border-radius:2px;overflow:hidden;}
+.rp-fill{height:100%;background:var(--orange);border-radius:2px;width:0%;transition:width linear;}
+.reel{position:absolute;inset:0;opacity:0;transition:opacity .5s;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.reel.on{opacity:1;}.reel video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.reel-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.reel-ph-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;}
+.reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(transparent,rgba(0,0,0,.85));z-index:2;}
+.reel-ttl{font-size:.8rem;font-weight:700;color:#fff;margin-bottom:.15rem;}.reel-dt{font-size:.6rem;color:rgba(255,255,255,.6);}
+.pnav{display:flex;align-items:center;justify-content:space-between;padding:.65rem .8rem;background:#050508;}
+.pdots{display:flex;gap:4px;}.pdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:.2s;}.pdot.on{background:var(--orange);}
+.pnav-btns{display:flex;gap:.4rem;}.rnb{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.07);border:none;color:rgba(255,255,255,.6);font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}.rnb:hover{background:var(--orange);color:#fff;}
+.reel-addbtn{display:none;align-items:center;gap:.4rem;background:rgba(255,85,0,0.1);border:1px solid var(--border2);color:var(--orange);font-size:.65rem;font-weight:700;padding:6px 14px;border-radius:50px;cursor:pointer;font-family:inherit;transition:.2s;margin-top:.7rem;}
+.reel-addbtn:hover{background:var(--orange);color:#fff;}
+.gallery-right{}.ghdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.8rem;}
+.gi{border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/3;cursor:pointer;background:var(--surface2);border:1px solid var(--border);transition:.3s;}
+.gi:hover{transform:scale(1.02);border-color:var(--orange);}
+.gimg{width:100%;height:100%;object-fit:cover;}.gvid{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.vtag{position:absolute;top:6px;left:6px;background:rgba(255,85,0,0.9);color:#fff;font-size:.55rem;font-weight:700;padding:2px 7px;border-radius:4px;font-family:"DM Mono",monospace;letter-spacing:.06em;}
+.gph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;}
+.ginfo{position:absolute;bottom:0;left:0;right:0;padding:.6rem;background:linear-gradient(transparent,rgba(0,0,0,.8));opacity:0;transition:.3s;}
+.gi:hover .ginfo{opacity:1;}.gttl{font-size:.68rem;font-weight:700;color:#fff;}.gdate{font-size:.58rem;color:rgba(255,255,255,.6);}
+.gdel{position:absolute;top:5px;right:5px;background:rgba(229,57,53,0.85);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.65rem;cursor:pointer;display:none;align-items:center;justify-content:center;transition:.2s;}
+.admin-mode .gdel{display:flex;}
+.gadd{border-radius:12px;border:1px dashed rgba(255,85,0,0.25);display:none;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;cursor:pointer;color:var(--orange);font-size:.68rem;font-weight:700;transition:.2s;aspect-ratio:4/3;background:rgba(255,85,0,0.03);}
+.gadd:hover{background:rgba(255,85,0,0.07);}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:2rem;}
+#lb.open{display:flex;}#lbC{display:flex;align-items:center;justify-content:center;}#lbcap{font-size:.82rem;color:rgba(255,255,255,.7);text-align:center;}
+#lb-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}
+#lb-close:hover{background:var(--crimson);}
+#members{background:var(--bg);}
+.mhdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem;}
+.mem-slider-wrap{display:flex;flex-direction:column;align-items:center;width:100%;}
+.mem-stage{width:100%;max-width:340px;position:relative;}
+.mem-card-box{background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);transition:all .4s cubic-bezier(.34,1.56,.64,1);}
+.mem-card-box::before{content:"";display:block;height:3px;background:linear-gradient(90deg,var(--orange),var(--gold),var(--orange));}
+.mem-slide{display:none;flex-direction:column;align-items:center;animation:memSlideIn .4s ease;}
+.mem-slide.active{display:flex;}
+@keyframes memSlideIn{from{opacity:0;transform:scale(.96) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mem-photo-wrap{width:140px;height:140px;border-radius:50%;border:3px solid rgba(255,85,0,0.3);overflow:hidden;margin:1.8rem auto 1rem;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:4rem;box-shadow:0 8px 32px rgba(255,85,0,0.15),0 0 0 6px rgba(255,85,0,0.06);}
+.mem-photo-wrap img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.mem-bg-badge{position:absolute;top:1rem;right:1rem;color:#fff;font-size:.6rem;font-weight:800;padding:4px 12px;border-radius:50px;font-family:"DM Mono",monospace;letter-spacing:.06em;}
+.mem-name{font-size:1.1rem;font-weight:900;color:var(--text);margin-bottom:.2rem;padding:0 1.5rem;}
+.mem-role{font-size:.65rem;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;font-weight:600;margin-bottom:1.5rem;font-family:"DM Mono",monospace;}
+.mem-counter{font-size:.6rem;color:var(--muted);font-family:"DM Mono",monospace;letter-spacing:.06em;margin-bottom:1.2rem;}
+.mem-adm-btns{display:none;gap:.5rem;justify-content:center;padding-bottom:1.2rem;}
+.mem-adm-btns.show{display:flex;}
+.meb,.mdb{font-size:.6rem;padding:5px 14px;border-radius:8px;cursor:pointer;border:none;font-family:inherit;font-weight:700;transition:.2s;}
+.meb{background:rgba(255,85,0,0.1);color:var(--orange);}.mdb{background:rgba(229,57,53,0.1);color:var(--crimson);}
+.mem-ctrl{display:flex;align-items:center;justify-content:center;gap:1.4rem;margin-top:1.6rem;}
+.mem-btn{width:46px;height:46px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);color:var(--orange);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.25s;box-shadow:0 4px 16px rgba(0,0,0,0.2);}
+.mem-btn:hover{background:var(--orange);color:#fff;border-color:var(--orange);transform:scale(1.08);}
+.mem-dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:280px;}
+.mem-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,85,0,0.18);cursor:pointer;transition:.25s;flex-shrink:0;}
+.mem-dot.on{background:var(--orange);width:20px;border-radius:3px;}
+.mem-prog-ring{position:absolute;top:.8rem;left:.8rem;width:36px;height:36px;}
+.mem-prog-ring svg{transform:rotate(-90deg);}
+.mem-prog-ring circle{fill:none;stroke:rgba(255,85,0,0.15);stroke-width:2.5;}
+.mem-prog-ring circle.arc{stroke:var(--orange);stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset .4s ease;stroke-linecap:round;}
+.swipe-hint{font-size:.58rem;color:var(--muted);margin-top:.8rem;font-family:"DM Mono",monospace;letter-spacing:.06em;}
+.con-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:2rem;}
+.concard{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;transition:.3s;}
+.concard:hover{border-color:rgba(255,85,0,0.2);}
+.conico{font-size:1.8rem;margin-bottom:.6rem;}.conlbl{font-size:.6rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem;font-family:"DM Mono",monospace;}
+.conval{font-size:.8rem;color:var(--text2);}.connums{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;}
+.connum a{font-size:.74rem;font-weight:700;color:var(--sky);background:rgba(41,182,246,0.07);padding:4px 11px;border-radius:50px;border:1px solid rgba(41,182,246,0.15);transition:.2s;}
+.connum a:hover{background:var(--sky);color:#fff;}
+.wa-wide{display:flex;align-items:center;gap:1rem;background:rgba(37,211,102,0.07);border:1px solid rgba(37,211,102,0.15);border-radius:14px;padding:1.2rem 1.5rem;cursor:pointer;transition:.2s;margin-top:1.5rem;width:100%;}
+.wa-wide:hover{background:rgba(37,211,102,0.12);}
+.wa-ico2{font-size:1.8rem;}.wa-t{font-size:.84rem;font-weight:700;}.wa-st{font-size:.65rem;color:var(--text2);}
+footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
+.ftop{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2rem;margin-bottom:1.5rem;}
+.fbrand{display:flex;align-items:center;gap:.8rem;}
+.flogo{width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;overflow:hidden;background:rgba(255,85,0,0.08);}
+.flogo img{width:100%;height:100%;object-fit:contain;}
+.fbrand strong{display:block;font-size:.82rem;font-weight:800;color:var(--orange);}.fbrand span{font-size:.55rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-family:"DM Mono",monospace;}
+.flinks{display:flex;flex-direction:column;gap:.4rem;}.flinks a{font-size:.72rem;color:var(--text2);transition:.15s;}.flinks a:hover{color:var(--orange);}
+.flinks-h{font-size:.6rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-family:"DM Mono",monospace;}
+.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-top:1px solid var(--border);padding-top:1rem;}
+.fbot p{font-size:.62rem;color:var(--muted);font-family:"DM Mono",monospace;letter-spacing:.04em;}
+.wa-float{position:fixed;bottom:1.5rem;left:1.5rem;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:800;box-shadow:0 4px 20px rgba(37,211,102,0.4);border:none;transition:.2s;}
+.wa-float:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(37,211,102,0.5);}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9000;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(6px);}
+.ov.open{display:flex;}
+.ovbox{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.8rem;width:100%;max-width:420px;max-height:92vh;overflow-y:auto;position:relative;}
+.ovtitle{font-size:1.1rem;font-weight:800;margin-bottom:.2rem;}.ovsubtitle{font-size:.7rem;color:var(--text2);margin-bottom:1.2rem;}
+.ov-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.05);border:none;color:var(--text2);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.ov-close:hover{background:var(--crimson);color:#fff;}
+.av-wrap{width:72px;height:72px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:2rem;overflow:hidden;background:var(--surface2);margin:0 auto .5rem;}
+.av-wrap img{width:100%;height:100%;object-fit:cover;display:none;}
+.av-label{font-size:.62rem;color:var(--orange);font-weight:700;cursor:pointer;text-align:center;letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:1rem;}
+.sub-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-size:.68rem;font-weight:700;padding:5px 14px;border-radius:50px;cursor:pointer;font-family:inherit;transition:.2s;}
+.sub-btn:hover{border-color:var(--orange);color:var(--orange);}
+.pri-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;border-radius:10px;padding:10px;font-size:.76rem;font-weight:800;cursor:pointer;font-family:inherit;width:100%;justify-content:center;display:flex;align-items:center;gap:.4rem;transition:.2s;letter-spacing:.04em;margin-top:.4rem;}
+.pri-btn:hover{opacity:.9;transform:translateY(-1px);}
+.gal-prev-box{width:100%;height:120px;background:var(--surface2);border:1px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:.6rem;font-size:1.5rem;color:var(--muted);}
+#galPrev{display:none;}
+.pwd-err{display:none;font-size:.72rem;color:var(--crimson);margin-top:.4rem;}.pwd-err.show{display:block;}
+.toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 22px;border-radius:50px;font-size:.78rem;font-weight:600;z-index:9999;animation:tin .3s ease;white-space:nowrap;font-family:"DM Mono",monospace;letter-spacing:.04em;}
+@keyframes tin{from{opacity:0;transform:translateX(-50%) translateY(8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+.music-float{position:fixed;bottom:5.5rem;left:1.5rem;background:var(--surface);color:var(--orange);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:800;box-shadow:0 4px 20px rgba(255,85,0,0.3);border:1.5px solid var(--border2);transition:.2s;}
+.music-float:hover{transform:scale(1.08);background:var(--orange);color:#fff;}.music-float svg{width:22px;height:22px;}
+.music-float.playing{animation:musicPulse 1.5s ease-in-out infinite;}
+@keyframes musicPulse{0%,100%{box-shadow:0 4px 20px rgba(255,85,0,0.3);}50%{box-shadow:0 4px 32px rgba(255,85,0,0.6);}}
+#musicBar{position:fixed;bottom:0;left:0;right:0;z-index:890;background:rgba(13,19,32,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:.7rem 5%;display:none;align-items:center;gap:1rem;}
+#musicBar.show{display:flex;}
+.mb-track{flex:1;display:flex;align-items:center;gap:.75rem;min-width:0;}
+.mb-disc{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.mb-disc.spin{animation:discSpin 4s linear infinite;}@keyframes discSpin{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+.mb-info{min-width:0;}.mb-name{font-size:.68rem;font-weight:700;color:var(--orange);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:"DM Mono",monospace;}.mb-time{font-size:.55rem;color:var(--muted);}
+.mb-prog-wrap{flex:1;height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;cursor:pointer;}
+.mb-prog-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:2px;width:0%;transition:width .3s;}
+.mb-btns{display:flex;gap:.4rem;flex-shrink:0;}
+.mb-btn{width:30px;height:30px;border-radius:50%;background:rgba(255,85,0,0.1);border:1px solid var(--border2);color:var(--orange);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.mb-btn:hover{background:var(--orange);color:#fff;}
+#contact{background:var(--surface);border-top:1px solid var(--border);}
+@media(max-width:1024px){.blood-layout{grid-template-columns:1fr 1fr;}.gallery-wrap{grid-template-columns:280px 1fr;}.phone{max-width:240px;}}
+@media(max-width:860px){.blood-layout{grid-template-columns:1fr;}.blood-form-row{margin-top:0;}.gallery-wrap{grid-template-columns:1fr;}}
+@media(max-width:768px){.nmenu{display:none;}.ham{display:flex;}.hero-title{font-size:clamp(1.4rem,5.5vw,2.4rem);white-space:normal;}.hero-stats{flex-direction:row!important;gap:0;}.hstat{padding:.9rem .6rem;border-right:1px solid var(--border);}.hstat:last-child{border-right:none;}.hsn{font-size:1.6rem;}.leaders-row{flex-direction:row;gap:.8rem;justify-content:center;}.leader-card{width:160px;}.limg-wrap{height:150px;}.f2{grid-template-columns:1fr 1fr;}.ftop{grid-template-columns:1fr 1fr!important;gap:1rem;}.ggrid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}section{padding:60px 4%;}}
+@media(max-width:480px){.hero-title{font-size:1.5rem;}.hstat{padding:.8rem .4rem;}.hsn{font-size:1.35rem;}.hsl{font-size:.52rem;}.leader-card{width:145px;}.limg-wrap{height:130px;}.leaders-row{gap:.6rem;}.ftop{grid-template-columns:1fr!important;}}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nbrand">
+      <div class="nlogo-wrap" onclick="isAdmin&&trigUpload('navLogoFile')">
+        <img id="navLogo" src="" alt="Logo" onerror="this.style.opacity='0'">
+        <div class="nlogo-edit">✏</div>
+        <input type="file" id="navLogoFile" accept="image/*" style="display:none" onchange="uploadLogo(event)">
+      </div>
+      <div class="ntxt">
+        <strong>பாரத் பாய்ஸ்</strong>
+        <span>நற்பணி மன்றம் · Est. 2006</span>
+      </div>
+    </div>
+    <ul class="nmenu">
+      <li><a href="#hero">முகப்பு</a></li>
+      <li><a href="#ideology">கொள்கைகள்</a></li>
+      <li><a href="#bloodteam">இரத்த அணி</a></li>
+      <li><a href="#events">நிகழ்வுகள்</a></li>
+      <li><a href="#members">உறுப்பினர்கள்</a></li>
+      <li><a href="#contact">தொடர்பு</a></li>
+    </ul>
+    <button class="n-admin-btn" onclick="openOv('adminOv')">⚙ Admin</button>
+    <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobm" id="mobm">
+  <a href="#hero" onclick="closeMob()">முகப்பு</a>
+  <a href="#ideology" onclick="closeMob()">கொள்கைகள்</a>
+  <a href="#bloodteam" onclick="closeMob()">இரத்த அணி</a>
+  <a href="#events" onclick="closeMob()">நிகழ்வுகள்</a>
+  <a href="#members" onclick="closeMob()">உறுப்பினர்கள்</a>
+  <a href="#contact" onclick="closeMob()">தொடர்பு</a>
+</div>
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hblob hb1"></div><div class="hblob hb2"></div><div class="hblob hb3"></div>
+  <div class="hero-col">
+    <div class="hero-logo-ring rv" onclick="isAdmin&&trigUpload('heroLogoFile')">
+      <img id="heroLogo" src="" alt="Logo" onerror="this.style.opacity='0'">
+      <div class="hero-logo-edit"><span>✏</span><p>Upload Logo</p></div>
+      <input type="file" id="heroLogoFile" accept="image/*" style="display:none" onchange="uploadLogo(event)">
+    </div>
+    <h1 class="hero-title rv d1"><span class="ht-w">பாரத் பாய்ஸ் </span><span class="ht-o">நற்பணி மன்றம்</span></h1>
+    <div class="hero-stats rv d2">
+      <div class="hstat"><div class="hsn sc1" id="yrStat">—</div><div class="hsl">ஆண்டுகள் சேவை</div></div>
+      <div class="hstat"><div class="hsn sc2">500+</div><div class="hsl">இரத்த தானம்</div></div>
+      <div class="hstat"><div class="hsn sc3" id="memStat">40+</div><div class="hsl">உறுப்பினர்கள்</div></div>
+    </div>
+    <div class="quote-slider rv d3">
+      <div class="q-slide on" id="qs0">
+        <div class="q-text">"கல்வி மட்டுமே ஏழைகளை காக்கும். தொண்டு மட்டுமே நாட்டை காக்கும்."</div>
+        <div class="q-cite">— காமராஜர்</div>
+      </div>
+      <div class="q-slide" id="qs1">
+        <div class="q-text">"மனித சேவையே மாதவ சேவை. எழுந்திரு, விழித்திரு, இலக்கை அடையும் வரை நிறுத்தாதே."</div>
+        <div class="q-cite">— சுவாமி விவேகானந்தர்</div>
+      </div>
+      <div class="q-dots"><div class="qdot on" onclick="goQ(0)"></div><div class="qdot" onclick="goQ(1)"></div></div>
+    </div>
+    <div class="leaders-row rv d4">
+      <div class="leader-card lc1">
+        <button class="lrem-btn" onclick="removeLImg('l1')" title="Remove photo">✕</button>
+        <div class="limg-wrap" id="l1wrap" onclick="isAdmin&&trigUpload('l1file')">
+          <img id="l1img" src="" alt="காமராஜர்" style="display:none" onerror="this.style.display='none'">
+          <span class="emoji-fallback" id="l1emoji">🙏</span>
+          <div class="limg-edit-overlay"><span>📷</span><p>Upload Photo</p></div>
+          <input type="file" id="l1file" accept="image/*" style="display:none" onchange="uploadLImg('l1',event)">
+        </div>
+        <div class="lbody"><div class="lname1">காமராஜர்</div><div class="lquote">"கல்வியே வாழ்வின் அடித்தளம்"</div></div>
+      </div>
+      <div class="leader-card lc2">
+        <button class="lrem-btn" onclick="removeLImg('l2')" title="Remove photo">✕</button>
+        <div class="limg-wrap" id="l2wrap" onclick="isAdmin&&trigUpload('l2file')">
+          <img id="l2img" src="" alt="சுவாமி விவேகானந்தர்" style="display:none" onerror="this.style.display='none'">
+          <span class="emoji-fallback" id="l2emoji">🧘</span>
+          <div class="limg-edit-overlay"><span>📷</span><p>Upload Photo</p></div>
+          <input type="file" id="l2file" accept="image/*" style="display:none" onchange="uploadLImg('l2',event)">
+        </div>
+        <div class="lbody"><div class="lname2">சுவாமி விவேகானந்தர்</div><div class="lquote">"சேவையே சிவம்"</div></div>
+      </div>
+    </div>
+    <div class="hero-btns rv d4">
+      <a href="#ideology" class="hbtn hbf">✦ எங்கள் கொள்கைகள்</a>
+      <a href="#bloodteam" class="hbtn hbo">🩸 இரத்தம் தேவை?</a>
+    </div>
+  </div>
+</section>
+<section id="ideology">
+  <div class="si">
+    <div class="shdr center rv">
+      <div class="stag ts">✦ நம் நம்பிக்கை ✦</div>
+      <h2 class="sh">கொள்கை மற்றும் <span class="grd-o">கோட்பாடு</span></h2>
+      <div class="shr hrs"></div>
+      <p class="sd">பாரத் பாய்ஸ் நற்பணி மன்றம் கடைப்பிடிக்கும் உன்னத கொள்கைகளும் வாழ்க்கை வழிகாட்டும் தத்துவங்களும்</p>
+    </div>
+    <div class="idg">
+      <div class="idc id1 rv d1"><div class="idnum">01</div><div class="idico">🤝</div><h3 class="idtitle cs">சேவையே சிவம்</h3><p class="iddesc">மனிதனுக்கு செய்யும் சேவை தான் இறைவனுக்கு செய்யும் மிகப்பெரிய வழிபாடு. நோயாளிகளுக்கு இரத்தம் கொடுப்பது, பசித்தவர்களுக்கு உதவுவது — இவை நம் தொண்டின் அடிப்படை.</p><div class="idq iqs">"மனித சேவையே மாதவ சேவை" — சுவாமி விவேகானந்தர்</div></div>
+      <div class="idc id2 rv d2"><div class="idnum">02</div><div class="idico">🌍</div><h3 class="idtitle ct">ஒற்றுமையே உயிர்</h3><p class="iddesc">சாதி, மதம், பொருளாதார வேற்றுமைகளை மறந்து அனைவரும் ஒரே குடும்பமாக இணைந்து செயல்படுவதே நம் மன்றத்தின் உயிர்நாடி. ஒன்றிணைந்த சக்தி மட்டுமே சமூகத்தை மாற்றும்.</p><div class="idq iqt">"ஒற்றுமையில் பலம், பிரிவினையில் பலவீனம்"</div></div>
+      <div class="idc id3 rv d3"><div class="idnum">03</div><div class="idico">🩸</div><h3 class="idtitle" style="color:#CE93D8;">இரத்த தானம் மகாதானம்</h3><p class="iddesc">ஒரு உயிரை காப்பாற்றும் சக்தி நம் கைகளில் உள்ளது. 500க்கும் மேற்பட்ட இரத்த தானங்கள் செய்து அனேக உயிர்களை காப்பாற்றியுள்ளோம்.</p><div class="idq iqv">"உயிர் காக்கும் இரத்தம் கொடு — வாழ்வை புனிதமாக்கு"</div></div>
+      <div class="idc id4 rv d4"><div class="idnum">04</div><div class="idico">🌱</div><h3 class="idtitle cg">சுற்றுச்சூழல் காப்பு</h3><p class="iddesc">மரம் நடுவோம், உலகை காப்போம். ஆண்டு தோறும் ஆயிரக்கணக்கான மரக்கன்றுகள் நட்டு நம் சந்ததியினருக்கு பசுமையான உலகை கொடுக்க உறுதி பூண்டுள்ளோம்.</p><div class="idq iqg">"இயற்கையை காக்காவிட்டால் இனி எதுவும் இல்லை"</div></div>
+    </div>
+  </div>
+</section>
+<section id="bloodteam">
+  <div class="si">
+    <div class="blood-layout">
+      <div class="donor-stage rv">
+        <div class="shdr">
+          <div class="stag tc">✦ இரத்த அணி ✦</div>
+          <h2 class="sh">இரத்த தான <span style="background:linear-gradient(135deg,var(--crimson),#FF6B6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">வீரர்கள்</span></h2>
+          <div class="shr hrc"></div>
+          <p class="sd">உதவி தேவைப்படும்போது நேரடியாக தொடர்பு கொள்ளுங்கள்</p>
+        </div>
+        <div class="admbar" id="btAdmBar">
+          <span class="admtag">🔐 Admin</span>
+          <button class="addbtn" onclick="openAddDonor()">+ இரத்த வீரர் சேர்</button>
+        </div>
+        <div class="dss">
+          <div class="dssf" id="dssf">
+            <div id="dsSlides"></div>
+            <div class="dadm" id="dadm">
+              <button class="sub-btn" onclick="editCurDonor()">✏️ திருத்து</button>
+              <button class="sub-btn" style="color:var(--crimson);border-color:rgba(229,57,53,0.2);" onclick="delCurDonor()">🗑 நீக்கு</button>
+            </div>
+          </div>
+          <div class="dsctrl">
+            <button class="dsbtn" onclick="chDS(-1)">◀</button>
+            <div class="dsdots" id="dsdots"></div>
+            <button class="dsbtn" onclick="chDS(1)">▶</button>
+          </div>
+        </div>
+      </div>
+      <div class="blood-right rv d2">
+        <div class="bfbox">
+          <div class="bfinner">
+            <div class="bfhd"><div class="bfico">🩸</div><div><h3>இரத்தம் தேவை?</h3><p>Blood Request — உடனடி உதவிக்கு</p></div></div>
+            <div class="fg"><label>நோயாளி பெயர்</label><input type="text" id="bp-n" placeholder="முழு பெயர்"></div>
+            <div class="f2">
+              <div class="fg"><label>இரத்த வகை</label>
+                <select id="bp-bg"><option value="">— தேர்வு —</option><option>A+</option><option>A-</option><option>A1+</option><option>A1-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+              </div>
+              <div class="fg"><label>யூனிட்கள்</label>
+                <select id="bp-u"><option>1 Unit</option><option>2 Units</option><option>3 Units</option><option>4+ Units</option></select>
+              </div>
+            </div>
+            <div class="fg"><label>மருத்துவமனை / இடம்</label><input type="text" id="bp-l" placeholder="மருத்துவமனை பெயரும் இடமும்"></div>
+            <div class="f2">
+              <div class="fg"><label>தொடர்பு எண்</label><input type="tel" id="bp-p" placeholder="9xxxxxxxxx"></div>
+              <div class="fg"><label>எப்போது தேவை</label><select id="bp-w"><option>உடனே</option><option>இன்று</option><option>நாளை</option></select></div>
+            </div>
+            <button class="wabtn" onclick="submitBlood()">📲 WhatsApp மூலம் அனுப்பு</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="events">
+  <div class="si">
+    <div class="gallery-wrap">
+      <div class="rv">
+        <div class="stag tt" style="margin-bottom:.8rem;">✦ ரீல்ஸ்</div>
+        <div class="phone-wrap">
+          <div class="phone-glow"></div>
+          <div class="phone">
+            <div class="pnotch"><div class="pnotch-pill"></div></div>
+            <div class="pscreen" id="rframe" onclick="toggleReelPause()">
+              <div class="rprog" id="rprogRow"></div>
+            </div>
+            <div class="pnav">
+              <div class="pdots" id="rpdots"></div>
+              <div class="pnav-btns">
+                <button class="rnb" onclick="event.stopPropagation();chReel(-1)">▲</button>
+                <button class="rnb" onclick="event.stopPropagation();chReel(1)">▼</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:.8rem;">
+          <button class="reel-addbtn" id="reelAddBtn" onclick="openOv('reelOv')"><span>➕</span> வீடியோ/புகைப்படம் சேர்</button>
+        </div>
+      </div>
+      <div class="gallery-right rv d2">
+        <div class="ghdr">
+          <div>
+            <div class="stag tt">✦ கேலரி</div>
+            <h2 class="sh">நமது <span class="grd-t">சேவை நிகழ்வுகள்</span></h2>
+            <div class="shr hrt"></div>
+          </div>
+          <div id="galAdmBtn" style="display:none;">
+            <button class="addbtn" onclick="openOv('galOv')">📷 நிகழ்வு சேர்</button>
+          </div>
+        </div>
+        <div class="ggrid" id="galGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="members">
+  <div class="si">
+    <div class="mhdr rv">
+      <div>
+        <div class="stag tc">✦ நமது குடும்பம்</div>
+        <h2 class="sh">மன்றத்தின் <span class="grd-o">உறுப்பினர்கள்</span></h2>
+        <div class="shr hrs"></div>
+      </div>
+      <div id="memAdmBtn" style="display:none;"><button class="addbtn" onclick="openAddMem()">+ உறுப்பினர் சேர்</button></div>
+    </div>
+    <div class="mem-slider-wrap rv d1">
+      <div class="mem-stage">
+        <div class="mem-card-box" id="memCardBox">
+          <div class="mem-prog-ring">
+            <svg width="36" height="36" viewBox="0 0 36 36">
+              <circle cx="18" cy="18" r="15" stroke-dasharray="94.25" stroke-dashoffset="0"/>
+              <circle cx="18" cy="18" r="15" class="arc" id="memArc"/>
+            </svg>
+          </div>
+          <div id="memSlides"></div>
+          <div class="mem-adm-btns" id="memAdmBtns">
+            <button class="meb" onclick="editCurMem()">✏️ திருத்து</button>
+            <button class="mdb" onclick="delCurMem()">🗑 நீக்கு</button>
+          </div>
+        </div>
+      </div>
+      <div class="mem-ctrl">
+        <button class="mem-btn" onclick="chMem(-1)">◀</button>
+        <div class="mem-dots" id="memDots"></div>
+        <button class="mem-btn" onclick="chMem(1)">▶</button>
+      </div>
+      <div class="swipe-hint" id="memSwipeHint">← swipe or tap arrows to browse members →</div>
+    </div>
+  </div>
+</section>
+<section id="contact">
+  <div class="si">
+    <div class="shdr center rv">
+      <div class="stag ts">✦ தொடர்பு ✦</div>
+      <h2 class="sh">எங்களை <span class="grd-o">தொடர்பு கொள்ளுங்கள்</span></h2>
+      <div class="shr hrs" style="margin:0 auto .8rem;"></div>
+    </div>
+    <div class="con-grid rv">
+      <div class="concard"><div class="conico">📍</div><div class="conlbl">முகவரி</div><div class="conval">புஞ்சை துறையாம்பாளையம், தமிழ்நாடு</div></div>
+      <div class="concard"><div class="conico">📞</div><div class="conlbl">தொடர்பு எண்கள்</div><div class="connums"><div class="connum"><a href="tel:9715675764">97156 75764</a></div><div class="connum"><a href="tel:9488777711">94887 77711</a></div><div class="connum"><a href="tel:9965830770">99658 30770</a></div></div></div>
+      <div class="concard"><div class="conico">🩸</div><div class="conlbl">இரத்த தானம்</div><div class="conval">24/7 உடனடி உதவி</div></div>
+      <div class="concard"><div class="conico">📅</div><div class="conlbl">நிறுவப்பட்டது</div><div class="conval">2006 · <span id="yrCntF">—</span> ஆண்டுகள் சேவை</div></div>
+    </div>
+    <div class="wa-wide rv d2" onclick="openOv('waOv')">
+      <svg viewBox="0 0 24 24" width="30" height="30" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      <div><div class="wa-t">WhatsApp மூலம் தொடர்பு கொள்ளுங்கள்</div><div class="wa-st">உடனே பதில் கிடைக்கும் · 24/7 கிடைக்கும்</div></div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="si">
+    <div class="ftop" style="grid-template-columns:1fr 1fr;">
+      <div>
+        <div class="fbrand" style="margin-bottom:.6rem;">
+          <div class="flogo"><img id="footLogo" src="" alt="" onerror="this.style.opacity='0'"></div>
+          <div><strong>பாரத் பாய்ஸ்</strong><span>நற்பணி மன்றம்</span></div>
+        </div>
+        <p style="font-size:.7rem;color:var(--muted);line-height:1.7;">புஞ்சை துறையாம்பாளையம் · சேவையே சிவம் · Est. 2006</p>
+      </div>
+      <div>
+        <div class="flinks-h">Quick Links</div>
+        <div class="flinks">
+          <a href="#hero">முகப்பு</a><a href="#ideology">கொள்கைகள்</a><a href="#bloodteam">இரத்த அணி</a><a href="#events">நிகழ்வுகள்</a><a href="#members">உறுப்பினர்கள்</a>
+        </div>
+      </div>
+    </div>
+    <div class="fbot">
+      <p>© <span id="footYr"></span> பாரத் பாய்ஸ் நற்பணி மன்றம் · All rights reserved</p>
+      <p>❤ Made with love · புஞ்சை துறையாம்பாளையம்</p>
+    </div>
+  </div>
+</footer>
+<button class="music-float" id="musicFloat" onclick="toggleMusicFloat()" title="எங்கள் மன்றத்தின் கீதம்">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+</button>
+<button class="wa-float" onclick="openOv('waOv')" title="WhatsApp">
+  <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+</button>
+<div id="musicBar">
+  <div class="mb-track">
+    <div class="mb-disc" id="mbDisc">🎵</div>
+    <div class="mb-info"><div class="mb-name" id="mbName">பாரத் பாய்ஸ் எங்கள் மன்றத்தின் கீதம்</div><div class="mb-time" id="mbTime">0:00</div></div>
+  </div>
+  <div class="mb-prog-wrap" onclick="musicScrub(event)"><div class="mb-prog-fill" id="mbFill"></div></div>
+  <div class="mb-btns">
+    <button class="mb-btn" id="mbPlayBtn" onclick="toggleMusicPlay()">▶</button>
+    <button class="mb-btn" onclick="hideMusicBar()">✕</button>
+  </div>
+</div>
+<div id="lb" onclick="closeLB()">
+  <button id="lb-close" onclick="closeLB()">✕</button>
+  <div id="lbC"></div><div id="lbcap"></div>
+</div>
+<audio id="anthemAudio" loop></audio>
+<!-- OVERLAYS -->
+<div class="ov" id="adminOv" onclick="closeBG(event,'adminOv')">
+  <div class="ovbox">
+    <button class="ov-close" onclick="closeOv('adminOv')">✕</button>
+    <div class="ovtitle">⚙ Admin Panel</div>
+    <div class="ovsubtitle">கடவுச்சொல் மூலம் உள்நுழையவும்</div>
+    <div class="fg"><label>Password</label><input type="password" id="adminPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkAdmin()"></div>
+    <div class="pwd-err" id="pwdErr">❌ கடவுச்சொல் தவறு</div>
+    <button class="pri-btn" onclick="checkAdmin()">உள்நுழைவு</button>
+    <div id="admLogoutW" style="display:none;margin-top:.8rem;">
+      <div style="font-size:.65rem;color:var(--teal);font-family:'DM Mono',monospace;letter-spacing:.06em;margin-bottom:.6rem;">✓ Admin mode active</div>
+      <div id="admAnthemW" style="display:none;">
+        <div class="fg" style="margin-bottom:.5rem;"><label>🎵 Anthem Upload</label><input type="file" accept="audio/*" onchange="uploadAnthem(event)" style="color:var(--text2);font-size:.72rem;"></div>
+      </div>
+      <button onclick="logoutAdmin()" class="sub-btn" style="width:100%;justify-content:center;display:flex;">வெளியேறு</button>
+    </div>
+  </div>
+</div>
+<div class="ov" id="donorOv" onclick="closeBG(event,'donorOv')">
+  <div class="ovbox">
+    <button class="ov-close" onclick="closeOv('donorOv')">✕</button>
+    <div class="ovtitle" id="dOvT">இரத்த வீரர் சேர்</div>
+    <div class="ovsubtitle" id="dOvS">விவரங்கள் உள்ளிடவும்</div>
+    <input type="hidden" id="de-idx">
+    <div class="av-wrap"><img id="dAvP" alt=""><span id="dAvE">🩸</span></div>
+    <label class="av-label">📷 புகைப்படம் தேர்வு<input type="file" accept="image/*" style="display:none" onchange="prevAvDonor(event)"></label>
+    <div class="fg"><label>பெயர்</label><input type="text" id="de-n" placeholder="முழு பெயர்"></div>
+    <div class="f2">
+      <div class="fg"><label>பதவி</label><input type="text" id="de-role" placeholder="உறுப்பினர்"></div>
+      <div class="fg"><label>இரத்த வகை</label><select id="de-bg"><option>A+</option><option>A-</option><option>A1+</option><option>A1-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+    </div>
+    <div class="fg"><label>தொடர்பு எண்</label><input type="tel" id="de-ph" placeholder="9xxxxxxxxx"></div>
+    <button class="pri-btn" onclick="saveDonor()">💾 சேமி</button>
+  </div>
+</div>
+<div class="ov" id="galOv" onclick="closeBG(event,'galOv')">
+  <div class="ovbox">
+    <button class="ov-close" onclick="closeOv('galOv')">✕</button>
+    <div class="ovtitle">நிகழ்வு சேர்</div>
+    <div class="ovsubtitle">புகைப்படம் அல்லது வீடியோ சேர்க்கவும்</div>
+    <div class="gal-prev-box" id="galPrevBox">📷</div>
+    <div id="galPrev"></div>
+    <label class="av-label" style="margin-bottom:.8rem;">📷/🎬 கோப்பு தேர்வு<input type="file" accept="image/*,video/*" style="display:none" onchange="prevGal(event)"></label>
+    <div class="fg"><label>தலைப்பு</label><input type="text" id="gl-t" placeholder="நிகழ்வு பெயர்"></div>
+    <div class="fg"><label>தேதி</label><input type="text" id="gl-d" placeholder="2024"></div>
+    <button class="pri-btn" onclick="addGal()">💾 சேமி</button>
+  </div>
+</div>
+<div class="ov" id="reelOv" onclick="closeBG(event,'reelOv')">
+  <div class="ovbox">
+    <button class="ov-close" onclick="closeOv('reelOv')">✕</button>
+    <div class="ovtitle">ரீல் சேர்</div>
+    <div class="ovsubtitle">ரீல்ஸ் பகுதிக்கு வீடியோ அல்லது புகைப்படம் சேர்க்கவும்</div>
+    <div class="gal-prev-box" id="reelPrevBox">📽</div>
+    <label class="av-label">📷/🎬 கோப்பு தேர்வு<input type="file" accept="image/*,video/*" style="display:none" onchange="prevReel(event)"></label>
+    <div class="fg"><label>தலைப்பு</label><input type="text" id="rl-t" placeholder="நிகழ்வு பெயர்"></div>
+    <div class="fg"><label>தேதி</label><input type="text" id="rl-d" placeholder="2024"></div>
+    <button class="pri-btn" onclick="addReel()">💾 சேமி</button>
+  </div>
+</div>
+<div class="ov" id="memOv" onclick="closeBG(event,'memOv')">
+  <div class="ovbox">
+    <button class="ov-close" onclick="closeOv('memOv')">✕</button>
+    <div class="ovtitle" id="mOvT">புதிய உறுப்பினர்</div>
+    <div class="ovsubtitle" id="mOvS">விவரங்கள் உள்ளிடவும்</div>
+    <input type="hidden" id="em-idx">
+    <div class="av-wrap"><img id="mAvP" alt=""><span id="mAvE">😊</span></div>
+    <label class="av-label">📷 புகைப்படம்<input type="file" accept="image/*" style="display:none" onchange="prevAvMem(event)"></label>
+    <div class="fg"><label>பெயர்</label><input type="text" id="em-n" placeholder="முழு பெயர்"></div>
+    <div class="f2">
+      <div class="fg"><label>பதவி</label><input type="text" id="em-r" placeholder="உறுப்பினர்"></div>
+      <div class="fg"><label>இரத்த வகை</label><select id="em-bg"><option>O+</option><option>O-</option><option>A+</option><option>A-</option><option>A1+</option><option>A1-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option></select></div>
+    </div>
+    <button class="pri-btn" onclick="saveMem()">💾 சேமி</button>
+  </div>
+</div>
+<div class="ov" id="waOv" onclick="closeBG(event,'waOv')">
+  <div class="ovbox">
+    <button class="ov-close" onclick="closeOv('waOv')">✕</button>
+    <div class="ovtitle">💬 WhatsApp</div>
+    <div class="ovsubtitle">பாரத் பாய்ஸ் குழுவுடன் நேரடி தொடர்பு</div>
+    <div class="fg"><label>உங்கள் பெயர்</label><input type="text" id="wa-name" placeholder="உங்கள் பெயர்"></div>
+    <div class="fg"><label>செய்தி</label><textarea id="wa-msg" rows="3" placeholder="உங்கள் செய்தி..." style="resize:vertical;padding:9px 12px;width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;color:var(--text);font-family:inherit;outline:none;"></textarea></div>
+    <button class="wabtn" onclick="sendWA()">📲 WhatsApp திற</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js" onerror="window._sbFailed=true"></script>
+<script>
+const SUPABASE_URL = "https://famraywamlwfvdtbsvzu.supabase.co";
+const SUPABASE_KEY = "sb_publishable_7zP0XsZXI7bYp7VTHzFKTg_XfoxvSWs";
+let sb;
+try {
+  if (window.supabase && SUPABASE_URL !== "xxxxx") {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
+  }
+} catch(e) { console.warn("Supabase init failed:", e); }
+
+const DB = {
+  _cache: {},
+  async _save(key, val) {
+    const { error } = await sb.from("settings").upsert({ key, value: JSON.stringify(val) }, { onConflict: "key" });
+    if (error) console.warn("Save error [" + key + "]:", error.message || error.code || "unknown");
+  },
+  async init() {
+    const { data, error } = await sb.from("settings").select("key, value");
+    if (error) { console.warn("DB init error:", error.message || error.code || "unknown"); return; }
+    if (!data) return;
+    data.forEach(row => { try { this._cache[row.key] = JSON.parse(row.value); } catch(e) { this._cache[row.key] = row.value; } });
+    console.log("DB loaded:", data.length, "keys");
+  },
+  getLogo() { return this._cache["logo"] || ""; },
+  setLogo(val) { this._cache["logo"] = val; this._save("logo", val); return true; },
+  getLeader(key) { return this._cache["leader_" + key] || ""; },
+  setLeader(key, val) { this._cache["leader_" + key] = val; this._save("leader_" + key, val); return true; },
+  delLeader(key) { delete this._cache["leader_" + key]; sb.from("settings").delete().eq("key", "leader_" + key); return true; },
+  getDonors() { return this._cache["bbm_donors"] || []; },
+  setDonors(arr) { this._cache["bbm_donors"] = arr; this._save("bbm_donors", arr); return true; },
+  getGallery() { return this._cache["bbm_gal"] || []; },
+  setGallery(arr) { this._cache["bbm_gal"] = arr; this._save("bbm_gal", arr); return true; },
+  getGalImg(key) { return this._cache["galimg_" + key] || ""; },
+  setGalImg(key, val) { this._cache["galimg_" + key] = val; this._save("galimg_" + key, val); return true; },
+  getReels() { return this._cache["bbm_reels"] || []; },
+  setReels(arr) { this._cache["bbm_reels"] = arr; this._save("bbm_reels", arr); return true; },
+  getReelImg(key) { return this._cache["reelimg_" + key] || ""; },
+  setReelImg(key, val) { this._cache["reelimg_" + key] = val; this._save("reelimg_" + key, val); return true; },
+  getMembers() { return this._cache["bbm_mem"] || []; },
+  setMembers(arr) { this._cache["bbm_mem"] = arr; this._save("bbm_mem", arr); return true; },
+  /* ── ANTHEM PERSISTENCE (NEW) ── */
+  getAnthem() { return this._cache["anthem_data"] || null; },
+  setAnthem(src, name) { this._cache["anthem_data"] = { src, name }; this._save("anthem_data", { src, name }); return true; }
+};
+
+function compressImage(file, maxW, quality, cb) {
+  const r = new FileReader();
+  r.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > maxW) { h = Math.round(h * (maxW / w)); w = maxW; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      cb(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = ev.target.result;
+  };
+  r.readAsDataURL(file);
+}
+
+const WA_NUMBER = 'https://chat.whatsapp.com/Dd5A37OARk9K5DWvKtrrnL';
+let isAdmin = false;
+
+const FOUNDED = 2006, CY = new Date().getFullYear(), YRS = CY - FOUNDED;
+document.getElementById('yrStat').textContent = YRS + '+';
+document.getElementById('yrCntF').textContent = YRS;
+document.getElementById('footYr').textContent = CY;
+
+function applyLogo(src) {
+  ['navLogo', 'heroLogo', 'footLogo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.src = src; el.style.opacity = '1'; }
+  });
+}
+function uploadLogo(e) {
+  const f = e.target.files[0]; if (!f) return;
+  compressImage(f, 300, 0.75, compressed => { DB.setLogo(compressed); applyLogo(compressed); toast('Logo சேமிக்கப்பட்டது ✅'); });
+}
+function trigUpload(id) { document.getElementById(id) && document.getElementById(id).click(); }
+
+let lImgs = { l1: '', l2: '' };
+function applyLImg(key, src) {
+  const img = document.getElementById(key + 'img');
+  const em = document.getElementById(key + 'emoji');
+  if (src) { img.src = src; img.style.display = 'block'; em.style.display = 'none'; }
+  else { img.style.display = 'none'; em.style.display = 'inline'; }
+}
+function uploadLImg(key, e) {
+  const f = e.target.files[0]; if (!f) return;
+  compressImage(f, 600, 0.78, compressed => { lImgs[key] = compressed; DB.setLeader(key, compressed); applyLImg(key, compressed); toast('புகைப்படம் சேமிக்கப்பட்டது ✅'); });
+}
+function removeLImg(key) { lImgs[key] = ''; DB.delLeader(key); applyLImg(key, ''); toast('புகைப்படம் நீக்கப்பட்டது'); }
+
+const APWD = 'BBadmin2006';
+function checkAdmin() {
+  const p = document.getElementById('adminPwd').value;
+  if (p === APWD) {
+    isAdmin = true;
+    document.getElementById('pwdErr').classList.remove('show');
+    document.getElementById('admLogoutW').style.display = 'block';
+    document.getElementById('admAnthemW').style.display = 'block';
+    document.getElementById('adminPwd').value = '';
+    closeOv('adminOv'); enableAdmin(); toast('✅ Admin Mode இயக்கப்பட்டது');
+  } else { document.getElementById('pwdErr').classList.add('show'); }
+}
+function logoutAdmin() {
+  isAdmin = false;
+  document.getElementById('admLogoutW').style.display = 'none';
+  document.getElementById('admAnthemW').style.display = 'none';
+  closeOv('adminOv'); disableAdmin(); toast('Admin Mode முடிக்கப்பட்டது');
+}
+function enableAdmin() {
+  document.body.classList.add('admin-mode');
+  document.getElementById('btAdmBar').classList.add('show');
+  document.getElementById('galAdmBtn').style.display = 'block';
+  document.getElementById('memAdmBtn').style.display = 'block';
+  document.getElementById('reelAddBtn').style.display = 'inline-flex';
+  document.getElementById('dadm').classList.add('show');
+  document.getElementById('memAdmBtns').classList.add('show');
+  buildGal(); buildMem();
+}
+function disableAdmin() {
+  document.body.classList.remove('admin-mode');
+  document.getElementById('btAdmBar').classList.remove('show');
+  document.getElementById('galAdmBtn').style.display = 'none';
+  document.getElementById('memAdmBtn').style.display = 'none';
+  document.getElementById('reelAddBtn').style.display = 'none';
+  document.getElementById('dadm').classList.remove('show');
+  document.getElementById('memAdmBtns').classList.remove('show');
+  buildGal(); buildMem();
+}
+
+let qIdx = 0;
+const qdots = document.querySelectorAll('.qdot');
+function goQ(i) {
+  document.getElementById('qs' + qIdx).classList.remove('on');
+  document.getElementById('qs' + qIdx).classList.add('out');
+  qdots[qIdx].classList.remove('on');
+  qIdx = i;
+  setTimeout(() => {
+    document.querySelectorAll('.q-slide').forEach(s => { s.classList.remove('out'); s.classList.remove('on'); });
+    document.getElementById('qs' + qIdx).classList.add('on');
+    qdots[qIdx].classList.add('on');
+  }, 350);
+}
+setInterval(() => goQ((qIdx + 1) % 2), 6000);
+
+/* ═══ DONORS ═══ */
+const defaultDonors = [
+  {n:'ரமேஷ்',bg:'AB+',ph:'99658 30770',role:'உறுப்பினர்',photo:''},
+  {n:'கோபிரத்தினவாசன்',bg:'A1-',ph:'70194 10670',role:'உறுப்பினர்',photo:''},
+  {n:'தங்கவேல்',bg:'A1+',ph:'97157 49306',role:'உறுப்பினர்',photo:''},
+  {n:'திவாகர்',bg:'A1+',ph:'80567 89789',role:'உறுப்பினர்',photo:''},
+  {n:'திருவேங்கடம்',bg:'A+',ph:'97155 08407',role:'உறுப்பினர்',photo:''},
+  {n:'கோகுல்ராம்',bg:'A+',ph:'96299 97787',role:'உறுப்பினர்',photo:''},
+  {n:'மணிகண்டன்',bg:'A+',ph:'98408 09751',role:'உறுப்பினர்',photo:''},
+  {n:'மணிமன்னன்',bg:'A+',ph:'79046 66868',role:'உறுப்பினர்',photo:''},
+  {n:'சூர்யா',bg:'A+',ph:'63820 14103',role:'உறுப்பினர்',photo:''},
+  {n:'பொன்மணி',bg:'A1+',ph:'95007 19407',role:'உறுப்பினர்',photo:''},
+  {n:'சிவசக்தி',bg:'B+',ph:'99524 96728',role:'உறுப்பினர்',photo:''},
+  {n:'கார்த்தி',bg:'B+',ph:'95664 21231',role:'உறுப்பினர்',photo:''},
+  {n:'சசிக்குமார்',bg:'B+',ph:'94887 77711',role:'செயலாளர்',photo:''},
+  {n:'மூர்த்தி',bg:'B+',ph:'73733 22947',role:'உறுப்பினர்',photo:''},
+  {n:'ரஞ்சித்',bg:'B+',ph:'90039 55170',role:'உறுப்பினர்',photo:''},
+  {n:'பிரவின் குமார்',bg:'B+',ph:'99420 24159',role:'உறுப்பினர்',photo:''},
+  {n:'நாகேந்திரன்',bg:'B+',ph:'96005 81858',role:'உறுப்பினர்',photo:''},
+  {n:'தனபால்',bg:'B+',ph:'99000 38306',role:'உறுப்பினர்',photo:''},
+  {n:'கலைச்செல்வன்',bg:'B+',ph:'93445 38530',role:'உறுப்பினர்',photo:''},
+  {n:'மணிகண்டன்',bg:'B+',ph:'63748 72621',role:'உறுப்பினர்',photo:''},
+  {n:'கதிர்வேல்',bg:'B+',ph:'97156 75764',role:'தலைவர்',photo:''},
+  {n:'ஆதிஷ்வரன்',bg:'B+',ph:'72007 69506',role:'உறுப்பினர்',photo:''},
+  {n:'கோகுல்',bg:'B+',ph:'74505 27108',role:'உறுப்பினர்',photo:''},
+  {n:'கார்த்திக்',bg:'O+',ph:'80124 37542',role:'உறுப்பினர்',photo:''},
+  {n:'ஜோதிமணிகண்டன்',bg:'O+',ph:'63816 87299',role:'உறுப்பினர்',photo:''},
+  {n:'கௌதமன்',bg:'O+',ph:'80126 81023',role:'உறுப்பினர்',photo:''},
+  {n:'தினேஷ்குமார்',bg:'O+',ph:'63806 61637',role:'உறுப்பினர்',photo:''},
+  {n:'கார்த்திக்',bg:'O+',ph:'99652 09909',role:'உறுப்பினர்',photo:''},
+  {n:'அஜித்குமார்',bg:'O+',ph:'93428 18149',role:'உறுப்பினர்',photo:''},
+  {n:'கார்த்திகேயன்',bg:'O+',ph:'73394 69956',role:'உறுப்பினர்',photo:''},
+  {n:'ஹரிதாசன்',bg:'O+',ph:'93641 14942',role:'உறுப்பினர்',photo:''},
+  {n:'வேல்முருகன்',bg:'O+',ph:'98652 72793',role:'உறுப்பினர்',photo:''},
+  {n:'ரதீஸ்',bg:'O+',ph:'73588 14755',role:'உறுப்பினர்',photo:''},
+  {n:'சங்கர்',bg:'O+',ph:'96884 03393',role:'உறுப்பினர்',photo:''},
+  {n:'முத்துக்குமார்',bg:'O+',ph:'90956 67666',role:'உறுப்பினர்',photo:''},
+  {n:'ரமேஷ்',bg:'O+',ph:'99529 75522',role:'உறுப்பினர்',photo:''},
+  {n:'பால்பீட்டர்',bg:'O+',ph:'97892 41556',role:'உறுப்பினர்',photo:''},
+  {n:'கார்த்திக்',bg:'O+',ph:'95249 30191',role:'உறுப்பினர்',photo:''},
+  {n:'ஹரிகிருஷ்ணன்',bg:'O+',ph:'99444 01901',role:'உறுப்பினர்',photo:''},
+  {n:'யுவராஜ்',bg:'O-',ph:'94886 91403',role:'உறுப்பினர்',photo:''},
+];
+
+let donors = [], dsIdx = 0, dsTimer = null, editDonorIdx = null, pendDonorPhoto = '';
+
+function bgCol(g){if(g.startsWith('O'))return'#C62828';if(g.startsWith('A'))return'#E65100';if(g.startsWith('B'))return'#00695C';return'#6A1B9A';}
+function bgEmo(g){if(g.startsWith('O'))return'🔴';if(g.startsWith('A'))return'🟠';if(g.startsWith('B'))return'🟢';return'🟣';}
+
+function buildDonors() {
+  const slides = document.getElementById('dsSlides');
+  const dots = document.getElementById('dsdots');
+  slides.innerHTML = donors.map((d, i) => {
+    const av = d.photo ? `<img src="${d.photo}" alt="${d.n}" onerror="this.style.display='none'">` : `<span>${bgEmo(d.bg)}</span>`;
+    return `<div class="dsl${i === 0 ? ' active' : ''}" id="dss${i}">
+      <div class="dav" style="border-color:${bgCol(d.bg)}">${av}</div>
+      <div class="dgrp" style="background:${bgCol(d.bg)}">${d.bg}</div>
+      <div class="dname">${d.n}</div>
+      <div class="drole">${d.role || 'உறுப்பினர்'}</div>
+      <div class="dph"><a href="tel:${d.ph.replace(/ /g, '')}">📱 ${d.ph}</a></div>
+      <div class="dctr">${i + 1} / ${donors.length}</div>
+    </div>`;
+  }).join('');
+  dots.innerHTML = donors.map((_, i) => `<div class="dsdot${i === 0 ? ' on' : ''}" onclick="goDS(${i})"></div>`).join('');
+  startDSAuto();
+}
+function goDS(n) {
+  document.querySelectorAll('.dsl').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.dsdot').forEach((d, i) => d.classList.toggle('on', i === n));
+  dsIdx = n;
+  const el = document.getElementById('dss' + n); if (el) el.classList.add('active');
+}
+function chDS(d) { goDS((dsIdx + d + donors.length) % donors.length); }
+function startDSAuto() { if (dsTimer) clearInterval(dsTimer); dsTimer = setInterval(() => chDS(1), 3500); }
+function openAddDonor() { editDonorIdx = null; pendDonorPhoto = ''; document.getElementById('de-idx').value = ''; document.getElementById('de-n').value = ''; document.getElementById('de-bg').value = 'O+'; document.getElementById('de-ph').value = ''; document.getElementById('de-role').value = 'உறுப்பினர்'; document.getElementById('dAvP').style.display = 'none'; document.getElementById('dAvE').style.display = 'inline'; document.getElementById('dOvT').textContent = 'இரத்த வீரர் சேர்'; openOv('donorOv'); }
+function editCurDonor() { if (!isAdmin) return; const d = donors[dsIdx]; editDonorIdx = dsIdx; pendDonorPhoto = d.photo || ''; document.getElementById('de-idx').value = dsIdx; document.getElementById('de-n').value = d.n; document.getElementById('de-bg').value = d.bg; document.getElementById('de-ph').value = d.ph; document.getElementById('de-role').value = d.role || 'உறுப்பினர்'; if (d.photo) { document.getElementById('dAvP').src = d.photo; document.getElementById('dAvP').style.display = 'block'; document.getElementById('dAvE').style.display = 'none'; } else { document.getElementById('dAvP').style.display = 'none'; document.getElementById('dAvE').style.display = 'inline'; } document.getElementById('dOvT').textContent = 'விவரம் திருத்து'; openOv('donorOv'); }
+function delCurDonor() { if (!isAdmin) return; if (confirm('இவரை நீக்கவா?')) { donors.splice(dsIdx, 1); DB.setDonors(donors); if (dsIdx >= donors.length) dsIdx = 0; buildDonors(); toast('நீக்கப்பட்டது'); } }
+function prevAvDonor(e) { const f = e.target.files[0]; if (!f) return; compressImage(f, 400, 0.75, compressed => { pendDonorPhoto = compressed; document.getElementById('dAvP').src = compressed; document.getElementById('dAvP').style.display = 'block'; document.getElementById('dAvE').style.display = 'none'; }); }
+function saveDonor() { const idx = document.getElementById('de-idx').value; const obj = { n: document.getElementById('de-n').value.trim() || 'பெயரில்லா', bg: document.getElementById('de-bg').value, ph: document.getElementById('de-ph').value.trim(), role: document.getElementById('de-role').value.trim() || 'உறுப்பினர்', photo: pendDonorPhoto || '' }; if (idx === '' || editDonorIdx === null) donors.push(obj); else donors[parseInt(idx)] = obj; DB.setDonors(donors); buildDonors(); closeOv('donorOv'); toast('சேமிக்கப்பட்டது! ✅'); }
+
+/* ═══ GALLERY ═══ */
+const defGal = [
+  {type:'img',src:'',t:'இரத்த தான முகாம்',d:'சேவை நிகழ்வு',e:'🩸',c:'#E53935',bg:'linear-gradient(135deg,#3D0000,#1a0000)'},
+  {type:'img',src:'',t:'பொங்கல் திருவிழா',d:'ஆண்டு விழா',e:'🌾',c:'#F5A623',bg:'linear-gradient(135deg,#2d2200,#1a1400)'},
+  {type:'img',src:'',t:'இரத்த தான முகாம்',d:'சேவை நிகழ்வு',e:'🩸',c:'#E53935',bg:'linear-gradient(135deg,#3D0000,#1a0000)'},
+  {type:'img',src:'',t:'மரம் நடல்',d:'சுற்றுச்சூழல் சேவை',e:'🌱',c:'#4CAF50',bg:'linear-gradient(135deg,#003300,#001a00)'},
+  {type:'img',src:'',t:'நிறுவன விழா',d:'ஆண்டு விழா',e:'🏆',c:'#CE93D8',bg:'linear-gradient(135deg,#1a0033,#0d001a)'},
+  {type:'img',src:'',t:'குழு சேவை',d:'சமூக சேவை',e:'🤝',c:'#29B6F6',bg:'linear-gradient(135deg,#001a2d,#000d1a)'},
+];
+function loadGalWithSrcs() {
+  const saved = DB.getGallery();
+  if (!saved || saved.length === 0) return defGal;
+  return saved.map(g => { if (g.src === '__load__' && g.srcKey) { const stored = DB.getGalImg(g.srcKey); return { ...g, src: stored || '' }; } return g; });
+}
+let gallery = [], pendGal = null;
+function buildGal() {
+  const g = document.getElementById('galGrid');
+  const displayGal = gallery.length > 0 ? gallery : defGal;
+  g.innerHTML = displayGal.map((item, i) => {
+    let med = '';
+    if (item.src) { med = item.type === 'vid' ? `<video class="gvid" src="${item.src}" muted loop autoplay playsinline></video><div class="vtag">▶ VIDEO</div>` : `<img class="gimg" src="${item.src}" alt="${item.t}" loading="lazy">`; }
+    else { med = `<div class="gph" style="background:${item.bg};width:100%;height:100%;flex-direction:column;"><div style="font-size:2.8rem">${item.e}</div><div style="font-size:.64rem;font-weight:700;color:${item.c};margin-top:.3rem;padding:0 .5rem;text-align:center;">${item.t}</div></div>`; }
+    return `<div class="gi" onclick="openLB(${i})">${med}<div class="ginfo"><div class="gttl">${item.t}</div><div class="gdate">📅 ${item.d}</div></div><button class="gdel" onclick="delGal(event,${i})">🗑</button></div>`;
+  }).join('') + (isAdmin ? `<button class="gadd" style="display:flex;" onclick="openOv('galOv')"><div style="font-size:1.6rem;">📷</div><span>நிகழ்வு சேர்</span></button>` : '');
+}
+function delGal(e, i) { e.stopPropagation(); if (!isAdmin) return; if (confirm('நீக்கவா?')) { gallery.splice(i, 1); DB.setGallery(gallery); buildGal(); buildReels(); toast('நீக்கப்பட்டது'); } }
+function prevGal(e) { const f = e.target.files[0]; if (!f) return; const box = document.getElementById('galPrevBox'); if (f.type.startsWith('video')) { const r = new FileReader(); r.onload = ev => { pendGal = { src: ev.target.result, type: 'vid' }; box.innerHTML = `<video src="${ev.target.result}" style="max-height:100%;max-width:100%;border-radius:6px;" controls></video>`; }; r.readAsDataURL(f); } else { compressImage(f, 900, 0.72, compressed => { pendGal = { src: compressed, type: 'img' }; box.innerHTML = `<img src="${compressed}" style="max-height:100%;max-width:100%;border-radius:6px;object-fit:contain;">`; }); } }
+function addGal() { const t = document.getElementById('gl-t').value.trim() || 'நிகழ்வு'; const d = document.getElementById('gl-d').value.trim() || CY + ''; const idx = 'img_' + Date.now(); const newItem = { type: pendGal?.type || 'img', srcKey: pendGal?.src ? idx : '', src: pendGal?.src || '', t, d, e: '📷', c: '#aaa', bg: 'linear-gradient(135deg,#111,#1a1a1a)' }; if (pendGal?.src && pendGal.type !== 'vid') { DB.setGalImg(idx, pendGal.src); newItem.src = pendGal.src; } gallery.unshift(newItem); const galMeta = gallery.map(g => ({ ...g, src: g.srcKey ? '__load__' : g.src })); DB.setGallery(galMeta); buildGal(); buildReels(); closeOv('galOv'); pendGal = null; document.getElementById('galPrevBox').innerHTML = '📷'; document.getElementById('gl-t').value = ''; document.getElementById('gl-d').value = ''; toast('நிகழ்வு சேர்க்கப்பட்டது! ✅'); }
+function openLB(i) { const displayGal = gallery.length > 0 ? gallery : defGal; const item = displayGal[i]; const box = document.getElementById('lbC'); if (item.src) { box.innerHTML = item.type === 'vid' ? `<video src="${item.src}" controls autoplay style="max-width:92vw;max-height:86vh;border-radius:12px;"></video>` : `<img src="${item.src}" style="max-width:92vw;max-height:86vh;border-radius:12px;object-fit:contain;">`; } else { box.innerHTML = `<div style="min-width:260px;min-height:220px;background:${item.bg};border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:2rem;"><div style="font-size:5rem">${item.e}</div><div style="color:${item.c};font-size:1rem;font-weight:700;text-align:center;">${item.t}</div></div>`; } document.getElementById('lbcap').textContent = item.t + ' — ' + item.d; document.getElementById('lb').classList.add('open'); }
+function closeLB() { document.getElementById('lb').classList.remove('open'); }
+
+/* ═══ REELS ═══ */
+const defReels = [
+  {type:'ph',src:'',bg:'linear-gradient(135deg,#200000,#500)',e:'🩸',t:'இரத்த தான முகாம்',d:'சேவை நிகழ்வு',dur:4},
+  {type:'ph',src:'',bg:'linear-gradient(135deg,#202000,#554400)',e:'🌾',t:'பொங்கல் திருவிழா',d:'ஆண்டு விழா',dur:3},
+  {type:'ph',src:'',bg:'linear-gradient(135deg,#002020,#004040)',e:'🌱',t:'மரம் நடல்',d:'சுற்றுச்சூழல்',dur:4},
+  {type:'ph',src:'',bg:'linear-gradient(135deg,#100028,#28006e)',e:'🏆',t:'நிறுவன விழா',d:'ஆண்டு விழா',dur:3},
+];
+function loadReelsWithSrcs() { const saved = DB.getReels(); if (!saved || saved.length === 0) return []; return saved.map(r => { if (r.src === '__load__' && r.srcKey) { const stored = DB.getReelImg(r.srcKey); return { ...r, src: stored || '' }; } return r; }); }
+let reels = [];
+let rIdx = 0, rTimer = null, rProgTimer = null, rPaused = false;
+function buildReels() {
+  const frame = document.getElementById('rframe');
+  frame.innerHTML = `<div class="rprog" id="rprogRow"></div>`;
+  const pr = document.getElementById('rprogRow');
+  const allReels = [...reels, ...gallery.filter(g => g.src).map(g => ({ type: g.type, src: g.src, e: g.e || '📷', t: g.t, d: g.d, dur: 4, bg: '#111' }))];
+  const showReels = allReels.length > 0 ? allReels : defReels;
+  pr.innerHTML = showReels.map((_, i) => `<div class="rp-bar"><div class="rp-fill" id="rpf${i}"></div></div>`).join('');
+  showReels.forEach((r, i) => {
+    const div = document.createElement('div');
+    div.className = 'reel' + (i === 0 ? ' on' : '');
+    div.id = 'reel' + i;
+    if (r.src) { if (r.type === 'vid') { div.innerHTML = `<video src="${r.src}" muted loop ${i === 0 ? 'autoplay' : ''} playsinline style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"></video>`; } else { div.innerHTML = `<div class="reel-bg" style="background:url('${r.src}') center/cover no-repeat;position:absolute;inset:0;"></div>`; } }
+    else { div.innerHTML = `<div class="reel-ph-inner"><div style="font-size:4rem;">${r.e || '📷'}</div></div>`; div.style.background = r.bg || '#111'; }
+    div.innerHTML += `<div class="reel-overlay"><div class="reel-ttl">${r.t}</div><div class="reel-dt">📅 ${r.d}</div></div>`;
+    frame.appendChild(div);
+  });
+  rIdx = 0;
+  document.getElementById('rpdots').innerHTML = showReels.map((_, i) => `<div class="pdot${i === 0 ? ' on' : ''}" onclick="gotoReel(${i})"></div>`).join('');
+  if (!rPaused) startReelAuto(showReels);
+}
+function startReelAuto(showReels) {
+  if (rProgTimer) clearInterval(rProgTimer); if (rTimer) clearTimeout(rTimer);
+  const allR = document.querySelectorAll('.reel');
+  if (!allR.length) return;
+  const dur = (showReels && showReels[rIdx]) ? showReels[rIdx].dur || 4 : 4;
+  const total = dur * 1000; let elapsed = 0; const step = 50;
+  const fill = document.getElementById('rpf' + rIdx);
+  rProgTimer = setInterval(() => {
+    if (rPaused) return;
+    elapsed += step;
+    if (fill) { fill.style.transition = `width ${step}ms linear`; fill.style.width = Math.min(elapsed / total * 100, 100) + '%'; }
+    if (elapsed >= total) { clearInterval(rProgTimer); chReel(1); }
+  }, step);
+}
+function chReel(dir) {
+  const allR = document.querySelectorAll('.reel'); const dots = document.querySelectorAll('.pdot');
+  if (!allR.length) return;
+  const fill = document.getElementById('rpf' + rIdx); if (fill) fill.style.width = dir > 0 ? '100%' : '0%';
+  allR[rIdx]?.classList.remove('on'); dots[rIdx]?.classList.remove('on');
+  rIdx = (rIdx + dir + allR.length) % allR.length;
+  allR[rIdx]?.classList.add('on'); dots[rIdx]?.classList.add('on');
+  const nf = document.getElementById('rpf' + rIdx); if (nf) { nf.style.transition = 'none'; nf.style.width = '0%'; }
+  allR.forEach((el, i) => { const v = el.querySelector('video'); if (v) { i === rIdx ? v.play() : v.pause(); } });
+  const allReels2 = [...reels, ...gallery.filter(g => g.src).map(g => ({ type: g.type, src: g.src, e: g.e || '📷', t: g.t, d: g.d, dur: 4, bg: '#111' }))];
+  const showReels2 = allReels2.length > 0 ? allReels2 : defReels;
+  if (!rPaused) startReelAuto(showReels2);
+}
+function gotoReel(i) { const dir = i > rIdx ? 1 : -1; while (rIdx !== i) chReel(dir); }
+function toggleReelPause() { rPaused = !rPaused; if (!rPaused) { const allReels3 = [...reels, ...gallery.filter(g => g.src).map(g => ({ type: g.type, src: g.src, e: g.e || '📷', t: g.t, d: g.d, dur: 4 }))]; startReelAuto(allReels3.length ? allReels3 : defReels); } else { clearInterval(rProgTimer); } }
+let pendReelFile = null;
+function prevReel(e) { const f = e.target.files[0]; if (!f) return; const box = document.getElementById('reelPrevBox'); if (f.type.startsWith('video')) { const r = new FileReader(); r.onload = ev => { pendReelFile = { src: ev.target.result, type: 'vid' }; box.innerHTML = `<video src="${ev.target.result}" style="max-height:100%;max-width:100%;border-radius:6px;" controls></video>`; }; r.readAsDataURL(f); } else { compressImage(f, 900, 0.72, compressed => { pendReelFile = { src: compressed, type: 'img' }; box.innerHTML = `<img src="${compressed}" style="max-height:100%;max-width:100%;border-radius:6px;object-fit:contain;">`; }); } }
+function addReel() { const t = document.getElementById('rl-t').value.trim() || 'நிகழ்வு'; const d = document.getElementById('rl-d').value.trim() || CY + ''; const idx = 'reel_' + Date.now(); const newReel = { type: pendReelFile?.type || 'ph', srcKey: pendReelFile?.src ? idx : '', src: pendReelFile?.src || '', e: '📷', t, d, dur: 4, bg: '#111' }; if (pendReelFile?.src && pendReelFile.type !== 'vid') { DB.setReelImg(idx, pendReelFile.src); } reels.unshift(newReel); const reelMeta = reels.map(r => ({ ...r, src: r.srcKey ? '__load__' : r.src })); DB.setReels(reelMeta); buildReels(); closeOv('reelOv'); pendReelFile = null; document.getElementById('reelPrevBox').innerHTML = '📽'; document.getElementById('rl-t').value = ''; document.getElementById('rl-d').value = ''; toast('ரீல் சேர்க்கப்பட்டது! ✅'); }
+document.getElementById('rframe').addEventListener('touchstart', e => { window._rtx = e.touches[0].clientY; }, { passive: true });
+document.getElementById('rframe').addEventListener('touchend', e => { const dy = (window._rtx || 0) - e.changedTouches[0].clientY; if (Math.abs(dy) > 40) chReel(dy > 0 ? 1 : -1); });
+
+/* ═══ MEMBERS ═══ */
+let members = [], memIdx = 0, editMemIdx = null, pendMemPhoto = '', memAutoTimer = null;
+const emojis = ['👤'];
+
+function memBgCol(bg) {
+  if (!bg) return '#FF5500';
+  if (bg.startsWith('O')) return '#C62828';
+  if (bg.startsWith('A')) return '#E65100';
+  if (bg.startsWith('B')) return '#00695C';
+  return '#6A1B9A';
+}
+
+function updateMemArc(idx, total) {
+  const arc = document.getElementById('memArc');
+  if (!arc || total === 0) return;
+  const circumference = 94.25;
+  const offset = circumference - (circumference * (idx + 1) / total);
+  arc.style.strokeDashoffset = offset;
+}
+
+function buildMem() {
+  const slides = document.getElementById('memSlides');
+  const dots = document.getElementById('memDots');
+  const hint = document.getElementById('memSwipeHint');
+  if (!members || members.length === 0) {
+    slides.innerHTML = `<div class="mem-slide active" style="padding:2.5rem 1.5rem;"><div style="font-size:3rem;margin-bottom:.8rem;">👥</div><div style="font-size:.82rem;color:var(--text2);">உறுப்பினர்கள் இல்லை<br><span style="font-size:.68rem;color:var(--muted);">Admin mode-ல் சேர்க்கலாம்</span></div></div>`;
+    dots.innerHTML = '';
+    if (hint) hint.style.display = 'none';
+    document.getElementById('memStat').textContent = '40+';
+    return;
+  }
+  if (hint) hint.style.display = members.length > 1 ? 'block' : 'none';
+  slides.innerHTML = members.map((m, i) => {
+    const col = memBgCol(m.bg);
+    const photo = m.photo
+      ? `<img src="${m.photo}" alt="${m.n}" onerror="this.style.display='none';this.nextSibling.style.display='flex'"><span style="display:none;font-size:4rem;">${emojis[i % emojis.length]}</span>`
+      : `<span style="font-size:4rem;">${emojis[i % emojis.length]}</span>`;
+    return `<div class="mem-slide${i === 0 ? ' active' : ''}" id="ms${i}">
+      <div class="mem-bg-badge" style="background:${col}">${m.bg || ''}</div>
+      <div class="mem-photo-wrap" style="border-color:${col}40;box-shadow:0 8px 32px ${col}25,0 0 0 6px ${col}10;">${photo}</div>
+      <div class="mem-name">${m.n}</div>
+      <div class="mem-role">${m.r || 'உறுப்பினர்'}</div>
+      <div class="mem-counter">${i + 1} / ${members.length}</div>
+    </div>`;
+  }).join('');
+  const maxDots = Math.min(members.length, 20);
+  dots.innerHTML = members.slice(0, maxDots).map((_, i) =>
+    `<div class="mem-dot${i === 0 ? ' on' : ''}" onclick="goMem(${i})"></div>`
+  ).join('') + (members.length > maxDots ? `<span style="font-size:.6rem;color:var(--muted);font-family:'DM Mono',monospace;">+${members.length - maxDots}</span>` : '');
+  memIdx = 0;
+  updateMemArc(0, members.length);
+  document.getElementById('memStat').textContent = members.length + '+';
+  startMemAuto();
+}
+
+function goMem(n) {
+  if (!members.length) return;
+  document.querySelectorAll('.mem-slide').forEach(s => s.classList.remove('active'));
+  const dots = document.querySelectorAll('.mem-dot');
+  dots.forEach((d, i) => d.classList.toggle('on', i === n));
+  memIdx = n;
+  const el = document.getElementById('ms' + n);
+  if (el) el.classList.add('active');
+  updateMemArc(n, members.length);
+  if (isAdmin) { const admBtns = document.getElementById('memAdmBtns'); if (admBtns) admBtns.classList.add('show'); }
+}
+function chMem(dir) { if (!members.length) return; goMem((memIdx + dir + members.length) % members.length); }
+function startMemAuto() { if (memAutoTimer) clearInterval(memAutoTimer); if (members.length > 1) memAutoTimer = setInterval(() => chMem(1), 4000); }
+function editCurMem() { if (!isAdmin || !members.length) return; editMem(memIdx); }
+function delCurMem() { if (!isAdmin || !members.length) return; if (confirm('இந்த உறுப்பினரை நீக்கவா?')) { members.splice(memIdx, 1); DB.setMembers(members); if (memIdx >= members.length) memIdx = 0; buildMem(); toast('நீக்கப்பட்டது'); } }
+function openAddMem() { editMemIdx = null; pendMemPhoto = ''; document.getElementById('em-idx').value = ''; document.getElementById('em-n').value = ''; document.getElementById('em-r').value = 'உறுப்பினர்'; document.getElementById('em-bg').value = 'O+'; document.getElementById('mAvP').style.display = 'none'; document.getElementById('mAvE').style.display = 'inline'; document.getElementById('mOvT').textContent = 'புதிய உறுப்பினர்'; document.getElementById('mOvS').textContent = 'விவரங்கள் உள்ளிடவும்'; openOv('memOv'); }
+function editMem(i) { editMemIdx = i; const m = members[i]; document.getElementById('em-idx').value = i; document.getElementById('em-n').value = m.n; document.getElementById('em-r').value = m.r; document.getElementById('em-bg').value = m.bg; pendMemPhoto = m.photo || ''; if (m.photo) { document.getElementById('mAvP').src = m.photo; document.getElementById('mAvP').style.display = 'block'; document.getElementById('mAvE').style.display = 'none'; } else { document.getElementById('mAvP').style.display = 'none'; document.getElementById('mAvE').style.display = 'inline'; } document.getElementById('mOvT').textContent = 'திருத்து'; document.getElementById('mOvS').textContent = m.n; openOv('memOv'); }
+function prevAvMem(e) { const f = e.target.files[0]; if (!f) return; compressImage(f, 400, 0.75, compressed => { pendMemPhoto = compressed; document.getElementById('mAvP').src = compressed; document.getElementById('mAvP').style.display = 'block'; document.getElementById('mAvE').style.display = 'none'; }); }
+function saveMem() { const idx = document.getElementById('em-idx').value; const obj = { n: document.getElementById('em-n').value.trim() || 'பெயரில்லா', r: document.getElementById('em-r').value.trim() || 'உறுப்பினர்', bg: document.getElementById('em-bg').value, photo: pendMemPhoto || '' }; if (idx === '' || editMemIdx === null) members.push(obj); else members[parseInt(idx)] = obj; DB.setMembers(members); buildMem(); closeOv('memOv'); editMemIdx = null; pendMemPhoto = ''; toast('சேமிக்கப்பட்டது! ✅'); }
+
+const memBox = document.getElementById('memCardBox');
+let _mtx = 0;
+memBox.addEventListener('touchstart', e => { _mtx = e.touches[0].clientX; if (memAutoTimer) clearInterval(memAutoTimer); }, { passive: true });
+memBox.addEventListener('touchend', e => { const dx = _mtx - e.changedTouches[0].clientX; if (Math.abs(dx) > 40) chMem(dx > 0 ? 1 : -1); startMemAuto(); });
+
+/* ═══ MUSIC ═══ */
+const anthem = document.getElementById('anthemAudio');
+anthem.loop = true;
+function toggleMusicFloat() {
+  if (!anthem.src || anthem.src === window.location.href) {
+    if (isAdmin) { toast('Admin: anthem உள்ளிடவும்'); openOv('adminOv'); }
+    else { toast('🎵 Anthem விரைவில் வருகிறது...'); }
+    return;
+  }
+  const bar = document.getElementById('musicBar');
+  if (!bar.classList.contains('show')) {
+    bar.classList.add('show');
+    anthem.play().catch(()=>{});
+    document.getElementById('mbPlayBtn').textContent = '⏸';
+    document.getElementById('mbDisc').classList.add('spin');
+    document.getElementById('musicFloat').classList.add('playing');
+  } else { toggleMusicPlay(); }
+}
+function toggleMusicPlay() { if (anthem.paused) { anthem.play(); document.getElementById('mbPlayBtn').textContent = '⏸'; document.getElementById('mbDisc').classList.add('spin'); document.getElementById('musicFloat').classList.add('playing'); } else { anthem.pause(); document.getElementById('mbPlayBtn').textContent = '▶'; document.getElementById('mbDisc').classList.remove('spin'); document.getElementById('musicFloat').classList.remove('playing'); } }
+function hideMusicBar() { anthem.pause(); document.getElementById('musicBar').classList.remove('show'); document.getElementById('mbPlayBtn').textContent = '▶'; document.getElementById('mbDisc').classList.remove('spin'); document.getElementById('musicFloat').classList.remove('playing'); }
+function musicScrub(e) { if (!anthem.duration) return; const rect = e.currentTarget.getBoundingClientRect(); anthem.currentTime = ((e.clientX - rect.left) / rect.width) * anthem.duration; }
+anthem.addEventListener('timeupdate', () => { if (!anthem.duration) return; document.getElementById('mbFill').style.width = (anthem.currentTime / anthem.duration * 100) + '%'; const m = Math.floor(anthem.currentTime / 60), s = Math.floor(anthem.currentTime % 60); document.getElementById('mbTime').textContent = m + ':' + (s < 10 ? '0' : '') + s; });
+
+/* ── FIX: uploadAnthem now saves to DB so it persists after refresh ── */
+function uploadAnthem(e) {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    const src = ev.target.result;
+    const name = f.name.replace(/\.[^.]+$/, '');
+    anthem.src = src;
+    DB.setAnthem(src, name);   // ← saves to Supabase
+    document.getElementById('mbName').textContent = name;
+    document.getElementById('musicBar').classList.add('show');
+    anthem.play();
+    document.getElementById('mbPlayBtn').textContent = '⏸';
+    document.getElementById('mbDisc').classList.add('spin');
+    document.getElementById('musicFloat').classList.add('playing');
+    toast('🎵 Anthem சேமிக்கப்பட்டது! Refresh-க்கு பிறகும் இயங்கும் ✅');
+  };
+  r.readAsDataURL(f);
+}
+
+/* ═══ WHATSAPP ═══ */
+function sendWA() { const name = document.getElementById('wa-name').value.trim() || 'நண்பர்'; const msg = document.getElementById('wa-msg').value.trim() || 'வணக்கம்!'; const text = encodeURIComponent(`வணக்கம்! நான் ${name}.\n\n${msg}\n\n— பாரத் பாய்ஸ் Website மூலம்`); window.open(WA_NUMBER, '_blank'); closeOv('waOv'); toast('WhatsApp திறக்கப்படுகிறது...'); }
+function submitBlood() { const n = document.getElementById('bp-n').value.trim(); const bg = document.getElementById('bp-bg').value; const loc = document.getElementById('bp-l').value.trim(); const ph = document.getElementById('bp-p').value.trim(); const when = document.getElementById('bp-w').value; if (!n || !bg) { toast('⚠️ பெயர் மற்றும் இரத்த வகை கொடுக்கவும்'); return; } const msg = encodeURIComponent(`🆘 *இரத்தம் தேவை!*\n\nநோயாளி: ${n}\nவகை: ${bg}\nயூனிட்: ${document.getElementById('bp-u').value}\nமருத்துவமனை: ${loc || '—'}\nதொடர்பு: ${ph || '—'}\nதேவை: ${when}`); window.open(WA_NUMBER, '_blank'); toast('🩸 கோரிக்கை அனுப்பப்படுகிறது!'); }
+
+/* ═══ NAV ═══ */
+let mobOpen = false;
+function toggleMob() { mobOpen = !mobOpen; document.getElementById('mobm').classList.toggle('show', mobOpen); }
+function closeMob() { mobOpen = false; document.getElementById('mobm').classList.remove('show'); }
+window.addEventListener('scroll', () => document.getElementById('nav').style.borderBottomColor = scrollY > 20 ? 'rgba(255,85,0,0.15)' : 'rgba(255,255,255,0.07)');
+
+/* ═══ OVERLAYS ═══ */
+function openOv(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeOv(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+function closeBG(e, id) { if (e.target.id === id) closeOv(id); }
+function toast(msg) { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3200); }
+
+/* ═══ REVEAL ANIMATION ═══ */
+const ro = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }); }, { threshold: .1 });
+document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+
+/* ═══ INIT ═══ */
+async function startApp() {
+  toast('⏳ தரவு ஏற்றப்படுகிறது...');
+  try { await DB.init(); } catch(e) { console.error("DB init failed:", e); toast('⚠️ இணையம் சரிபார்க்கவும்'); }
+
+  const logo = DB.getLogo();
+  if (logo) applyLogo(logo);
+
+  lImgs.l1 = DB.getLeader('l1');
+  lImgs.l2 = DB.getLeader('l2');
+  applyLImg('l1', lImgs.l1);
+  applyLImg('l2', lImgs.l2);
+
+  const savedDonors = DB.getDonors();
+  donors = (savedDonors && savedDonors.length > 0) ? savedDonors : defaultDonors;
+
+  members = DB.getMembers() || [];
+  gallery = loadGalWithSrcs();
+  reels = loadReelsWithSrcs();
+
+  buildDonors();
+  buildGal();
+  buildReels();
+  buildMem();
+
+  /* ── FIX: Restore anthem from DB after page load/refresh ── */
+  const savedAnthem = DB.getAnthem();
+  if (savedAnthem && savedAnthem.src) {
+    anthem.src = savedAnthem.src;
+    document.getElementById('mbName').textContent = savedAnthem.name || 'பாரத் பாய்ஸ் எங்கள் மன்றத்தின் கீதம்';
+    // Show the music bar ready to play (not auto-playing to respect browser policy)
+    document.getElementById('musicBar').classList.add('show');
+    document.getElementById('mbPlayBtn').textContent = '▶';
+    toast('🎵 Anthem தயாராக உள்ளது — ▶ அழுத்துங்கள்');
+  }
+}
+
+startApp();
+</script>
+</body>
+</html>
