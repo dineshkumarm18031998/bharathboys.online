@@ -1337,8 +1337,10 @@ function toggleTheme() { applyTheme(document.documentElement.getAttribute('data-
 /* ── LOGO CLICK ── */
 let _logoTaps=0,_logoTimer=null;
 function handleLogoClick() {
-  if(isAdmin){ trigUpload('navLogoFile'); return; }
+  // Mobile: always open admin panel (for both login AND logout)
   if(window.innerWidth<=768){ openOv('adminOv'); return; }
+  // Desktop admin: click = logo upload, triple-tap = admin panel
+  if(isAdmin){ trigUpload('navLogoFile'); return; }
   _logoTaps++; clearTimeout(_logoTimer);
   _logoTimer=setTimeout(()=>{_logoTaps=0;},600);
   if(_logoTaps>=3){ _logoTaps=0; openOv('adminOv'); }
