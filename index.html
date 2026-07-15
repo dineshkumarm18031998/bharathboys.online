@@ -65,12 +65,12 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;b
 #nav{position:fixed;top:0;left:0;right:0;z-index:900;height:64px;display:flex;align-items:center;padding:0 5%;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s,border-color .3s;}
 .nav-inner{max-width:1300px;margin:0 auto;width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
 .nbrand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.nlogo-wrap{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:#ffffff;overflow:hidden;cursor:pointer;position:relative;box-shadow:0 0 0 3px rgba(245,166,35,0.15),0 0 10px rgba(245,166,35,0.2);flex-shrink:0;}
-.nlogo-wrap img{width:90%;height:90%;object-fit:contain;object-position:center;display:block;margin:auto;}
+.nlogo-wrap{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;background:#ffffff;overflow:hidden;cursor:pointer;position:relative;box-shadow:0 0 0 3px rgba(245,166,35,0.15),0 0 10px rgba(245,166,35,0.2);flex-shrink:0;}
+.nlogo-wrap img{width:100%;height:100%;object-fit:contain;object-position:center;display:block;padding:3px;background:#fff;}
 .nlogo-edit{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;font-size:.6rem;color:#fff;text-align:center;border-radius:50%;}
 .admin-mode .nlogo-wrap:hover .nlogo-edit{display:flex;}
-.ntxt strong{display:block;font-size:.78rem;font-weight:800;color:var(--orange);line-height:1.2;letter-spacing:.02em;}
-.ntxt span{font-size:.48rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-family:"DM Mono",monospace;}
+.ntxt strong{display:block;font-size:.78rem;font-weight:800;color:var(--orange);line-height:1.25;letter-spacing:.01em;white-space:nowrap;}
+.ntxt span{font-size:.48rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;font-family:"DM Mono",monospace;white-space:nowrap;}
 .nmenu{display:flex;align-items:center;gap:1px;list-style:none;}
 .nmenu a{display:block;padding:6px 11px;font-size:.68rem;font-weight:600;color:var(--text2);border-radius:6px;white-space:nowrap;transition:.2s;letter-spacing:.02em;}
 .nmenu a:hover{background:rgba(255,85,0,0.1);color:var(--orange);}
@@ -89,13 +89,15 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;b
 .hb2{width:400px;height:400px;background:radial-gradient(circle,rgba(0,196,167,0.08),transparent);bottom:-10%;left:-5%;}
 .hb3{width:300px;height:300px;background:radial-gradient(circle,rgba(229,57,53,0.06),transparent);top:40%;left:45%;}
 .hero-col{position:relative;z-index:2;max-width:960px;width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;gap:0;}
-.hero-logo-ring{width:200px;height:200px;border-radius:50%;background:#ffffff;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:2rem;cursor:pointer;overflow:hidden;animation:logoPulse 4s ease-in-out infinite;box-shadow:0 0 0 10px rgba(245,166,35,0.15),0 0 0 22px rgba(245,166,35,0.08),0 0 0 36px rgba(245,166,35,0.04),0 0 40px rgba(245,166,35,0.3);}
+
+/* ── NEW: hero photo card (group photo backdrop behind logo+name) ── */
+.hero-logo-ring{width:200px;height:200px;border-radius:50%;background:#ffffff;border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;position:relative;margin-bottom:2rem;cursor:pointer;overflow:hidden;flex-shrink:0;animation:logoPulse 4s ease-in-out infinite;box-shadow:0 0 0 10px rgba(245,166,35,0.15),0 0 0 22px rgba(245,166,35,0.08),0 0 0 36px rgba(245,166,35,0.04),0 0 40px rgba(245,166,35,0.3);}
 @keyframes logoPulse{0%,100%{box-shadow:0 0 0 10px rgba(245,166,35,0.15),0 0 0 22px rgba(245,166,35,0.08),0 0 0 36px rgba(245,166,35,0.04),0 0 40px rgba(245,166,35,0.3);}50%{box-shadow:0 0 0 14px rgba(245,166,35,0.22),0 0 0 28px rgba(245,166,35,0.12),0 0 0 44px rgba(245,166,35,0.06),0 0 60px rgba(245,166,35,0.5);}}
 .hero-logo-ring img{width:82%;height:82%;object-fit:contain;object-position:center;display:block;flex-shrink:0;}
 .hero-logo-edit{position:absolute;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;flex-direction:column;gap:2px;border-radius:50%;z-index:2;}
 .hero-logo-edit span{font-size:.9rem;}.hero-logo-edit p{font-size:.55rem;color:rgba(255,255,255,.8);}
 .admin-mode .hero-logo-ring:hover .hero-logo-edit{display:flex;}
-.hero-title{font-size:clamp(2rem,5.5vw,4.2rem);font-weight:900;line-height:1.1;margin-bottom:2rem;white-space:nowrap;}
+.hero-title{font-size:clamp(2rem,5.5vw,4.2rem);font-weight:900;line-height:1.1;margin-bottom:2rem;white-space:nowrap;max-width:100%;}
 .ht-w{color:var(--text);}.ht-o{background:linear-gradient(135deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .hero-stats{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;overflow:hidden;backdrop-filter:blur(10px);}
 .hstat{flex:1;padding:1.4rem 2rem;text-align:center;border-right:1px solid var(--border);position:relative;}
@@ -165,6 +167,10 @@ section{padding:80px 5%;}.si{max-width:1300px;margin:0 auto;}
 .dav img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;}
 .dgrp{color:#fff;font-size:.66rem;font-weight:800;padding:3px 14px;border-radius:50px;margin-bottom:.5rem;font-family:"DM Mono",monospace;letter-spacing:.06em;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
 .dname{font-size:.98rem;font-weight:900;margin-bottom:.15rem;}.drole{font-size:.62rem;color:var(--text2);margin-bottom:.65rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+.dfilter{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.9rem;justify-content:center;max-width:380px;}
+.dfchip{font-size:.6rem;font-weight:700;padding:5px 12px;border-radius:50px;border:1px solid var(--border);background:var(--surface);color:var(--text2);cursor:pointer;transition:.2s;font-family:"DM Mono",monospace;letter-spacing:.02em;}
+.dfchip:hover{border-color:var(--crimson);color:var(--crimson);}
+.dfchip.on{background:var(--crimson);border-color:var(--crimson);color:#fff;}
 .dph a{display:inline-flex;align-items:center;gap:.35rem;font-size:.78rem;font-weight:700;color:var(--sky);background:rgba(41,182,246,0.08);padding:7px 16px;border-radius:50px;transition:.2s;border:1px solid rgba(41,182,246,0.2);}
 .dph a:hover{background:var(--sky);color:#fff;}
 .dctr{font-size:.58rem;color:var(--muted);margin-top:.6rem;font-family:"DM Mono",monospace;letter-spacing:.04em;}
@@ -188,44 +194,42 @@ section{padding:80px 5%;}.si{max-width:1300px;margin:0 auto;}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
 .wabtn{display:flex;align-items:center;justify-content:center;gap:.5rem;background:#25D366;color:#fff;border:none;border-radius:10px;padding:11px;font-size:.75rem;font-weight:800;cursor:pointer;font-family:inherit;width:100%;margin-top:.5rem;transition:.2s;letter-spacing:.04em;}
 .wabtn:hover{background:#1EAD55;transform:translateY(-1px);}
+
+/* ── NEW: unified media strip (gallery + reels combined, auto-slides) ── */
 #events{background:var(--surface);}
-.gallery-wrap{display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:3rem;align-items:start;}
-.phone-wrap{position:relative;}
-.phone-glow{position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,85,0,0.2),transparent);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;filter:blur(30px);}
-.phone{width:100%;max-width:250px;margin:0 auto;background:#0A0A14;border-radius:34px;overflow:hidden;border:2px solid #1E1E30;box-shadow:0 30px 80px rgba(0,0,0,0.7),0 0 0 1px rgba(255,255,255,0.04);}
-.pnotch{height:26px;background:#050508;display:flex;align-items:center;justify-content:center;}.pnotch-pill{width:60px;height:7px;background:#000;border-radius:0 0 8px 8px;}
-.pscreen{height:440px;position:relative;overflow:hidden;background:#000;cursor:pointer;}
-.rprog{position:absolute;top:0;left:0;right:0;height:3px;z-index:10;display:flex;gap:2px;padding:0 4px;}
-.rp-bar{flex:1;background:rgba(255,255,255,0.18);border-radius:2px;overflow:hidden;}
-.rp-fill{height:100%;background:var(--orange);border-radius:2px;width:0%;transition:width linear;}
-.reel{position:absolute;inset:0;opacity:0;transition:opacity .5s;}
-.reel.on{opacity:1;}.reel video{width:100%;height:100%;object-fit:contain!important;position:absolute;inset:0;background:#000;}
-.reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:1rem;background:linear-gradient(transparent,rgba(0,0,0,.85));z-index:2;}
-.reel-ttl{font-size:.8rem;font-weight:700;color:#fff;margin-bottom:.15rem;}.reel-dt{font-size:.6rem;color:rgba(255,255,255,.6);}
-.pnav{display:flex;align-items:center;justify-content:space-between;padding:.65rem .8rem;background:#050508;}
-.pdots{display:flex;gap:4px;}.pdot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.18);cursor:pointer;transition:.2s;}.pdot.on{background:var(--orange);}
-.pnav-btns{display:flex;gap:.4rem;}.rnb{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.07);border:none;color:rgba(255,255,255,.6);font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}.rnb:hover{background:var(--orange);color:#fff;}
-.reel-addbtn{display:none;align-items:center;gap:.4rem;background:rgba(255,85,0,0.1);border:1px solid var(--border2);color:var(--orange);font-size:.65rem;font-weight:700;padding:6px 14px;border-radius:50px;cursor:pointer;font-family:inherit;transition:.2s;margin-top:.7rem;}
-.reel-addbtn:hover{background:var(--orange);color:#fff;}
-.gal-scroll-wrap{height:460px;overflow-y:auto;overflow-x:hidden;border-radius:14px;border:1px solid var(--border);background:var(--surface2);padding:.8rem;scrollbar-width:thin;scrollbar-color:var(--orange) transparent;}
-.gal-scroll-wrap::-webkit-scrollbar{width:4px;}
-.gal-scroll-wrap::-webkit-scrollbar-thumb{background:var(--orange);border-radius:2px;}
-.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.7rem;}
-.gi{border-radius:10px;overflow:hidden;position:relative;aspect-ratio:4/3;cursor:pointer;background:var(--surface);border:1px solid var(--border);transition:.25s;}
-.gi:hover{transform:scale(1.03);border-color:var(--orange);box-shadow:0 4px 20px rgba(255,85,0,0.15);}
-.gimg{width:100%;height:100%;object-fit:cover;}.gvid{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
-.vtag{position:absolute;top:6px;left:6px;background:rgba(255,85,0,0.9);color:#fff;font-size:.55rem;font-weight:700;padding:2px 7px;border-radius:4px;font-family:"DM Mono",monospace;}
-.gph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;}
-.ginfo{position:absolute;bottom:0;left:0;right:0;padding:.6rem;background:linear-gradient(transparent,rgba(0,0,0,.8));opacity:0;transition:.3s;}
-.gi:hover .ginfo{opacity:1;}.gttl{font-size:.68rem;font-weight:700;color:#fff;}.gdate{font-size:.58rem;color:rgba(255,255,255,.6);}
-.gdel{position:absolute;top:5px;right:5px;background:rgba(229,57,53,0.85);color:#fff;border:none;border-radius:50%;width:22px;height:22px;font-size:.65rem;cursor:pointer;display:none;align-items:center;justify-content:center;}
-.admin-mode .gdel{display:flex;}
-.gadd{border-radius:12px;border:1px dashed rgba(255,85,0,0.25);display:none;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;cursor:pointer;color:var(--orange);font-size:.68rem;font-weight:700;transition:.2s;aspect-ratio:4/3;background:rgba(255,85,0,0.03);}
-.gadd:hover{background:rgba(255,85,0,0.07);}
-#lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:2rem;}
-#lb.open{display:flex;}#lbC{display:flex;align-items:center;justify-content:center;}#lbcap{font-size:.82rem;color:rgba(255,255,255,.7);text-align:center;}
-#lb-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
-#lb-close:hover{background:var(--crimson);}
+.media-slider-wrap{position:relative;width:100%;max-width:1000px;margin:0 auto;padding:0 1.2rem;}
+.ms-track{display:flex;align-items:center;justify-content:center;gap:1rem;}
+.ms-peek{flex-shrink:0;width:19%;max-width:190px;aspect-ratio:3/4;border-radius:16px;overflow:hidden;position:relative;opacity:.4;transform:scale(.9);cursor:pointer;transition:opacity .3s,transform .3s;background:var(--surface2);border:1px solid var(--border);}
+.ms-peek:hover{opacity:.75;transform:scale(.94);}
+.ms-peek img,.ms-peek video{width:100%;height:100%;object-fit:cover;display:block;}
+.ms-center{flex:1 1 auto;max-width:560px;aspect-ratio:16/11;border-radius:22px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 24px 70px rgba(0,0,0,.5);border:1px solid var(--border2);background:var(--surface2);}
+.ms-center img,.ms-center video{width:100%;height:100%;object-fit:cover;display:block;}
+.ms-fallback{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem;}
+.ms-fallback .msf-e{font-size:3.4rem;}
+.ms-center .ms-fallback .msf-e{font-size:4.4rem;}
+.ms-vtag{position:absolute;top:.7rem;left:.7rem;background:rgba(255,85,0,0.92);color:#fff;font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:5px;z-index:2;font-family:"DM Mono",monospace;letter-spacing:.04em;}
+.ms-mute{position:absolute;bottom:.9rem;right:.9rem;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.85rem;cursor:pointer;z-index:4;display:none;align-items:center;justify-content:center;}
+.ms-center video~.ms-mute{display:flex;}
+.ms-caption{position:absolute;left:0;right:0;bottom:0;padding:1.2rem 1.4rem;background:linear-gradient(transparent,rgba(0,0,0,.85));z-index:2;pointer-events:none;}
+.ms-cap-t{color:#fff;font-size:.92rem;font-weight:800;}
+.ms-cap-d{color:rgba(255,255,255,.72);font-size:.66rem;margin-top:.2rem;font-family:"DM Mono",monospace;}
+.ms-del{position:absolute;top:.7rem;right:.7rem;background:rgba(229,57,53,0.88);color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:.72rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:4;}
+.admin-mode .ms-del{display:flex;}
+.ms-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:1.2rem;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.ms-nav:hover{background:var(--orange);border-color:var(--orange);}
+.ms-prev{left:-.2rem;}.ms-next{right:-.2rem;}
+.ms-dots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:1.1rem;max-width:760px;margin-left:auto;margin-right:auto;}
+.ms-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,85,0,.2);cursor:pointer;transition:.25s;flex-shrink:0;}
+.ms-dot.on{background:var(--orange);width:22px;border-radius:4px;}
+@media(max-width:860px){.ms-peek{width:14%;}.ms-center{max-width:420px;}}
+@media(max-width:640px){.ms-peek{display:none;}.ms-center{max-width:100%;aspect-ratio:1/1.05;}.ms-nav{width:38px;height:38px;font-size:1.05rem;}.ms-prev{left:.4rem;}.ms-next{right:.4rem;}.media-slider-wrap{padding:0;}}
+
+.media-hdr-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.6rem;}
+.media-hdr-btns{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+#mediaAdmBtns{display:none;gap:.6rem;flex-wrap:wrap;}
+.gal-view-btn{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;border:none!important;box-shadow:0 4px 18px rgba(0,196,167,.35);}
+.gal-view-btn:hover{opacity:.92;transform:translateY(-2px);}
+
 #members{background:var(--bg);}
 .mhdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem;}
 .mem-slider-wrap{display:flex;flex-direction:column;align-items:center;width:100%;}
@@ -266,16 +270,22 @@ section{padding:80px 5%;}.si{max-width:1300px;margin:0 auto;}
 .wa-wide{display:flex;align-items:center;gap:1rem;background:rgba(37,211,102,0.07);border:1px solid rgba(37,211,102,0.15);border-radius:14px;padding:1.2rem 1.5rem;cursor:pointer;transition:.2s;margin-top:1.5rem;width:100%;}
 .wa-wide:hover{background:rgba(37,211,102,0.12);}
 .wa-t{font-size:.84rem;font-weight:700;}.wa-st{font-size:.65rem;color:var(--text2);}
-footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
-.ftop{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:1.5rem;}
+footer{background:var(--surface);border-top:1px solid var(--border);position:relative;padding:3rem 5% 2rem;}
+footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--orange),var(--gold),var(--orange),transparent);}
+.fsi{max-width:820px;}
+.ftop{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:2rem;margin-bottom:1.6rem;}
 .fbrand{display:flex;align-items:center;gap:.8rem;}
-.flogo{width:36px;height:36px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;overflow:hidden;background:#ffffff;}
-.flogo img{width:90%;height:90%;object-fit:contain;object-position:center;margin:auto;}
-.fbrand strong{display:block;font-size:.82rem;font-weight:800;color:var(--orange);}.fbrand span{font-size:.55rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-family:"DM Mono",monospace;}
-.flinks{display:flex;flex-direction:column;gap:.4rem;}.flinks a{font-size:.72rem;color:var(--text2);transition:.15s;}.flinks a:hover{color:var(--orange);}
-.flinks-h{font-size:.6rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem;font-family:"DM Mono",monospace;}
-.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-top:1px solid var(--border);padding-top:1rem;}
+.flogo{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;overflow:hidden;background:#ffffff;flex-shrink:0;box-shadow:0 0 0 3px rgba(245,166,35,0.12);}
+.flogo img{width:100%;height:100%;object-fit:contain;object-position:center;padding:4px;background:#fff;}
+.fbrand strong{display:block;font-size:.8rem;font-weight:800;color:var(--orange);line-height:1.3;white-space:nowrap;}.fbrand span{font-size:.55rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;font-family:"DM Mono",monospace;}
+.fdesc{font-size:.7rem;color:var(--text2);line-height:1.75;margin-top:.85rem;}
+.flinks{display:flex;flex-direction:column;gap:.5rem;}.flinks a{font-size:.72rem;color:var(--text2);transition:.15s;}.flinks a:hover{color:var(--orange);padding-left:2px;}
+.flinks-h{font-size:.6rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.7rem;font-family:"DM Mono",monospace;}
+.fcontact a{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--text2);margin-bottom:.55rem;transition:.15s;}
+.fcontact a:hover{color:var(--teal);}
+.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;border-top:1px solid var(--border);padding-top:1.1rem;}
 .fbot p{font-size:.62rem;color:var(--muted);font-family:"DM Mono",monospace;letter-spacing:.04em;}
+@media(max-width:600px){.ftop{grid-template-columns:1fr;gap:1.6rem;text-align:left;}.fbot{flex-direction:column;align-items:flex-start;}}
 .wa-float{position:fixed;bottom:1.5rem;left:1.5rem;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:800;box-shadow:0 4px 20px rgba(37,211,102,0.4);border:none;transition:.2s;}
 .wa-float:hover{transform:scale(1.08);}
 .music-float{position:fixed;bottom:5.5rem;left:1.5rem;background:var(--surface);color:var(--orange);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:800;box-shadow:0 4px 20px rgba(255,85,0,0.3);border:1.5px solid var(--border2);transition:.2s;}
@@ -315,6 +325,18 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 .db-loading-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--gold));z-index:9999;transition:width .3s ease;width:0%;}
 .db-loading-bar.done{opacity:0;transition:opacity .5s ease .2s;}
 .toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);color:var(--text);padding:10px 22px;border-radius:50px;font-size:.78rem;font-weight:600;z-index:9999;animation:tin .3s ease;white-space:nowrap;font-family:"DM Mono",monospace;}
+#lb{position:fixed;inset:0;background:rgba(4,6,10,0.95);z-index:9500;display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:4.5rem 1rem 2.5rem;backdrop-filter:blur(8px);}
+#lb.open{display:flex;}
+#lbC{display:flex;align-items:center;justify-content:center;max-width:92vw;max-height:72vh;}
+#lbC img,#lbC video{max-width:92vw;max-height:72vh;border-radius:14px;object-fit:contain;box-shadow:0 25px 70px rgba(0,0,0,.65);}
+#lbcap{color:#fff;font-size:.82rem;font-weight:700;text-align:center;max-width:80vw;}
+#lbCounter{color:rgba(255,255,255,.55);font-size:.65rem;font-family:"DM Mono",monospace;letter-spacing:.08em;}
+#lb-close{position:fixed;top:1.2rem;right:1.2rem;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:1.05rem;cursor:pointer;z-index:9502;display:flex;align-items:center;justify-content:center;transition:.2s;}
+#lb-close:hover{background:var(--orange);border-color:var(--orange);}
+.lb-nav{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:1.3rem;cursor:pointer;z-index:9502;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.lb-nav:hover{background:var(--orange);border-color:var(--orange);}
+#lbPrev{left:1rem;}#lbNext{right:1rem;}
+@media(max-width:640px){.lb-nav{width:38px;height:38px;font-size:1rem;}#lbPrev{left:.4rem;}#lbNext{right:.4rem;}#lb-close{top:.8rem;right:.8rem;width:36px;height:36px;}}
 @keyframes tin{from{opacity:0;transform:translateX(-50%) translateY(8px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 .theme-btn{width:46px;height:26px;border-radius:13px;border:1.5px solid var(--border2);cursor:pointer;position:relative;flex-shrink:0;background:rgba(255,85,0,0.18);outline:none;}
 .theme-btn::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--orange);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 2px 6px rgba(0,0,0,0.25);}
@@ -330,29 +352,30 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 [data-theme="light"] .hero-stats{background:rgba(255,255,255,0.7);}
 [data-theme="light"] .q-text{background:rgba(255,255,255,0.8);}
 [data-theme="light"] #musicBar{background:rgba(255,246,236,0.98);}
-[data-theme="light"] .phone{background:#0A0A14;}[data-theme="light"] .pnotch,[data-theme="light"] .pnav{background:#050508;}
 [data-theme="light"] .ov{background:rgba(0,0,0,0.55);}
 [data-theme="light"] .toast{background:#fff;border-color:rgba(0,0,0,0.12);color:#1A0800;}
 [data-theme="light"] #lb{background:rgba(0,0,0,0.88);}
 [data-theme="light"] footer{background:var(--surface2);}
 [data-theme="light"] .wa-wide{background:rgba(0,122,104,0.06);border-color:rgba(0,122,104,0.2);}
 [data-theme="light"] .pwd-setup{background:rgba(0,122,104,0.06);border-color:rgba(0,122,104,0.2);}
-@media(max-width:860px){.blood-layout{grid-template-columns:1fr;}.gallery-wrap{grid-template-columns:1fr;}}
+@media(max-width:860px){.blood-layout{grid-template-columns:1fr;}}
 @media(max-width:768px){
   .nmenu{display:none;}.ham{display:flex;}.n-admin-btn{display:none!important;}
   .nav-inner{padding-right:0;overflow:visible;}#nav{padding:0 3%;}
   .nbrand{flex-shrink:1;min-width:0;overflow:hidden;}.ntxt{overflow:hidden;}
-  .ntxt strong,.ntxt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:120px;}
+  .ntxt strong,.ntxt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;max-width:42vw;}
   .theme-btn{flex-shrink:0;margin-left:.4rem;}.ham{flex-shrink:0;margin-left:.4rem;}
-  .hero-title{font-size:clamp(1.4rem,5.5vw,2.4rem);white-space:normal;}
+  .hero-title{white-space:nowrap;}
+  .hero-logo-ring{width:140px;height:140px;margin-bottom:1.4rem;}
   .hero-stats{flex-direction:row!important;}
   .hstat{padding:.9rem .6rem;border-right:1px solid var(--border);}.hstat:last-child{border-right:none;}
   .hsn{font-size:1.6rem;}.leaders-row{flex-direction:row;gap:.8rem;}.leader-card{width:160px;}.limg-wrap{height:150px;}
-  .f2{grid-template-columns:1fr 1fr;}.ftop{grid-template-columns:1fr 1fr!important;gap:1rem;}
-  .ggrid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}
+  .f2{grid-template-columns:1fr 1fr;}.ftop{grid-template-columns:1fr 1fr;gap:1.4rem;}.ftop>div:first-child{grid-column:1/-1;}
+  .media-item{display:none;}
+
   section{padding:60px 4%;}
 }
-@media(max-width:480px){.hero-title{font-size:1.5rem;}.hstat{padding:.8rem .4rem;}.hsn{font-size:1.35rem;}.leader-card{width:145px;}.limg-wrap{height:130px;}}
+@media(max-width:480px){.hstat{padding:.8rem .4rem;}.hsn{font-size:1.35rem;}.leader-card{width:145px;}.limg-wrap{height:130px;}.media-item{width:140px;height:190px;}.hero-logo-ring{width:100px;height:100px;}}
 </style>
 </head>
 <body>
@@ -377,7 +400,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
     <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">
       <span class="theme-icon moon">🌙</span><span class="theme-icon sun">☀️</span>
     </button>
-    <button class="ham" onclick="toggleMob()"><span></span><span></span><span></span></button>
+    <button class="ham" onclick="toggleMob()" aria-label="மெனு"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mobm" id="mobm">
@@ -390,6 +413,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
   <div class="hero-grid"></div>
   <div class="hblob hb1"></div><div class="hblob hb2"></div><div class="hblob hb3"></div>
   <div class="hero-col">
+
     <div class="hero-logo-ring rv" onclick="isAdmin&&trigUpload('heroLogoFile')">
       <span id="heroLogoFallback">🏅</span>
       <img id="heroLogo" src="" alt="Logo" style="display:none">
@@ -397,6 +421,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
       <input type="file" id="heroLogoFile" accept="image/*" style="display:none" onchange="uploadLogo(event)">
     </div>
     <h1 class="hero-title rv d1"><span class="ht-w">பாரத் பாய்ஸ் </span><span class="ht-o">நற்பணி மன்றம்</span></h1>
+
     <div class="hero-stats rv d2">
       <div class="hstat"><div class="hsn sc1" id="yrStat">—</div><div class="hsl">ஆண்டுகள் சேவை</div></div>
       <div class="hstat"><div class="hsn sc2">500+</div><div class="hsl">இரத்த தானம்</div></div>
@@ -455,15 +480,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 
 <section id="bloodteam">
   <div class="si">
+    <div class="shdr rv">
+      <div class="stag tc">✦ இரத்த அணி ✦</div>
+      <h2 class="sh">இரத்த தான <span style="background:linear-gradient(135deg,var(--crimson),#FF6B6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">வீரர்கள்</span></h2>
+      <div class="shr hrc"></div>
+      <p class="sd">உதவி தேவைப்படும்போது நேரடியாக தொடர்பு கொள்ளுங்கள்</p>
+    </div>
+    <div class="admbar" id="btAdmBar"><span class="admtag">🔐 Admin</span><button class="addbtn" onclick="openAddDonor()">+ இரத்த வீரர் சேர்</button></div>
     <div class="blood-layout">
       <div class="donor-stage rv">
-        <div class="shdr">
-          <div class="stag tc">✦ இரத்த அணி ✦</div>
-          <h2 class="sh">இரத்த தான <span style="background:linear-gradient(135deg,var(--crimson),#FF6B6B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">வீரர்கள்</span></h2>
-          <div class="shr hrc"></div>
-          <p class="sd">உதவி தேவைப்படும்போது நேரடியாக தொடர்பு கொள்ளுங்கள்</p>
-        </div>
-        <div class="admbar" id="btAdmBar"><span class="admtag">🔐 Admin</span><button class="addbtn" onclick="openAddDonor()">+ இரத்த வீரர் சேர்</button></div>
+        <div class="dfilter" id="dFilterRow"></div>
         <div class="dss">
           <div class="dssf" id="dssf"><div id="dsSlides"></div>
             <div class="dadm" id="dadm"><button class="sub-btn" onclick="editCurDonor()">✏️ திருத்து</button><button class="sub-btn" style="color:var(--crimson)" onclick="delCurDonor()">🗑 நீக்கு</button></div>
@@ -493,35 +519,31 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 
 <section id="events">
   <div class="si">
-    <div class="gallery-wrap">
-      <div class="rv">
-        <div class="stag tt" style="margin-bottom:.8rem;">✦ ரீல்ஸ்</div>
-        <div class="phone-wrap">
-          <div class="phone-glow"></div>
-          <div class="phone">
-            <div class="pnotch"><div class="pnotch-pill"></div></div>
-            <div class="pscreen" id="rframe" onclick="toggleReelPause()"><div class="rprog" id="rprogRow"></div></div>
-            <div class="pnav">
-              <div class="pdots" id="rpdots"></div>
-              <div class="pnav-btns">
-                <button class="rnb" onclick="event.stopPropagation();chReel(-1)">▲</button>
-                <button class="rnb" onclick="event.stopPropagation();chReel(1)">▼</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style="text-align:center;margin-top:.8rem;">
-          <button class="reel-addbtn" id="reelAddBtn" onclick="openOv('reelOv')"><span>➕</span> வீடியோ/புகைப்படம் சேர்</button>
-        </div>
+    <div class="media-hdr-row rv">
+      <div>
+        <div class="stag tt">✦ கேலரி & ரீல்ஸ்</div>
+        <h2 class="sh">நமது <span class="grd-t">சேவை நிகழ்வுகள்</span></h2>
+        <div class="shr hrt"></div>
+        <p class="sd">புகைப்படங்கள் மற்றும் வீடியோக்களை பார்க்க கிளிக் செய்யவும்</p>
       </div>
-      <div class="gallery-right rv d2">
-        <div class="ghdr">
-          <div><div class="stag tt">✦ கேலரி</div><h2 class="sh">நமது <span class="grd-t">சேவை நிகழ்வுகள்</span></h2><div class="shr hrt"></div></div>
-          <div id="galAdmBtn" style="display:none;"><button class="addbtn" onclick="openOv('galOv')">📷 நிகழ்வு சேர்</button></div>
+      <div class="media-hdr-btns">
+        <button class="addbtn gal-view-btn" onclick="openGalleryFull()">🖼 முழு தொகுப்பு காண</button>
+        <div id="mediaAdmBtns">
+          <button class="addbtn" onclick="openOv('galOv')">📷 புகைப்படம் சேர்</button>
+          <button class="addbtn" onclick="openOv('reelOv')">🎬 வீடியோ சேர்</button>
         </div>
-        <div class="gal-scroll-wrap"><div class="ggrid" id="galGrid"></div></div>
       </div>
     </div>
+    <div class="media-slider-wrap rv d1" id="mediaSliderWrap">
+      <button class="ms-nav ms-prev" onclick="chMediaSlide(-1)" aria-label="முந்தைய">‹</button>
+      <div class="ms-track">
+        <div class="ms-peek ms-peek-prev" id="msPeekPrev"></div>
+        <div class="ms-center" id="msCenter"></div>
+        <div class="ms-peek ms-peek-next" id="msPeekNext"></div>
+      </div>
+      <button class="ms-nav ms-next" onclick="chMediaSlide(1)" aria-label="அடுத்தது">›</button>
+    </div>
+    <div class="ms-dots" id="msDots"></div>
   </div>
 </section>
 
@@ -566,18 +588,25 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 </section>
 
 <footer>
-  <div class="si">
+  <div class="si fsi">
     <div class="ftop">
       <div>
-        <div class="fbrand" style="margin-bottom:.6rem;">
-          <div class="flogo"><img id="footLogo" src="" alt="" style="display:none"><span id="footLogoFallback" style="font-size:1rem;">🏅</span></div>
-          <div><strong>பாரத் பாய்ஸ்</strong><span>நற்பணி மன்றம்</span></div>
+        <div class="fbrand">
+          <div class="flogo"><img id="footLogo" src="" alt="" style="display:none"><span id="footLogoFallback" style="font-size:1.1rem;">🏅</span></div>
+          <div><strong>பாரத் பாய்ஸ் நற்பணி மன்றம்</strong><span>Est. 2006</span></div>
         </div>
-        <p style="font-size:.7rem;color:var(--muted);line-height:1.7;">புஞ்சை துறையம்பாளையம் · சேவையே சிவம் · Est. 2006</p>
+        <p class="fdesc">புஞ்சை துறையம்பாளையம் · சேவையே சிவம். 2006 முதல் இரத்த தானம், மரம் நடல், கல்வி உதவி மற்றும் சமூக சேவையில் ஈடுபட்டு வருகிறோம்.</p>
       </div>
       <div>
         <div class="flinks-h">Quick Links</div>
         <div class="flinks"><a href="#hero">முகப்பு</a><a href="#ideology">கொள்கைகள்</a><a href="#bloodteam">இரத்த அணி</a><a href="#events">நிகழ்வுகள்</a><a href="#members">உறுப்பினர்கள்</a></div>
+      </div>
+      <div>
+        <div class="flinks-h">Connect</div>
+        <div class="fcontact">
+          <a href="#" onclick="event.preventDefault();openOv('waOv')">💬 WhatsApp குழு</a>
+          <a href="#contact">📍 புஞ்சை துறையம்பாளையம்</a>
+        </div>
       </div>
     </div>
     <div class="fbot">
@@ -587,10 +616,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
   </div>
 </footer>
 
-<button class="music-float" id="musicFloat" onclick="toggleMusicFloat()">
+<button class="music-float" id="musicFloat" onclick="toggleMusicFloat()" aria-label="இசை">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
 </button>
-<button class="wa-float" onclick="openOv('waOv')">
+<button class="wa-float" onclick="openOv('waOv')" aria-label="WhatsApp">
   <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
 </button>
 <div id="musicBar">
@@ -598,13 +627,20 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
   <div class="mb-prog-wrap" onclick="musicScrub(event)"><div class="mb-prog-fill" id="mbFill"></div></div>
   <div class="mb-btns"><button class="mb-btn" id="mbPlayBtn" onclick="toggleMusicPlay()">▶</button><button class="mb-btn" onclick="hideMusicBar()">✕</button></div>
 </div>
-<div id="lb" onclick="closeLB()"><button id="lb-close" onclick="closeLB()">✕</button><div id="lbC"></div><div id="lbcap"></div></div>
+<div id="lb" onclick="closeLB()">
+  <button id="lb-close" onclick="event.stopPropagation();closeLB()" aria-label="மூடு">✕</button>
+  <button class="lb-nav" id="lbPrev" onclick="event.stopPropagation();navLB(-1)">‹</button>
+  <button class="lb-nav" id="lbNext" onclick="event.stopPropagation();navLB(1)">›</button>
+  <div id="lbC" onclick="event.stopPropagation()"></div>
+  <div id="lbcap"></div>
+  <div id="lbCounter"></div>
+</div>
 <audio id="anthemAudio" loop></audio>
 
 <!-- OVERLAYS -->
 <div class="ov" id="adminOv" onclick="closeBG(event,'adminOv')">
   <div class="ovbox">
-    <button class="ov-close" onclick="closeOv('adminOv')">✕</button>
+    <button class="ov-close" aria-label="மூடு" onclick="closeOv('adminOv')">✕</button>
     <div class="ovtitle">⚙ Admin Panel</div>
     <div class="ovsubtitle" id="adminSubtitle">முதல் முறை: எந்த கடவுச்சொல்லையும் உள்ளிட்டு உள்நுழைவை அழுத்தவும்</div>
     <div id="adminLoginForm">
@@ -628,7 +664,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 </div>
 <div class="ov" id="donorOv" onclick="closeBG(event,'donorOv')">
   <div class="ovbox">
-    <button class="ov-close" onclick="closeOv('donorOv')">✕</button>
+    <button class="ov-close" aria-label="மூடு" onclick="closeOv('donorOv')">✕</button>
     <div class="ovtitle" id="dOvT">இரத்த வீரர் சேர்</div><div class="ovsubtitle">விவரங்கள் உள்ளிடவும்</div>
     <input type="hidden" id="de-idx">
     <div class="av-wrap"><img id="dAvP" alt=""><span id="dAvE">🩸</span></div>
@@ -644,7 +680,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 </div>
 <div class="ov" id="galOv" onclick="closeBG(event,'galOv')">
   <div class="ovbox">
-    <button class="ov-close" onclick="closeOv('galOv')">✕</button>
+    <button class="ov-close" aria-label="மூடு" onclick="closeOv('galOv')">✕</button>
     <div class="ovtitle">நிகழ்வு சேர்</div><div class="ovsubtitle">புகைப்படம் அல்லது வீடியோ சேர்க்கவும்</div>
     <div class="gal-prev-box" id="galPrevBox">📷</div>
     <label class="av-label" style="margin-bottom:.8rem;">📷/🎬 கோப்பு தேர்வு<input type="file" accept="image/*,video/*" style="display:none" onchange="prevGal(event)"></label>
@@ -655,7 +691,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 </div>
 <div class="ov" id="reelOv" onclick="closeBG(event,'reelOv')">
   <div class="ovbox">
-    <button class="ov-close" onclick="closeOv('reelOv')">✕</button>
+    <button class="ov-close" aria-label="மூடு" onclick="closeOv('reelOv')">✕</button>
     <div class="ovtitle">ரீல் சேர்</div><div class="ovsubtitle">வீடியோ அல்லது புகைப்படம் சேர்க்கவும்</div>
     <div class="gal-prev-box" id="reelPrevBox">📽</div>
     <label class="av-label">📷/🎬 கோப்பு தேர்வு<input type="file" accept="image/*,video/*" style="display:none" onchange="prevReel(event)"></label>
@@ -666,7 +702,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 </div>
 <div class="ov" id="memOv" onclick="closeBG(event,'memOv')">
   <div class="ovbox">
-    <button class="ov-close" onclick="closeOv('memOv')">✕</button>
+    <button class="ov-close" aria-label="மூடு" onclick="closeOv('memOv')">✕</button>
     <div class="ovtitle" id="mOvT">புதிய உறுப்பினர்</div><div class="ovsubtitle" id="mOvS">விவரங்கள் உள்ளிடவும்</div>
     <input type="hidden" id="em-idx">
     <div class="av-wrap"><img id="mAvP" alt=""><span id="mAvE">😊</span></div>
@@ -681,7 +717,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:2rem 5%;}
 </div>
 <div class="ov" id="waOv" onclick="closeBG(event,'waOv')">
   <div class="ovbox">
-    <button class="ov-close" onclick="closeOv('waOv')">✕</button>
+    <button class="ov-close" aria-label="மூடு" onclick="closeOv('waOv')">✕</button>
     <div class="ovtitle">💬 WhatsApp</div><div class="ovsubtitle">பாரத் பாய்ஸ் குழுவுடன் நேரடி தொடர்பு</div>
     <div class="fg"><label>உங்கள் பெயர்</label><input type="text" id="wa-name" placeholder="உங்கள் பெயர்"></div>
     <div class="fg"><label>செய்தி</label><textarea id="wa-msg" rows="3" placeholder="உங்கள் செய்தி..." style="resize:vertical;padding:9px 12px;width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;color:var(--text);font-family:inherit;outline:none;"></textarea></div>
@@ -760,6 +796,8 @@ function applyLImg(key,src){const img=document.getElementById(key+'img'),em=docu
 function uploadLImg(key,e){const f=e.target.files[0];if(!f)return;compressImage(f,700,.8,c=>{lImgs[key]=c;DB.setLeader(key,c);applyLImg(key,c);toast('புகைப்படம் சேமிக்கப்பட்டது ✅');});}
 function removeLImg(key){lImgs[key]='';DB.delLeader(key);applyLImg(key,'');toast('நீக்கப்பட்டது');}
 
+/* ── NEW: hero group-photo backdrop ── */
+
 function checkPwdStrength(){const p=document.getElementById('newPwd1').value,fill=document.getElementById('pwdStrFill');let s=0;if(p.length>=8)s++;if(/[A-Z]/.test(p))s++;if(/[0-9]/.test(p))s++;if(/[^A-Za-z0-9]/.test(p))s++;const pct=s*25;fill.style.width=pct+'%';fill.style.background=pct<50?'#E53935':pct<75?'#F5A623':'#4CAF50';}
 
 async function checkAdmin(){
@@ -771,8 +809,8 @@ async function checkAdmin(){
 }
 async function changePwd(){const p1=document.getElementById('newPwd1').value,p2=document.getElementById('newPwd2').value;if(!p1||p1.length<6){toast('⚠️ குறைந்தது 6 எழுத்துகள்');return;}if(p1!==p2){toast('❌ பொருந்தவில்லை');return;}DB.setPwdHash(await sha256(p1));document.getElementById('newPwd1').value='';document.getElementById('newPwd2').value='';document.getElementById('pwdStrFill').style.width='0%';toast('✅ கடவுச்சொல் மாற்றப்பட்டது!');}
 function logoutAdmin(){isAdmin=false;document.getElementById('admLogoutW').style.display='none';document.getElementById('adminLoginForm').style.display='block';closeOv('adminOv');disableAdmin();toast('Admin Mode முடிக்கப்பட்டது');}
-function enableAdmin(){document.body.classList.add('admin-mode');document.getElementById('btAdmBar').classList.add('show');document.getElementById('galAdmBtn').style.display='block';document.getElementById('memAdmBtn').style.display='block';document.getElementById('reelAddBtn').style.display='inline-flex';document.getElementById('dadm').classList.add('show');document.getElementById('memAdmBtns').classList.add('show');buildGal();buildMem();}
-function disableAdmin(){document.body.classList.remove('admin-mode');document.getElementById('btAdmBar').classList.remove('show');document.getElementById('galAdmBtn').style.display='none';document.getElementById('memAdmBtn').style.display='none';document.getElementById('reelAddBtn').style.display='none';document.getElementById('dadm').classList.remove('show');document.getElementById('memAdmBtns').classList.remove('show');buildGal();buildMem();}
+function enableAdmin(){document.body.classList.add('admin-mode');document.getElementById('btAdmBar').classList.add('show');document.getElementById('mediaAdmBtns').style.display='flex';document.getElementById('memAdmBtn').style.display='block';document.getElementById('dadm').classList.add('show');document.getElementById('memAdmBtns').classList.add('show');buildMediaStrip();buildMem();}
+function disableAdmin(){document.body.classList.remove('admin-mode');document.getElementById('btAdmBar').classList.remove('show');document.getElementById('mediaAdmBtns').style.display='none';document.getElementById('memAdmBtn').style.display='none';document.getElementById('dadm').classList.remove('show');document.getElementById('memAdmBtns').classList.remove('show');buildMediaStrip();buildMem();}
 
 let qIdx=0;
 const qdots=document.querySelectorAll('.qdot');
@@ -798,57 +836,190 @@ const defReels=[
 ];
 
 /* ── DONORS ── */
-let donors=[],dsIdx=0,dsTimer=null,editDonorIdx=null,pendDonorPhoto='';
+let donors=[],dsIdx=0,dsTimer=null,editDonorIdx=null,pendDonorPhoto='',donorFilter='ALL',visibleDonors=[];
 function bgCol(g){if(g.startsWith('O'))return'#C62828';if(g.startsWith('A'))return'#E65100';if(g.startsWith('B'))return'#00695C';return'#6A1B9A';}
 function bgEmo(g){if(g.startsWith('O'))return'🔴';if(g.startsWith('A'))return'🟠';if(g.startsWith('B'))return'🟢';return'🟣';}
-function buildDonors(){const slides=document.getElementById('dsSlides'),dots=document.getElementById('dsdots');slides.innerHTML=donors.map((d,i)=>`<div class="dsl${i===0?' active':''}" id="dss${i}"><div class="dav" style="border-color:${bgCol(d.bg)}">${d.photo?`<img src="${d.photo}" alt="${d.n}">`:`<span>${bgEmo(d.bg)}</span>`}</div><div class="dgrp" style="background:${bgCol(d.bg)}">${d.bg}</div><div class="dname">${d.n}</div><div class="drole">${d.role||'உறுப்பினர்'}</div><div class="dph"><a href="tel:${d.ph.replace(/ /g,'')}">📱 ${d.ph}</a></div><div class="dctr">${i+1} / ${donors.length}</div></div>`).join('');dots.innerHTML=donors.map((_,i)=>`<div class="dsdot${i===0?' on':''}" onclick="goDS(${i})"></div>`).join('');startDSAuto();}
+function buildDFilter(){
+  const row=document.getElementById('dFilterRow');if(!row)return;
+  const groups=['ALL',...new Set(donors.map(d=>d.bg))];
+  row.innerHTML=groups.map(g=>`<button class="dfchip${donorFilter===g?' on':''}" onclick="setDonorFilter('${g}')">${g==='ALL'?'அனைத்தும்':g}</button>`).join('');
+}
+function setDonorFilter(g){donorFilter=g;buildDFilter();buildDonors();}
+function applyDonorFilter(){
+  visibleDonors=donors.map((d,i)=>i).filter(i=>donorFilter==='ALL'||donors[i].bg===donorFilter);
+  if(!visibleDonors.length)visibleDonors=donors.map((d,i)=>i);
+}
+function buildDonors(){buildDFilter();applyDonorFilter();const slides=document.getElementById('dsSlides'),dots=document.getElementById('dsdots');slides.innerHTML=visibleDonors.map((realI,i)=>{const d=donors[realI];return `<div class="dsl${i===0?' active':''}" id="dss${i}"><div class="dav" style="border-color:${bgCol(d.bg)}">${d.photo?`<img src="${d.photo}" alt="${d.n}">`:`<span>${bgEmo(d.bg)}</span>`}</div><div class="dgrp" style="background:${bgCol(d.bg)}">${d.bg}</div><div class="dname">${d.n}</div><div class="drole">${d.role||'உறுப்பினர்'}</div><div class="dph"><a href="tel:${d.ph.replace(/ /g,'')}">📱 ${d.ph}</a></div><div class="dctr">${i+1} / ${visibleDonors.length}</div></div>`;}).join('');dots.innerHTML=visibleDonors.map((_,i)=>`<div class="dsdot${i===0?' on':''}" onclick="goDS(${i})"></div>`).join('');dsIdx=0;startDSAuto();}
 function goDS(n){document.querySelectorAll('.dsl').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.dsdot').forEach((d,i)=>d.classList.toggle('on',i===n));dsIdx=n;const el=document.getElementById('dss'+n);if(el)el.classList.add('active');}
-function chDS(d){goDS((dsIdx+d+donors.length)%donors.length);}
+function chDS(d){if(!visibleDonors.length)return;goDS((dsIdx+d+visibleDonors.length)%visibleDonors.length);}
 function startDSAuto(){if(dsTimer)clearInterval(dsTimer);dsTimer=setInterval(()=>chDS(1),3500);}
 function openAddDonor(){editDonorIdx=null;pendDonorPhoto='';document.getElementById('de-idx').value='';document.getElementById('de-n').value='';document.getElementById('de-bg').value='O+';document.getElementById('de-ph').value='';document.getElementById('de-role').value='உறுப்பினர்';document.getElementById('dAvP').style.display='none';document.getElementById('dAvE').style.display='inline';document.getElementById('dOvT').textContent='இரத்த வீரர் சேர்';openOv('donorOv');}
-function editCurDonor(){if(!isAdmin)return;const d=donors[dsIdx];editDonorIdx=dsIdx;pendDonorPhoto=d.photo||'';document.getElementById('de-idx').value=dsIdx;document.getElementById('de-n').value=d.n;document.getElementById('de-bg').value=d.bg;document.getElementById('de-ph').value=d.ph;document.getElementById('de-role').value=d.role||'உறுப்பினர்';if(d.photo){document.getElementById('dAvP').src=d.photo;document.getElementById('dAvP').style.display='block';document.getElementById('dAvE').style.display='none';}else{document.getElementById('dAvP').style.display='none';document.getElementById('dAvE').style.display='inline';}document.getElementById('dOvT').textContent='விவரம் திருத்து';openOv('donorOv');}
-function delCurDonor(){if(!isAdmin)return;if(confirm('இவரை நீக்கவா?')){donors.splice(dsIdx,1);DB.setDonors(donors);if(dsIdx>=donors.length)dsIdx=0;buildDonors();toast('நீக்கப்பட்டது');}}
+function editCurDonor(){if(!isAdmin)return;const realI=visibleDonors[dsIdx];const d=donors[realI];editDonorIdx=realI;pendDonorPhoto=d.photo||'';document.getElementById('de-idx').value=realI;document.getElementById('de-n').value=d.n;document.getElementById('de-bg').value=d.bg;document.getElementById('de-ph').value=d.ph;document.getElementById('de-role').value=d.role||'உறுப்பினர்';if(d.photo){document.getElementById('dAvP').src=d.photo;document.getElementById('dAvP').style.display='block';document.getElementById('dAvE').style.display='none';}else{document.getElementById('dAvP').style.display='none';document.getElementById('dAvE').style.display='inline';}document.getElementById('dOvT').textContent='விவரம் திருத்து';openOv('donorOv');}
+function delCurDonor(){if(!isAdmin)return;const realI=visibleDonors[dsIdx];if(confirm('இவரை நீக்கவா?')){donors.splice(realI,1);DB.setDonors(donors);buildDonors();toast('நீக்கப்பட்டது');}}
 function prevAvDonor(e){const f=e.target.files[0];if(!f)return;compressImage(f,400,.75,c=>{pendDonorPhoto=c;document.getElementById('dAvP').src=c;document.getElementById('dAvP').style.display='block';document.getElementById('dAvE').style.display='none';});}
 function saveDonor(){const idx=document.getElementById('de-idx').value;const obj={n:document.getElementById('de-n').value.trim()||'பெயரில்லா',bg:document.getElementById('de-bg').value,ph:document.getElementById('de-ph').value.trim(),role:document.getElementById('de-role').value.trim()||'உறுப்பினர்',photo:pendDonorPhoto||''};if(idx===''||editDonorIdx===null)donors.push(obj);else donors[parseInt(idx)]=obj;DB.setDonors(donors);buildDonors();closeOv('donorOv');toast('சேமிக்கப்பட்டது! ✅');}
 
-/* ── GALLERY ── */
-let gallery=[],pendGal=null;
+/* ── MEDIA (gallery photos + reel videos combined into one big slideshow) ── */
+let gallery=[],reels=[],pendGal=null,pendReelFile=null;
 async function loadGalWithSrcs(){const saved=DB.getGallery();if(!saved||saved.length===0)return[];return await Promise.all(saved.map(async g=>{if(g.src==='__load__'&&g.srcKey){const stored=await DB.getGalImg(g.srcKey);return{...g,src:stored||''};}return g;}));}
-function buildGal(){const g=document.getElementById('galGrid');const displayGal=gallery.length>0?gallery:defGal;g.innerHTML=displayGal.map((item,i)=>{let med='';if(item.src){med=item.type==='vid'?`<video class="gvid" src="${item.src}" muted loop autoplay playsinline></video><div class="vtag">▶ VIDEO</div>`:`<img class="gimg" src="${item.src}" alt="${item.t}" loading="lazy">`;}else{med=`<div class="gph" style="background:${item.bg};width:100%;height:100%;flex-direction:column;"><div style="font-size:2.8rem">${item.e}</div><div style="font-size:.64rem;font-weight:700;color:${item.c};margin-top:.3rem;padding:0 .5rem;text-align:center;">${item.t}</div></div>`;}return`<div class="gi" onclick="openLB(${i})">${med}<div class="ginfo"><div class="gttl">${item.t}</div><div class="gdate">📅 ${item.d}</div></div><button class="gdel" onclick="delGal(event,${i})">🗑</button></div>`;}).join('')+(isAdmin?`<button class="gadd" style="display:flex;" onclick="openOv('galOv')"><div style="font-size:1.6rem;">📷</div><span>நிகழ்வு சேர்</span></button>`:'');}
-function delGal(e,i){e.stopPropagation();if(!isAdmin)return;if(confirm('நீக்கவா?')){gallery.splice(i,1);DB.setGallery(gallery);buildGal();buildReels();toast('நீக்கப்பட்டது');}}
-function prevGal(e){const f=e.target.files[0];if(!f)return;const box=document.getElementById('galPrevBox');if(f.type.startsWith('video')){const r=new FileReader();r.onload=ev=>{pendGal={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;border-radius:6px;" controls></video>`;};r.readAsDataURL(f);}else{compressImage(f,900,.72,c=>{pendGal={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;border-radius:6px;object-fit:contain;">`;});}}
-function addGal(){const t=document.getElementById('gl-t').value.trim()||'நிகழ்வு';const d=document.getElementById('gl-d').value.trim()||CY+'';const idx='img_'+Date.now();const newItem={type:pendGal?.type||'img',srcKey:pendGal?.src?idx:'',src:pendGal?.src||'',t,d,e:'📷',c:'#aaa',bg:'linear-gradient(135deg,#111,#1a1a1a)'};if(pendGal?.src&&pendGal.type!=='vid')DB.setGalImg(idx,pendGal.src);gallery.unshift(newItem);const meta=gallery.map(g=>({...g,src:g.srcKey?'__load__':g.src}));DB.setGallery(meta);buildGal();buildReels();closeOv('galOv');pendGal=null;document.getElementById('galPrevBox').innerHTML='📷';document.getElementById('gl-t').value='';document.getElementById('gl-d').value='';toast('நிகழ்வு சேர்க்கப்பட்டது! ✅');}
-function openLB(i){const displayGal=gallery.length>0?gallery:defGal;const item=displayGal[i];const box=document.getElementById('lbC');if(item.src){box.innerHTML=item.type==='vid'?`<video src="${item.src}" controls autoplay style="max-width:92vw;max-height:86vh;border-radius:12px;"></video>`:`<img src="${item.src}" style="max-width:92vw;max-height:86vh;border-radius:12px;object-fit:contain;">`;}else{box.innerHTML=`<div style="min-width:260px;min-height:220px;background:${item.bg};border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:2rem;"><div style="font-size:5rem">${item.e}</div><div style="color:${item.c};font-size:1rem;font-weight:700;text-align:center;">${item.t}</div></div>`;}document.getElementById('lbcap').textContent=item.t+' — '+item.d;document.getElementById('lb').classList.add('open');}
-function closeLB(){document.getElementById('lb').classList.remove('open');}
-
-/* ── REELS ── */
-let reels=[],rIdx=0,rProgTimer=null,rPaused=false,pendReelFile=null;
 async function loadReelsWithSrcs(){const saved=DB.getReels();if(!saved||saved.length===0)return[];return await Promise.all(saved.map(async r=>{if(r.src==='__load__'&&r.srcKey){const stored=await DB.getReelImg(r.srcKey);return{...r,src:stored||''};}return r;}));}
-function getShowReels(){const all=[...reels,...gallery.filter(g=>g.src).map(g=>({type:g.type,src:g.src,e:g.e||'📷',t:g.t,d:g.d,dur:4,bg:'#111',ratio:g.ratio||null}))];return all.length>0?all:defReels;}
-function buildReels(){
-  const frame=document.getElementById('rframe');frame.innerHTML=`<div class="rprog" id="rprogRow"></div>`;
-  const pr=document.getElementById('rprogRow');const showReels=getShowReels();
-  pr.innerHTML=showReels.map((_,i)=>`<div class="rp-bar"><div class="rp-fill" id="rpf${i}"></div></div>`).join('');
-  showReels.forEach((r,i)=>{
-    const div=document.createElement('div');div.className='reel'+(i===0?' on':'');div.id='reel'+i;
-    if(r.src){
-      if(r.type==='vid'){div.innerHTML=`<video src="${r.src}" muted loop ${i===0?'autoplay':''} playsinline style="width:100%;height:100%;object-fit:contain;position:absolute;inset:0;background:#000;z-index:1;"></video>`;}
-      else{const ratio=r.ratio||null;div.innerHTML=(!ratio||ratio<1.1)?`<div style="position:absolute;inset:0;background:url('${r.src}') center/cover no-repeat;z-index:1;"></div>`:`<div style="position:absolute;inset:0;background:url('${r.src}') center/cover no-repeat;filter:blur(16px) brightness(.4);transform:scale(1.08);z-index:0;"></div><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;"><img src="${r.src}" style="width:100%;height:100%;object-fit:contain;"></div>`;if(!ratio){const img=new window.Image();img.onload=()=>{r.ratio=img.naturalWidth/img.naturalHeight;};img.src=r.src;}}
-    }else{div.innerHTML=`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem;z-index:1;"><div style="font-size:4rem">${r.e||'📷'}</div></div>`;div.style.background=r.bg||'#111';}
-    div.innerHTML+=`<div class="reel-overlay"><div class="reel-ttl">${r.t}</div><div class="reel-dt">📅 ${r.d}</div></div>`;
-    frame.appendChild(div);
-  });
-  rIdx=0;document.getElementById('rpdots').innerHTML=showReels.map((_,i)=>`<div class="pdot${i===0?' on':''}" onclick="gotoReel(${i})"></div>`).join('');
-  if(!rPaused)startReelAuto(showReels);
+
+function getAllMedia(){
+  const gal=gallery.map((g,i)=>({source:'gal',idx:i,type:g.type,src:g.src,t:g.t,d:g.d,e:g.e,bg:g.bg,c:g.c}));
+  const rl=reels.map((r,i)=>({source:'reel',idx:i,type:r.type==='vid'?'vid':'img',src:r.src,t:r.t,d:r.d,e:r.e,bg:r.bg,c:'#aaa'}));
+  return [...gal,...rl];
 }
-function startReelAuto(showReels){if(rProgTimer)clearInterval(rProgTimer);const allR=document.querySelectorAll('.reel');if(!allR.length)return;const dur=showReels&&showReels[rIdx]?showReels[rIdx].dur||4:4;const total=dur*1000;let elapsed=0;const step=50;const fill=document.getElementById('rpf'+rIdx);rProgTimer=setInterval(()=>{if(rPaused)return;elapsed+=step;if(fill){fill.style.transition=`width ${step}ms linear`;fill.style.width=Math.min(elapsed/total*100,100)+'%';}if(elapsed>=total){clearInterval(rProgTimer);chReel(1);}},step);}
-function chReel(dir){const allR=document.querySelectorAll('.reel'),dots=document.querySelectorAll('.pdot');if(!allR.length)return;const fill=document.getElementById('rpf'+rIdx);if(fill)fill.style.width=dir>0?'100%':'0%';allR[rIdx]?.classList.remove('on');dots[rIdx]?.classList.remove('on');rIdx=(rIdx+dir+allR.length)%allR.length;allR[rIdx]?.classList.add('on');dots[rIdx]?.classList.add('on');const nf=document.getElementById('rpf'+rIdx);if(nf){nf.style.transition='none';nf.style.width='0%';}allR.forEach((el,i)=>{const v=el.querySelector('video');if(v){i===rIdx?v.play():v.pause();}});if(!rPaused)startReelAuto(getShowReels());}
-function gotoReel(i){if(i===rIdx)return;const dir=i>rIdx?1:-1;let s=0;while(rIdx!==i&&s++<20)chReel(dir);}
-function toggleReelPause(){rPaused=!rPaused;if(!rPaused)startReelAuto(getShowReels());else clearInterval(rProgTimer);}
-function prevReel(e){const f=e.target.files[0];if(!f)return;const box=document.getElementById('reelPrevBox');if(f.type.startsWith('video')){const r=new FileReader();r.onload=ev=>{pendReelFile={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;" controls></video>`;};r.readAsDataURL(f);}else{compressImage(f,900,.72,c=>{pendReelFile={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;object-fit:contain;">`;const img=new window.Image();img.onload=()=>{pendReelFile.ratio=img.naturalWidth/img.naturalHeight;};img.src=c;});}}
-function addReel(){const t=document.getElementById('rl-t').value.trim()||'நிகழ்வு';const d=document.getElementById('rl-d').value.trim()||CY+'';const idx='reel_'+Date.now();const newReel={type:pendReelFile?.type||'ph',srcKey:pendReelFile?.src?idx:'',src:pendReelFile?.src||'',ratio:pendReelFile?.ratio||null,e:'📷',t,d,dur:4,bg:'#111'};if(pendReelFile?.src&&pendReelFile.type!=='vid')DB.setReelImg(idx,pendReelFile.src);reels.unshift(newReel);DB.setReels(reels.map(r=>({...r,src:r.srcKey?'__load__':r.src})));buildReels();closeOv('reelOv');pendReelFile=null;document.getElementById('reelPrevBox').innerHTML='📽';document.getElementById('rl-t').value='';document.getElementById('rl-d').value='';toast('ரீல் சேர்க்கப்பட்டது! ✅');}
-document.getElementById('rframe').addEventListener('touchstart',e=>{window._rtx=e.touches[0].clientY;},{passive:true});
-document.getElementById('rframe').addEventListener('touchend',e=>{const dy=(window._rtx||0)-e.changedTouches[0].clientY;if(Math.abs(dy)>40)chReel(dy>0?1:-1);});
+let msIdx=0,msTimer=null,msList=[];
+function mediaCellHTML(m,isCenter){
+  let media='';
+  if(m.src){
+    if(m.type==='vid'){
+      media = isCenter
+        ? `<video src="${m.src}" muted loop autoplay playsinline id="msCenterVid"></video><div class="ms-vtag">▶ VIDEO</div><button class="ms-mute" onclick="event.stopPropagation();toggleMsMute()" aria-label="ஒலி இயக்கு/நிறுத்து">🔇</button>`
+        : `<video src="${m.src}" muted preload="metadata"></video><div class="ms-vtag">▶</div>`;
+    }else{
+      media=`<img src="${m.src}" alt="${m.t||''}" loading="lazy">`;
+    }
+  }else{
+    media=`<div class="ms-fallback" style="background:${m.bg||'linear-gradient(135deg,#111,#1a1a1a)'};"><div class="msf-e">${m.e||'📷'}</div></div>`;
+  }
+  return media;
+}
+function buildMediaStrip(){
+  const wrap=document.getElementById('msCenter');
+  if(!wrap)return;
+  const all=getAllMedia();
+  const useDefaults=all.length===0;
+  msList=useDefaults?[...defGal,...defReels].map((m,i)=>({...m,source:'default',idx:i})):all;
+  document.getElementById('msDots').innerHTML=msList.length>1?msList.map((_,i)=>`<div class="ms-dot${i===0?' on':''}" onclick="goMediaSlide(${i})" role="button" aria-label="புகைப்படம் ${i+1}"></div>`).join(''):'';
+  msIdx=0;
+  renderMsFrame();
+  startMsAuto();
+}
+function renderMsFrame(){
+  const n=msList.length;
+  const center=document.getElementById('msCenter'),peekPrev=document.getElementById('msPeekPrev'),peekNext=document.getElementById('msPeekNext');
+  if(!center||!n)return;
+  const c=msList[msIdx];
+  const delBtn=(c.source&&c.source!=='default')?`<button class="ms-del" onclick="event.stopPropagation();deleteMediaItem('${c.source}',${c.idx})">🗑</button>`:'';
+  center.innerHTML=mediaCellHTML(c,true)+`<div class="ms-caption"><div class="ms-cap-t">${c.t||''}</div><div class="ms-cap-d">📅 ${c.d||''}</div></div>${delBtn}`;
+  if(n>1){
+    const prevI=(msIdx-1+n)%n,nextI=(msIdx+1)%n;
+    peekPrev.innerHTML=mediaCellHTML(msList[prevI],false);
+    peekNext.innerHTML=mediaCellHTML(msList[nextI],false);
+    peekPrev.style.visibility='visible';peekNext.style.visibility='visible';
+  }else{
+    peekPrev.innerHTML='';peekNext.innerHTML='';
+    peekPrev.style.visibility='hidden';peekNext.style.visibility='hidden';
+  }
+  document.querySelectorAll('.ms-dot').forEach((d,idx)=>d.classList.toggle('on',idx===msIdx));
+}
+function toggleMsMute(){
+  const v=document.getElementById('msCenterVid');
+  if(!v)return;
+  v.muted=!v.muted;
+  const btn=document.querySelector('.ms-mute');
+  if(btn)btn.textContent=v.muted?'🔇':'🔊';
+}
+function goMediaSlide(i){
+  if(!msList.length)return;
+  msIdx=i;
+  renderMsFrame();
+}
+function chMediaSlide(dir){
+  if(!msList.length)return;
+  goMediaSlide((msIdx+dir+msList.length)%msList.length);
+}
+function startMsAuto(){
+  if(msTimer)clearInterval(msTimer);
+  if(msList.length>1)msTimer=setInterval(()=>chMediaSlide(1),4500);
+}
+(function(){
+  const wrap=document.getElementById('mediaSliderWrap');
+  if(!wrap)return;
+  wrap.addEventListener('mouseenter',()=>{if(msTimer)clearInterval(msTimer);});
+  wrap.addEventListener('mouseleave',()=>startMsAuto());
+  let _mstx=0;
+  wrap.addEventListener('touchstart',e=>{_mstx=e.touches[0].clientX;if(msTimer)clearInterval(msTimer);},{passive:true});
+  wrap.addEventListener('touchend',e=>{const dx=_mstx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)chMediaSlide(dx>0?1:-1);startMsAuto();},{passive:true});
+  document.getElementById('msCenter').addEventListener('click',()=>openMsLB(msIdx));
+  document.getElementById('msPeekPrev').addEventListener('click',()=>chMediaSlide(-1));
+  document.getElementById('msPeekNext').addEventListener('click',()=>chMediaSlide(1));
+})();
+
+
+let lbList=[],lbIndex=0;
+function openMsLB(i){
+  lbList=msList;
+  lbIndex=i;
+  showLB();
+}
+function openGalleryFull(){
+  if(!msList.length){toast('இன்னும் புகைப்படங்கள் சேர்க்கப்படவில்லை');return;}
+  openMsLB(msIdx);
+}
+function showLB(){
+  if(!lbList.length)return;
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+  renderLB();
+}
+function renderLB(){
+  const item=lbList[lbIndex];
+  if(!item)return;
+  const box=document.getElementById('lbC');
+  if(item.src){
+    box.innerHTML = (item.type==='vid')
+      ? `<video src="${item.src}" controls autoplay></video>`
+      : `<img src="${item.src}" alt="${item.t||''}">`;
+  }else{
+    box.innerHTML=`<div style="min-width:260px;min-height:220px;background:${item.bg||'#111'};border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:2rem;"><div style="font-size:5rem">${item.e||'📷'}</div><div style="color:#fff;font-size:1rem;font-weight:700;text-align:center;">${item.t}</div></div>`;
+  }
+  document.getElementById('lbcap').textContent=(item.t||'')+(item.d?' — '+item.d:'');
+  const multi=lbList.length>1;
+  document.getElementById('lbCounter').textContent=multi?(lbIndex+1)+' / '+lbList.length:'';
+  document.getElementById('lbPrev').style.display=multi?'flex':'none';
+  document.getElementById('lbNext').style.display=multi?'flex':'none';
+}
+function navLB(dir){
+  if(!lbList.length)return;
+  lbIndex=(lbIndex+dir+lbList.length)%lbList.length;
+  renderLB();
+}
+function closeLB(){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('lb').classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();
+  else if(e.key==='ArrowLeft')navLB(-1);
+  else if(e.key==='ArrowRight')navLB(1);
+});
+let _lbtx=0;
+document.getElementById('lbC').addEventListener('touchstart',e=>{_lbtx=e.touches[0].clientX;},{passive:true});
+document.getElementById('lbC').addEventListener('touchend',e=>{const dx=_lbtx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)navLB(dx>0?1:-1);},{passive:true});
+function deleteMediaItem(source,idx){
+  if(!isAdmin)return;
+  if(!confirm('நீக்கவா?'))return;
+  if(source==='gal'){
+    gallery.splice(idx,1);
+    DB.setGallery(gallery.map(g=>({...g,src:g.srcKey?'__load__':g.src})));
+  }else{
+    reels.splice(idx,1);
+    DB.setReels(reels.map(r=>({...r,src:r.srcKey?'__load__':r.src})));
+  }
+  buildMediaStrip();
+  toast('நீக்கப்பட்டது');
+}
+/* keep old function names as thin wrappers so nothing else breaks */
+function buildGal(){buildMediaStrip();}
+function buildReels(){buildMediaStrip();}
+
+function prevGal(e){const f=e.target.files[0];if(!f)return;const box=document.getElementById('galPrevBox');if(f.type.startsWith('video')){const r=new FileReader();r.onload=ev=>{pendGal={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;border-radius:6px;" controls></video>`;};r.readAsDataURL(f);}else{compressImage(f,900,.72,c=>{pendGal={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;border-radius:6px;object-fit:contain;">`;});}}
+function addGalItem(){const t=document.getElementById('gl-t').value.trim()||'நிகழ்வு';const d=document.getElementById('gl-d').value.trim()||CY+'';const idx='img_'+Date.now();const newItem={type:pendGal?.type||'img',srcKey:pendGal?.src?idx:'',src:pendGal?.src||'',t,d,e:'📷',c:'#aaa',bg:'linear-gradient(135deg,#111,#1a1a1a)'};if(pendGal?.src&&pendGal.type!=='vid')DB.setGalImg(idx,pendGal.src);gallery.unshift(newItem);const meta=gallery.map(g=>({...g,src:g.srcKey?'__load__':g.src}));DB.setGallery(meta);buildMediaStrip();closeOv('galOv');pendGal=null;document.getElementById('galPrevBox').innerHTML='📷';document.getElementById('gl-t').value='';document.getElementById('gl-d').value='';toast('நிகழ்வு சேர்க்கப்பட்டது! ✅');}
+function addGal(){addGalItem();}
+
+function prevReel(e){const f=e.target.files[0];if(!f)return;const box=document.getElementById('reelPrevBox');if(f.type.startsWith('video')){const r=new FileReader();r.onload=ev=>{pendReelFile={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;" controls></video>`;};r.readAsDataURL(f);}else{compressImage(f,900,.72,c=>{pendReelFile={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;object-fit:contain;">`;});}}
+function addReelItem(){const t=document.getElementById('rl-t').value.trim()||'நிகழ்வு';const d=document.getElementById('rl-d').value.trim()||CY+'';const idx='reel_'+Date.now();const newReel={type:pendReelFile?.type||'ph',srcKey:pendReelFile?.src?idx:'',src:pendReelFile?.src||'',e:'📷',t,d,dur:4,bg:'#111'};if(pendReelFile?.src&&pendReelFile.type!=='vid')DB.setReelImg(idx,pendReelFile.src);reels.unshift(newReel);DB.setReels(reels.map(r=>({...r,src:r.srcKey?'__load__':r.src})));buildMediaStrip();closeOv('reelOv');pendReelFile=null;document.getElementById('reelPrevBox').innerHTML='📽';document.getElementById('rl-t').value='';document.getElementById('rl-d').value='';toast('ரீல் சேர்க்கப்பட்டது! ✅');}
+function addReel(){addReelItem();}
 
 /* ── MEMBERS ── */
 let members=[],memIdx=0,editMemIdx=null,pendMemPhoto='',memAutoTimer=null;
@@ -909,9 +1080,7 @@ function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-th
 /* ── LOGO CLICK ── */
 let _logoTaps=0,_logoTimer=null;
 function handleLogoClick(){
-  // Mobile: always open admin panel (for both login AND logout)
   if(window.innerWidth<=768){openOv('adminOv');return;}
-  // Desktop admin: triple-tap = admin panel
   if(isAdmin){trigUpload('navLogoFile');return;}
   _logoTaps++;clearTimeout(_logoTimer);
   _logoTimer=setTimeout(()=>{_logoTaps=0;},600);
@@ -922,7 +1091,7 @@ function handleLogoClick(){
 function setLoadBar(pct){const bar=document.getElementById('dbBar');bar.style.width=pct+'%';if(pct>=100){bar.classList.add('done');setTimeout(()=>bar.remove(),800);}}
 
 /* ── BOOT ── */
-function renderDefaults(){donors=[...defaultDonors];gallery=[];reels=[];members=[];buildDonors();buildGal();buildReels();buildMem();}
+function renderDefaults(){donors=[...defaultDonors];gallery=[];reels=[];members=[];buildDonors();buildMediaStrip();buildMem();}
 
 async function hydrateFromDB(){
   setLoadBar(10);
@@ -937,15 +1106,35 @@ async function hydrateFromDB(){
     setLoadBar(75);
     const[galData,reelData]=await Promise.all([loadGalWithSrcs(),loadReelsWithSrcs()]);
     setLoadBar(90);
-    if(galData.length>0){gallery=galData;buildGal();}
-    if(reelData.length>0){reels=reelData;}
-    buildReels(); // ★ always rebuild so gallery images show in reel frame
+    if(galData.length>0)gallery=galData;
+    if(reelData.length>0)reels=reelData;
+    buildMediaStrip();
     setLoadBar(100);
     const savedAnthem=await DB.loadAnthem();
     if(savedAnthem&&savedAnthem.src){anthem.src=savedAnthem.src;document.getElementById('mbName').textContent=savedAnthem.name||'பாரத் பாய்ஸ் கீதம்';}
-    // ★ music bar NOT auto-shown — only on user click
   }catch(err){console.error("DB hydration failed:",err);toast('⚠️ DB இணைப்பில் பிழை');setLoadBar(100);}
 }
+
+/* ── AUTO-FIT: keep the full org name on one line at every screen width ── */
+function fitOneLine(){
+  const el=document.querySelector('.hero-title');
+  if(!el)return;
+  const wrap=el.closest('.hero-col')||el.parentElement;
+  if(!wrap)return;
+  const maxW=wrap.clientWidth-(window.innerWidth<=480?24:window.innerWidth<=768?40:64);
+  let size=window.innerWidth<=480?26:window.innerWidth<=768?38:72;
+  el.style.whiteSpace='nowrap';
+  el.style.fontSize=size+'px';
+  let guard=80;
+  while(el.scrollWidth>maxW&&size>13&&guard-->0){
+    size-=1;
+    el.style.fontSize=size+'px';
+  }
+}
+window.addEventListener('resize',fitOneLine);
+window.addEventListener('load',fitOneLine);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitOneLine);
+fitOneLine();
 
 renderDefaults();
 hydrateFromDB();
