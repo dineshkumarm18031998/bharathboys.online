@@ -29,7 +29,9 @@
   "knowsAbout":["Blood Donation","Tree Plantation","Social Service","Education Support"]
 }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700;800;900&family=Orbitron:wght@700;800;900&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#080B12;--surface:#0F1320;--surface2:#161B2E;--surface3:#1C2238;
@@ -376,6 +378,21 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
   section{padding:60px 4%;}
 }
 @media(max-width:480px){.hstat{padding:.8rem .4rem;}.hsn{font-size:1.35rem;}.leader-card{width:145px;}.limg-wrap{height:130px;}.media-item{width:140px;height:190px;}.hero-logo-ring{width:100px;height:100px;}}
+
+/* ── MOBILE PERFORMANCE: cut GPU-heavy blur/animation cost on phones ── */
+@media(max-width:768px){
+  .hero-grid{animation:none;}
+  .hblob{filter:blur(36px);}
+  .hb1{width:280px;height:280px;}
+  .hb2{width:240px;height:240px;}
+  .hb3{display:none;}
+  .hero-logo-ring{animation:none;box-shadow:0 0 0 6px rgba(245,166,35,0.15),0 0 20px rgba(245,166,35,0.25);}
+  #nav,.mobm,#musicBar{backdrop-filter:blur(8px);}
+  .ov,#lb{backdrop-filter:blur(3px);}
+  .hero-stats{backdrop-filter:none;}
+  .hbo{backdrop-filter:none;}
+  body::after{display:none;}
+}
 </style>
 </head>
 <body>
@@ -849,7 +866,7 @@ function applyDonorFilter(){
   visibleDonors=donors.map((d,i)=>i).filter(i=>donorFilter==='ALL'||donors[i].bg===donorFilter);
   if(!visibleDonors.length)visibleDonors=donors.map((d,i)=>i);
 }
-function buildDonors(){buildDFilter();applyDonorFilter();const slides=document.getElementById('dsSlides'),dots=document.getElementById('dsdots');slides.innerHTML=visibleDonors.map((realI,i)=>{const d=donors[realI];return `<div class="dsl${i===0?' active':''}" id="dss${i}"><div class="dav" style="border-color:${bgCol(d.bg)}">${d.photo?`<img src="${d.photo}" alt="${d.n}">`:`<span>${bgEmo(d.bg)}</span>`}</div><div class="dgrp" style="background:${bgCol(d.bg)}">${d.bg}</div><div class="dname">${d.n}</div><div class="drole">${d.role||'உறுப்பினர்'}</div><div class="dph"><a href="tel:${d.ph.replace(/ /g,'')}">📱 ${d.ph}</a></div><div class="dctr">${i+1} / ${visibleDonors.length}</div></div>`;}).join('');dots.innerHTML=visibleDonors.map((_,i)=>`<div class="dsdot${i===0?' on':''}" onclick="goDS(${i})"></div>`).join('');dsIdx=0;startDSAuto();}
+function buildDonors(){buildDFilter();applyDonorFilter();const slides=document.getElementById('dsSlides'),dots=document.getElementById('dsdots');slides.innerHTML=visibleDonors.map((realI,i)=>{const d=donors[realI];return `<div class="dsl${i===0?' active':''}" id="dss${i}"><div class="dav" style="border-color:${bgCol(d.bg)}">${d.photo?`<img src="${d.photo}" alt="${d.n}" loading="lazy" decoding="async">`:`<span>${bgEmo(d.bg)}</span>`}</div><div class="dgrp" style="background:${bgCol(d.bg)}">${d.bg}</div><div class="dname">${d.n}</div><div class="drole">${d.role||'உறுப்பினர்'}</div><div class="dph"><a href="tel:${d.ph.replace(/ /g,'')}">📱 ${d.ph}</a></div><div class="dctr">${i+1} / ${visibleDonors.length}</div></div>`;}).join('');dots.innerHTML=visibleDonors.map((_,i)=>`<div class="dsdot${i===0?' on':''}" onclick="goDS(${i})"></div>`).join('');dsIdx=0;startDSAuto();}
 function goDS(n){document.querySelectorAll('.dsl').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.dsdot').forEach((d,i)=>d.classList.toggle('on',i===n));dsIdx=n;const el=document.getElementById('dss'+n);if(el)el.classList.add('active');}
 function chDS(d){if(!visibleDonors.length)return;goDS((dsIdx+d+visibleDonors.length)%visibleDonors.length);}
 function startDSAuto(){if(dsTimer)clearInterval(dsTimer);dsTimer=setInterval(()=>chDS(1),3500);}
@@ -1027,7 +1044,7 @@ function memBgCol(bg){if(!bg)return'#FF5500';if(bg.startsWith('O'))return'#C6282
 function updateMemArc(idx,total){const arc=document.getElementById('memArc');if(!arc||total===0)return;arc.style.strokeDashoffset=94.25-(94.25*(idx+1)/total);}
 function buildMem(){const slides=document.getElementById('memSlides'),dots=document.getElementById('memDots'),hint=document.getElementById('memSwipeHint');if(!members||members.length===0){slides.innerHTML=`<div class="mem-slide active" style="padding:2.5rem 1.5rem;"><div style="font-size:3rem;margin-bottom:.8rem;">👥</div><div style="font-size:.82rem;color:var(--text2);">உறுப்பினர்கள் இல்லை</div></div>`;dots.innerHTML='';if(hint)hint.style.display='none';document.getElementById('memStat').textContent='40+';return;}
   if(hint)hint.style.display=members.length>1?'block':'none';
-  slides.innerHTML=members.map((m,i)=>{const col=memBgCol(m.bg);const photo=m.photo?`<img src="${m.photo}" alt="${m.n}">`:`<span style="font-size:4rem;">👤</span>`;return`<div class="mem-slide${i===0?' active':''}" id="ms${i}"><div class="mem-bg-badge" style="background:${col}">${m.bg||''}</div><div class="mem-photo-wrap" style="border-color:${col}40;box-shadow:0 8px 32px ${col}25,0 0 0 6px ${col}10;">${photo}</div><div class="mem-name">${m.n}</div><div class="mem-role">${m.r||'உறுப்பினர்'}</div><div class="mem-counter">${i+1} / ${members.length}</div></div>`;}).join('');
+  slides.innerHTML=members.map((m,i)=>{const col=memBgCol(m.bg);const photo=m.photo?`<img src="${m.photo}" alt="${m.n}" loading="lazy" decoding="async">`:`<span style="font-size:4rem;">👤</span>`;return`<div class="mem-slide${i===0?' active':''}" id="ms${i}"><div class="mem-bg-badge" style="background:${col}">${m.bg||''}</div><div class="mem-photo-wrap" style="border-color:${col}40;box-shadow:0 8px 32px ${col}25,0 0 0 6px ${col}10;">${photo}</div><div class="mem-name">${m.n}</div><div class="mem-role">${m.r||'உறுப்பினர்'}</div><div class="mem-counter">${i+1} / ${members.length}</div></div>`;}).join('');
   const maxDots=Math.min(members.length,20);dots.innerHTML=members.slice(0,maxDots).map((_,i)=>`<div class="mem-dot${i===0?' on':''}" onclick="goMem(${i})"></div>`).join('')+(members.length>maxDots?`<span style="font-size:.6rem;color:var(--muted);font-family:'DM Mono',monospace;">+${members.length-maxDots}</span>`:'');
   memIdx=0;updateMemArc(0,members.length);document.getElementById('memStat').textContent=members.length+'+';startMemAuto();}
 function goMem(n){if(!members.length)return;document.querySelectorAll('.mem-slide').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.mem-dot').forEach((d,i)=>d.classList.toggle('on',i===n));memIdx=n;const el=document.getElementById('ms'+n);if(el)el.classList.add('active');updateMemArc(n,members.length);}
