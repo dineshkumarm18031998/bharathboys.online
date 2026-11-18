@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="ta">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>போட்டிகள் | பாரத் பாய்ஸ் நற்பணி மன்றம்</title>
+<meta name="description" content="பாரத் பாய்ஸ் நற்பணி மன்றம் – தினசரி வினாடி வினா மற்றும் ஆண்டு ஓவியப் போட்டி">
+<link rel="icon" href="bharath-boys-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b111c;--card:#121a29;--card2:#172235;--line:#24324a;--txt:#eef2f8;--mut:#9aa8bd;--or:#ff5500;--gold:#f5a623;--ok:#18a058;--err:#e5484d}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,#3a1a0a55,transparent),var(--bg);color:var(--txt);font-family:'Noto Sans Tamil',Arial,sans-serif;line-height:1.6}
+a{color:var(--gold)}
+.wrap{max-width:860px;margin:auto;padding:16px}
+header{display:flex;align-items:center;gap:12px;padding:10px 0 18px}
+header img{width:54px;height:54px;border-radius:50%;object-fit:cover;background:#fff}
+header h1{font-size:1.15rem;margin:0;line-height:1.3}header small{color:var(--mut)}
+.home{margin-left:auto;text-decoration:none;background:var(--card2);border:1px solid var(--line);padding:8px 12px;border-radius:10px;color:var(--txt);font-size:.85rem;white-space:nowrap}
+.hero{background:linear-gradient(135deg,#ff5500,#f5a623);border-radius:20px;padding:22px;color:#fff;margin-bottom:16px;box-shadow:0 10px 40px #ff550033}
+.hero h2{margin:0 0 6px;font-size:1.45rem}.hero p{margin:0;opacity:.95}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.tab{background:var(--card);border:1.5px solid var(--line);color:var(--txt);padding:14px;border-radius:14px;font:inherit;font-weight:800;cursor:pointer;transition:.2s}
+.tab.active{border-color:var(--or);background:linear-gradient(135deg,#ff550022,#f5a62318)}
+.tab span{display:block;font-size:.75rem;font-weight:400;color:var(--mut)}
+.panel{display:none;animation:fade .25s}.panel.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px}
+.card h3{margin:0 0 10px;font-size:1.1rem}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.chip{background:var(--card2);border:1px solid var(--line);border-radius:30px;padding:4px 12px;font-size:.82rem;color:var(--mut)}
+.chip b{color:var(--txt)}
+.q{font-size:1.15rem;font-weight:700;margin:6px 0 14px;white-space:pre-wrap}
+.opt{display:flex;gap:10px;align-items:flex-start;background:var(--card2);border:1.5px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:#3b4d6b}.opt input{margin-top:5px;accent-color:var(--or);width:18px;height:18px;flex:0 0 auto}
+.opt.sel{border-color:var(--or);background:#ff550014}.opt span{white-space:pre-wrap}
+label.f{display:block;font-weight:600;font-size:.9rem;margin:12px 0 6px}
+input.in{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:#0e1522;color:var(--txt);font:inherit}
+input.in:focus{outline:none;border-color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:12px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;transition:.15s}
+.btn.pri{background:linear-gradient(135deg,#ff5500,#f5a623);color:#fff;width:100%;margin-top:16px;font-size:1.05rem}
+.btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--line);padding:9px 12px;font-weight:600}
+.btn:disabled{opacity:.55;cursor:wait}
+.msg{display:none;padding:12px 14px;border-radius:12px;margin:12px 0;white-space:pre-wrap}
+.msg.ok{display:block;background:#18a05822;border:1px solid #18a05866;color:#b6f0cf}
+.msg.err{display:block;background:#e5484d22;border:1px solid #e5484d66;color:#ffc9cb}
+.msg.info{display:block;background:#f5a62318;border:1px solid #f5a62355;color:#ffe2b0}
+.mut{color:var(--mut)}.small{font-size:.82rem}.hidden{display:none!important}
+.count{font-weight:800;color:var(--gold)}
+ul.rules{margin:6px 0 0;padding-left:20px}ul.rules li{margin:3px 0}
+.res{border-top:1px solid var(--line);padding:10px 0}.res:first-child{border-top:0}
+.win{color:#ffd27a;font-weight:700}
+.picker{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.picker label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px;border:1.5px dashed #3b4d6b;border-radius:14px;cursor:pointer;background:#0e1522;text-align:center;font-weight:600}
+.picker input{display:none}
+.editor{margin-top:12px}
+.canvasbox{position:relative;background:#06090f;border-radius:12px;overflow:hidden;touch-action:none;display:flex;justify-content:center}
+#cv{max-width:100%;display:block;cursor:crosshair}
+#sel{position:absolute;border:2px dashed var(--gold);background:#f5a62322;pointer-events:none;display:none}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.winners li{margin:4px 0}
+footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
+@media(max-width:520px){.hero h2{font-size:1.2rem}.picker{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="bharath-boys-logo.png" alt="பாரத் பாய்ஸ் லோகோ" onerror="this.style.display='none'">
+    <div><h1>பாரத் பாய்ஸ் நற்பணி மன்றம்</h1><small>போட்டிகள் போர்டல்</small></div>
+    <a class="home" href="index.html">← முகப்பு</a>
+  </header>
+
+  <section class="hero">
+    <h2>🎁 போட்டிகளில் பங்கேற்று பரிசுகளை வெல்லுங்கள்!</h2>
+    <p>தினசரி வினாடி வினா மற்றும் ஆண்டு ஓவியப் போட்டி – உள்நுழைவு தேவையில்லை.</p>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-p="quiz">❓ தினசரி வினாடி வினா<span>தினம் ஒரு கேள்வி</span></button>
+    <button class="tab" data-p="drawing">🎨 ஆண்டு ஓவியப் போட்டி<span>உங்கள் ஓவியத்தைச் சமர்ப்பிக்கவும்</span></button>
+  </nav>
+
+  <!-- ================= DAILY QUIZ ================= -->
+  <section id="quiz" class="panel active">
+    <div class="card" id="quizCard">
+      <h3>இன்றைய கேள்வி</h3>
+      <div id="quizLoading" class="mut">ஏற்றப்படுகிறது…</div>
+      <div id="quizNone" class="msg info"></div>
+      <form id="quizForm" class="hidden" novalidate>
+        <div class="meta" id="quizMeta"></div>
+        <div class="q" id="quizText"></div>
+        <div id="quizOpts" role="radiogroup" aria-label="பதில் விருப்பங்கள்"></div>
+        <label class="f" for="qName">முழு பெயர் *</label><input class="in" id="qName" maxlength="100" autocomplete="name" required>
+        <label class="f" for="qMobile">கைபேசி எண் (10 இலக்கம்) *</label><input class="in" id="qMobile" inputmode="numeric" maxlength="14" autocomplete="tel" required>
+        <label class="f" for="qVillage">ஊர் *</label><input class="in" id="qVillage" maxlength="100" required>
+        <div id="quizMsg" class="msg"></div>
+        <button class="btn pri" id="quizSubmit" type="submit">பதிலைச் சமர்ப்பி</button>
+        <p class="small mut">ஒரு கைபேசி எண்ணுக்கு ஒரு கேள்விக்கு ஒரு பதில் மட்டுமே. சரியான பதில் அளித்தவர்களிலிருந்து போட்டி முடிந்த பின் குலுக்கல் முறையில் வெற்றியாளர் தேர்வு செய்யப்படுவார்.</p>
+      </form>
+      <div id="quizDone" class="msg ok"></div>
+    </div>
+    <div class="card"><h3>📜 விதிமுறைகள்</h3><ul class="rules">
+      <li>அனைத்து விவரங்களும் கட்டாயம்.</li><li>கடைசி நேரம் முடிந்த பின் பதில்கள் ஏற்கப்படாது.</li>
+      <li>சரியான பதில் போட்டி முடிந்த பிறகே வெளியிடப்படும்.</li><li>உங்கள் கைபேசி எண் பொதுவில் காட்டப்படாது.</li></ul></div>
+    <div class="card"><h3>🏆 சமீபத்திய முடிவுகள்</h3><div id="results" class="mut small">ஏற்றப்படுகிறது…</div></div>
+  </section>
+
+  <!-- ================= ANNUAL DRAWING ================= -->
+  <section id="drawing" class="panel">
+    <div class="card">
+      <h3 id="dTitle">ஆண்டு ஓவியப் போட்டி</h3>
+      <div id="dLoading" class="mut">ஏற்றப்படுகிறது…</div>
+      <div id="dNone" class="msg info"></div>
+      <div id="dInfo" class="hidden">
+        <div class="meta" id="dMeta"></div>
+        <p id="dDesc" class="hidden" style="white-space:pre-wrap"></p>
+        <div><b>வழிமுறைகள்</b><div id="dInstr" style="white-space:pre-wrap" class="hidden"></div>
+          <ul class="rules" id="dDefaultRules"><li>உங்கள் சொந்த ஓவியத்தை மட்டுமே சமர்ப்பிக்கவும்.</li><li>படம்: JPEG, PNG அல்லது WebP, அதிகபட்சம் 5 MB.</li><li>ஓவியம் முழுமையாகத் தெரியும்படி தெளிவான வெளிச்சத்தில் புகைப்படம் எடுக்கவும்.</li><li>ஒரு கைபேசி எண்ணுக்கு ஒரு பதிவு மட்டுமே.</li><li>உங்கள் ஓவியம் பொதுவில் காட்டப்படாது; நடுவர்கள் மட்டுமே பார்ப்பார்கள்.</li></ul></div>
+      </div>
+      <form id="dForm" class="hidden" novalidate>
+        <label class="f" for="dName">முழு பெயர் *</label><input class="in" id="dName" maxlength="100" autocomplete="name" required>
+        <label class="f" for="dMobile">கைபேசி எண் (10 இலக்கம்) *</label><input class="in" id="dMobile" inputmode="numeric" maxlength="14" autocomplete="tel" required>
+        <label class="f" for="dVillage">ஊர் *</label><input class="in" id="dVillage" maxlength="100" required>
+        <label class="f">ஓவியப் படம் *</label>
+        <div class="picker" id="picker">
+          <label>🖼️ கேலரியிலிருந்து தேர்வு<input type="file" id="fGallery" accept="image/jpeg,image/png,image/webp"></label>
+          <label>📷 கேமராவில் எடு<input type="file" id="fCamera" accept="image/*" capture="environment"></label>
+        </div>
+        <div class="editor hidden" id="editor">
+          <div class="canvasbox" id="cbox"><canvas id="cv"></canvas><div id="sel"></div></div>
+          <p class="small mut" id="cropHint">வெட்ட: படத்தின் மேல் விரலால்/மவுஸால் இழுத்து பகுதியைத் தேர்ந்தெடுத்து “வெட்டு” அழுத்தவும்.</p>
+          <div class="tools">
+            <button type="button" class="btn sec" id="rotL">⟲ இடது சுழற்று</button>
+            <button type="button" class="btn sec" id="rotR">⟳ வலது சுழற்று</button>
+            <button type="button" class="btn sec" id="doCrop" disabled>✂ வெட்டு</button>
+            <button type="button" class="btn sec" id="undo" disabled>↺ மீட்டமை</button>
+            <button type="button" class="btn sec" id="removeImg">🗑 நீக்கி வேறு படம்</button>
+          </div>
+          <p class="small mut" id="sizeInfo"></p>
+        </div>
+        <div id="dMsg" class="msg"></div>
+        <button class="btn pri" id="dSubmit" type="submit">ஓவியத்தைச் சமர்ப்பி</button>
+      </form>
+      <div id="dDone" class="msg ok"></div>
+    </div>
+    <div class="card hidden" id="winCard"><h3>🏆 வெற்றியாளர்கள்</h3><div id="winners"></div></div>
+  </section>
+
+  <footer>© பாரத் பாய்ஸ் நற்பணி மன்றம் · <a href="index.html">bharathboys.online</a></footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const SB_URL = "https://gnydvftdpoocqrilqual.supabase.co";
+  const KEY = "sb_publishable_9Igf0tifL6HRuowU-vHIgw_86c2YetY"; // publishable key only
+  const $ = (id) => document.getElementById(id);
+  const MAX = 5 * 1024 * 1024;
+
+  // ---------- helpers ----------
+  function fmtDate(v) { // 18-11-2026 (IST)
+    if (!v) return "—";
+    const d = typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) ? new Date(v + "T12:00:00+05:30") : new Date(v);
+    const p = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", day: "2-digit", month: "2-digit", year: "numeric" }).formatToParts(d);
+    const g = (t) => p.find((x) => x.type === t).value;
+    return `${g("day")}-${g("month")}-${g("year")}`;
+  }
+  function fmtDateTime(v) {
+    if (!v) return "—";
+    const t = new Intl.DateTimeFormat("en-IN", { timeZone: "Asia/Kolkata", hour: "numeric", minute: "2-digit", hour12: true }).format(new Date(v));
+    return `${fmtDate(v)} ${t}`;
+  }
+  function normMobile(v) {
+    let d = String(v || "").replace(/\D/g, "");
+    if (d.length === 12 && d.startsWith("91")) d = d.slice(2);
+    if (d.length === 11 && d.startsWith("0")) d = d.slice(1);
+    return /^[6-9]\d{9}$/.test(d) ? d : null;
+  }
+  function show(el, text, type) { el.textContent = text; el.className = "msg " + type; }
+  function hide(el) { el.className = "msg"; el.textContent = ""; }
+  function el(tag, props = {}, kids = []) { const e = document.createElement(tag); Object.assign(e, props); for (const k of kids) e.append(k); return e; }
+  async function api(name, opts = {}) {
+    let r;
+    try {
+      r = await fetch(`${SB_URL}/functions/v1/${name}`, { ...opts, headers: { apikey: KEY, ...(opts.headers || {}) } });
+    } catch { throw new Error("இணைய இணைப்பில் சிக்கல். மீண்டும் முயற்சிக்கவும்."); }
+    let data = null; try { data = await r.json(); } catch {}
+    if (!r.ok || (data && data.error)) throw new Error((data && data.error) || "சேவையகப் பிழை. சிறிது நேரம் கழித்து முயற்சிக்கவும்.");
+    return data || {};
+  }
+  function validPerson(name, mobile, village) {
+    if (name.trim().length < 2) return "முழு பெயரை உள்ளிடவும்.";
+    if (!normMobile(mobile)) return "சரியான 10 இலக்க கைபேசி எண்ணை உள்ளிடவும்.";
+    if (village.trim().length < 2) return "ஊர் பெயரை உள்ளிடவும்.";
+    return "";
+  }
+
+  // ---------- tabs ----------
+  const tabs = document.querySelectorAll(".tab");
+  function openTab(p) {
+    tabs.forEach((t) => t.classList.toggle("active", t.dataset.p === p));
+    document.querySelectorAll(".panel").forEach((s) => s.classList.toggle("active", s.id === p));
+    if (location.hash !== "#" + p) history.replaceState(null, "", "#" + p);
+  }
+  tabs.forEach((t) => t.addEventListener("click", () => openTab(t.dataset.p)));
+  if (location.hash === "#drawing") openTab("drawing");
+
+  // ================= QUIZ =================
+  let question = null, timer = null;
+  async function loadQuiz() {
+    try {
+      const d = await api("public-contest", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+      $("quizLoading").classList.add("hidden");
+      question = d.question;
+      if (!question) { show($("quizNone"), "இன்றைய கேள்வி இன்னும் வெளியிடப்படவில்லை அல்லது நேரம் முடிந்துவிட்டது. பின்னர் மீண்டும் பார்க்கவும்!", "info"); }
+      else renderQuestion();
+      renderResults(d.results || []);
+    } catch (e) {
+      $("quizLoading").classList.add("hidden"); show($("quizNone"), e.message, "err"); $("results").textContent = "—";
+    }
+  }
+  function renderQuestion() {
+    const m = $("quizMeta"); m.replaceChildren();
+    const chip = (label, val, id) => { const c = el("span", { className: "chip" }); c.append(label + " ", el("b", { textContent: val, id: id || "" })); m.append(c); };
+    chip("📅 தேதி:", fmtDate(question.quiz_date));
+    chip("⏰ கடைசி நேரம்:", fmtDateTime(question.closes_at));
+    chip("⌛ மீதம்:", "", "cd");
+    if (question.prize_text) chip("🎁 பரிசு:", question.prize_text);
+    $("quizText").textContent = question.question_text;
+    const box = $("quizOpts"); box.replaceChildren();
+    (question.options || []).forEach((o, i) => {
+      const inp = el("input", { type: "radio", name: "opt", value: String(i), id: "o" + i });
+      const lab = el("label", { className: "opt", htmlFor: "o" + i }, [inp, el("span", { textContent: `${"அஆஇஈஉஊ"[i] || i + 1}. ${o}` })]);
+      inp.addEventListener("change", () => box.querySelectorAll(".opt").forEach((x) => x.classList.toggle("sel", x.contains(document.activeElement) || x.querySelector("input").checked)));
+      box.append(lab);
+    });
+    $("quizForm").classList.remove("hidden");
+    tick(); clearInterval(timer); timer = setInterval(tick, 1000);
+  }
+  function tick() {
+    const ms = new Date(question.closes_at).getTime() - Date.now(), cd = $("cd");
+    if (!cd) return;
+    if (ms <= 0) { cd.textContent = "நேரம் முடிந்தது"; $("quizSubmit").disabled = true; clearInterval(timer); show($("quizMsg"), "மன்னிக்கவும், இந்தக் கேள்விக்கான நேரம் முடிந்துவிட்டது.", "err"); return; }
+    const h = Math.floor(ms / 3600000), mi = Math.floor(ms % 3600000 / 60000), s = Math.floor(ms % 60000 / 1000);
+    cd.textContent = `${h} மணி ${mi} நிமி ${s} வி`;
+  }
+  function renderResults(rs) {
+    const box = $("results"); box.replaceChildren();
+    if (!rs.length) { box.textContent = "இன்னும் முடிவுகள் இல்லை."; return; }
+    for (const r of rs) {
+      const d = el("div", { className: "res" });
+      d.append(el("div", { className: "small mut", textContent: "📅 " + fmtDate(r.quiz_date) }));
+      d.append(el("div", { textContent: r.question_text }));
+      if (r.correct_answer) d.append(el("div", { className: "small", textContent: "✅ சரியான பதில்: " + r.correct_answer }));
+      d.append(el("div", { className: r.winner ? "win" : "small mut", textContent: r.winner ? `🏆 வெற்றியாளர்: ${r.winner.name} – ${r.winner.village}` : "வெற்றியாளர் இன்னும் அறிவிக்கப்படவில்லை." }));
+      box.append(d);
+    }
+  }
+  $("quizForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); hide($("quizMsg"));
+    const sel = document.querySelector('input[name="opt"]:checked');
+    const name = $("qName").value, mobile = $("qMobile").value, village = $("qVillage").value;
+    const err = validPerson(name, mobile, village) || (!sel ? "ஒரு பதிலைத் தேர்ந்தெடுக்கவும்." : "");
+    if (err) return show($("quizMsg"), err, "err");
+    const btn = $("quizSubmit"); btn.disabled = true; btn.textContent = "சமர்ப்பிக்கப்படுகிறது…";
+    try {
+      const r = await api("submit-entry", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question_id: question.id, full_name: name.trim(), mobile: normMobile(mobile), village: village.trim(), selected_option: Number(sel.value) }) });
+      $("quizForm").classList.add("hidden"); clearInterval(timer);
+      show($("quizDone"), "✅ " + (r.message || "உங்கள் பதில் வெற்றிகரமாக பதிவு செய்யப்பட்டது.") + "\nமுடிவுகள் போட்டி நேரம் முடிந்த பிறகு இங்கே அறிவிக்கப்படும்.", "ok");
+    } catch (e) { show($("quizMsg"), e.message, "err"); }
+    finally { btn.disabled = false; btn.textContent = "பதிலைச் சமர்ப்பி"; }
+  });
+
+  // ================= DRAWING =================
+  let comp = null;
+  async function loadDrawing() {
+    try {
+      const d = await api("public-drawing", { method: "GET" });
+      $("dLoading").classList.add("hidden");
+      comp = d.competition;
+      const info = comp || d.upcoming;
+      if (info) {
+        $("dTitle").textContent = `${info.competition_name}`;
+        const m = $("dMeta"); m.replaceChildren();
+        const chip = (l, v) => { const c = el("span", { className: "chip" }); c.append(l + " ", el("b", { textContent: v })); m.append(c); };
+        chip("🗓 ஆண்டு:", String(info.competition_year));
+        chip("▶ பதிவு தொடக்கம்:", fmtDateTime(info.registration_start));
+        chip("⏹ பதிவு முடிவு:", fmtDateTime(info.registration_end));
+        if (info.description) { $("dDesc").textContent = info.description; $("dDesc").classList.remove("hidden"); }
+        if (info.instructions) { $("dInstr").textContent = info.instructions; $("dInstr").classList.remove("hidden"); }
+        $("dInfo").classList.remove("hidden");
+      }
+      if (comp) $("dForm").classList.remove("hidden");
+      else show($("dNone"), d.message || "தற்போது ஓவியப் போட்டிப் பதிவு திறக்கப்படவில்லை.", "info");
+      const w = d.winners || [];
+      if (w.length) {
+        const ul = el("ul", { className: "winners" });
+        for (const x of w) ul.append(el("li", { textContent: `🏆 ${x.name} – ${x.village} (${x.competition_year})` }));
+        $("winners").replaceChildren(ul); $("winCard").classList.remove("hidden");
+      }
+    } catch (e) { $("dLoading").classList.add("hidden"); show($("dNone"), e.message, "err"); }
+  }
+
+  // ----- image editor: preview, rotate, crop -----
+  const cv = $("cv"), ctx = cv.getContext("2d"), selBox = $("sel");
+  let original = null, work = null, undoStack = [], drag = null, rect = null;
+  function toCanvas(src) { const c = document.createElement("canvas"); c.width = src.width; c.height = src.height; c.getContext("2d").drawImage(src, 0, 0); return c; }
+  function draw() {
+    const maxW = Math.min($("cbox").clientWidth || 600, 800), scale = Math.min(1, maxW / work.width, 520 / work.height);
+    cv.width = Math.round(work.width * scale); cv.height = Math.round(work.height * scale);
+    ctx.drawImage(work, 0, 0, cv.width, cv.height);
+    rect = null; selBox.style.display = "none"; $("doCrop").disabled = true; $("undo").disabled = !undoStack.length;
+    $("sizeInfo").textContent = `அளவு: ${work.width} × ${work.height} px`;
+  }
+  async function loadFile(f) {
+    hide($("dMsg"));
+    if (!f) return;
+    if (!/^image\//.test(f.type)) return show($("dMsg"), "படக் கோப்பை மட்டும் தேர்ந்தெடுக்கவும்.", "err");
+    if (f.size > 25 * 1024 * 1024) return show($("dMsg"), "படம் மிகப் பெரியது.", "err");
+    try {
+      const bmp = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(); i.src = URL.createObjectURL(f); });
+      // downscale very large photos to max 2400px long side
+      const k = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
+      const c = document.createElement("canvas"); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+      c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height); URL.revokeObjectURL(bmp.src);
+      original = c; work = toCanvas(c); undoStack = [];
+      $("editor").classList.remove("hidden"); $("picker").classList.add("hidden"); draw();
+    } catch { show($("dMsg"), "இந்தப் படத்தைத் திறக்க முடியவில்லை. JPEG/PNG/WebP படத்தைத் தேர்ந்தெடுக்கவும்.", "err"); }
+  }
+  $("fGallery").addEventListener("change", (e) => loadFile(e.target.files[0]));
+  $("fCamera").addEventListener("change", (e) => loadFile(e.target.files[0]));
+  function rotate(dir) {
+    undoStack.push(work);
+    const c = document.createElement("canvas"); c.width = work.height; c.height = work.width;
+    const x = c.getContext("2d"); x.translate(c.width / 2, c.height / 2); x.rotate(dir * Math.PI / 2); x.drawImage(work, -work.width / 2, -work.height / 2);
+    work = c; draw();
+  }
+  $("rotL").onclick = () => rotate(-1); $("rotR").onclick = () => rotate(1);
+  $("undo").onclick = () => { if (undoStack.length) { work = undoStack.pop(); draw(); } };
+  $("removeImg").onclick = () => { original = work = null; undoStack = []; $("editor").classList.add("hidden"); $("picker").classList.remove("hidden"); $("fGallery").value = ""; $("fCamera").value = ""; };
+  function pos(e) { const r = cv.getBoundingClientRect(); return { x: Math.max(0, Math.min(cv.width, (e.clientX - r.left) * cv.width / r.width)), y: Math.max(0, Math.min(cv.height, (e.clientY - r.top) * cv.height / r.height)) }; }
+  cv.addEventListener("pointerdown", (e) => { cv.setPointerCapture(e.pointerId); drag = pos(e); });
+  cv.addEventListener("pointermove", (e) => {
+    if (!drag) return; const p = pos(e);
+    rect = { x: Math.min(drag.x, p.x), y: Math.min(drag.y, p.y), w: Math.abs(p.x - drag.x), h: Math.abs(p.y - drag.y) };
+    const r = cv.getBoundingClientRect(), k = r.width / cv.width, off = cv.offsetLeft;
+    Object.assign(selBox.style, { display: "block", left: off + rect.x * k + "px", top: rect.y * k + "px", width: rect.w * k + "px", height: rect.h * k + "px" });
+  });
+  cv.addEventListener("pointerup", () => { drag = null; $("doCrop").disabled = !(rect && rect.w > 20 && rect.h > 20); });
+  $("doCrop").onclick = () => {
+    if (!rect) return; const k = work.width / cv.width;
+    const c = document.createElement("canvas"); c.width = Math.round(rect.w * k); c.height = Math.round(rect.h * k);
+    c.getContext("2d").drawImage(work, rect.x * k, rect.y * k, c.width, c.height, 0, 0, c.width, c.height);
+    undoStack.push(work); work = c; draw();
+  };
+  async function exportBlob() {
+    for (const q of [0.92, 0.85, 0.75, 0.65, 0.5]) {
+      const b = await new Promise((r) => work.toBlob(r, "image/jpeg", q));
+      if (b && b.size <= MAX) return b;
+    }
+    return null;
+  }
+
+  $("dForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); hide($("dMsg"));
+    const name = $("dName").value, mobile = $("dMobile").value, village = $("dVillage").value;
+    const err = validPerson(name, mobile, village) || (!work ? "ஓவியப் படத்தைத் தேர்ந்தெடுக்கவும்." : "");
+    if (err) return show($("dMsg"), err, "err");
+    const btn = $("dSubmit"); btn.disabled = true; btn.textContent = "பதிவேற்றப்படுகிறது…";
+    try {
+      const blob = await exportBlob();
+      if (!blob) throw new Error("படம் 5 MB-க்குள் வரவில்லை. சிறிய படத்தைத் தேர்ந்தெடுக்கவும்.");
+      const fd = new FormData();
+      fd.append("competition_id", comp.id); fd.append("full_name", name.trim()); fd.append("mobile", normMobile(mobile)); fd.append("village", village.trim());
+      fd.append("image", new File([blob], "drawing.jpg", { type: "image/jpeg" }));
+      const r = await api("submit-drawing", { method: "POST", body: fd });
+      $("dForm").classList.add("hidden");
+      show($("dDone"), "✅ " + (r.message || "உங்கள் பதிவு பெறப்பட்டது.") + "\nஉங்கள் ஓவியம் நடுவர் மதிப்பீட்டிற்காகக் காத்திருக்கிறது. முடிவுகள் இந்தப் பக்கத்தில் அறிவிக்கப்படும்.", "ok");
+    } catch (e) { show($("dMsg"), e.message, "err"); }
+    finally { btn.disabled = false; btn.textContent = "ஓவியத்தைச் சமர்ப்பி"; }
+  });
+
+  loadQuiz(); loadDrawing();
+})();
+</script>
+</body>
+</html>
