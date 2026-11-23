@@ -198,7 +198,7 @@
       </section>
 
       <section id="questionsPanel" class="card panel hidden">
-        <div class="row"><h2 class="section-title grow">கேள்விகள் பட்டியல்</h2><button class="light" id="refreshQuestions">புதுப்பி</button></div>
+        <div class="row" style="margin-bottom:10px"><h2 class="section-title grow" style="margin:0">கேள்விகள் பட்டியல்</h2><button class="green" id="publishAllDrafts">🚀 அனைத்து வரைவுகளையும் வெளியிடு</button><button class="primary" id="closeAllPublished">📢 அனைத்து வெளியீடுகளையும் மூடி பதிலை வெளியிடு</button><button class="light" id="refreshQuestions">புதுப்பி</button></div>
         <div class="tablewrap questions-table-wrap"><table class="questions-table"><colgroup><col class="q-date-col"><col class="q-text-col"><col class="q-status-col"><col class="q-actions-col"></colgroup><thead><tr><th>தேதி</th><th>கேள்வி</th><th>நிலை</th><th>செயல்</th></tr></thead><tbody id="questionsBody"><tr><td colspan="4">தகவல் ஏற்றப்படவில்லை.</td></tr></tbody></table></div>
       </section>
 
@@ -497,11 +497,23 @@
       <tr><td>${escapeHtml(String(q.quiz_date || "").split("-").reverse().join("-"))}</td><td>${escapeHtml(q.question_text)}</td>
       <td><span class="pill">${escapeHtml(({draft:"வரைவு",published:"வெளியீடு",closed:"மூடப்பட்டது",cancelled:"ரத்து"})[q.status] || q.status)}</span></td>
       <td><div class="question-action-buttons">
+        ${q.status === "draft" ? `<button class="green" data-publish="${escapeHtml(q.id)}">வெளியிடு</button>` : ""}
         ${["draft","published"].includes(q.status) ? `<button class="light" data-edit="${escapeHtml(q.id)}">திருத்து</button>` : ""}
         ${q.status === "published" ? `<button class="light" data-close="${escapeHtml(q.id)}">மூடு</button>` : ""}
         ${["draft","published","closed"].includes(q.status) ? `<button class="danger" data-remove="${escapeHtml(q.id)}">${q.status === "draft" ? "நீக்கு" : "ரத்து"}</button>` : ""}
       </div></td></tr>`).join("")
       : `<tr><td colspan="4">கேள்விகள் எதுவும் இல்லை.</td></tr>`;
+    $("questionsBody").querySelectorAll("[data-publish]").forEach(btn => btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      try {
+        await invokeAdmin("publish_question", { question_id: btn.dataset.publish });
+        showNotice($("appNotice"), "கேள்வி வெற்றிகரமாக வெளியிடப்பட்டது!", "ok");
+        await refreshAll();
+      } catch (err) {
+        showNotice($("appNotice"), `வெளியிட முடியவில்லை: ${err.message}`, "err");
+        btn.disabled = false;
+      }
+    }));
     $("questionsBody").querySelectorAll("[data-edit]").forEach(btn => btn.addEventListener("click", () => loadQuestion(btn.dataset.edit)));
     $("questionsBody").querySelectorAll("[data-remove]").forEach(btn => btn.addEventListener("click", () => removeQuestion(btn.dataset.remove)));
     $("questionsBody").querySelectorAll("[data-close]").forEach(btn => btn.addEventListener("click", async () => {
@@ -842,6 +854,30 @@
   $("publishBtn").addEventListener("click", () => saveQuestion("published"));
   $("resetQuestionBtn").addEventListener("click", resetQuestionForm);
   $("refreshQuestions").addEventListener("click", refreshAll);
+  $("publishAllDrafts").addEventListener("click", async () => {
+    const drafts = cachedQuestions.filter(q => q.status === "draft");
+    if (!drafts.length) return showNotice($("appNotice"), "வெளியிடுவதற்கு வரைவுக் கேள்விகள் எதுவும் இல்லை.", "err");
+    if (!confirm(`மொத்தம் உள்ள ${drafts.length} வரைவுக் கேள்விகளையும் இப்போதே பொதுப் பக்கத்தில் வெளியிடவா?`)) return;
+    const btn = $("publishAllDrafts"); btn.disabled = true;
+    try {
+      for (const q of drafts) await invokeAdmin("publish_question", { question_id: q.id });
+      showNotice($("appNotice"), `🚀 அனைத்து ${drafts.length} கேள்விகளும் வெற்றிகரமாக வெளியிடப்பட்டன!`, "ok");
+      await refreshAll();
+    } catch (err) { showNotice($("appNotice"), `வெளியிட முடியவில்லை: ${err.message}`, "err"); }
+    finally { btn.disabled = false; }
+  });
+  $("closeAllPublished").addEventListener("click", async () => {
+    const pub = cachedQuestions.filter(q => q.status === "published");
+    if (!pub.length) return showNotice($("appNotice"), "மூடுவதற்கு வெளியிடப்பட்ட கேள்விகள் எதுவும் இல்லை.", "err");
+    if (!confirm(`மொத்தம் உள்ள ${pub.length} வெளியிடப்பட்ட கேள்விகளையும் மூடி, அவற்றின் சரியான பதில்களை பொதுப் பக்கத்தில் வெளியிடவா?`)) return;
+    const btn = $("closeAllPublished"); btn.disabled = true;
+    try {
+      for (const q of pub) await invokeAdmin("close_question", { question_id: q.id });
+      showNotice($("appNotice"), `📢 அனைத்து ${pub.length} கேள்விகளும் மூடப்பட்டு சரியான பதில்கள் வெளியிடப்பட்டன! இப்போது வெற்றியாளர்கள் பகுதிக்குச் சென்று வெற்றியாளரைத் தேர்வு செய்யலாம்.`, "ok");
+      await refreshAll();
+    } catch (err) { showNotice($("appNotice"), `மூட முடியவில்லை: ${err.message}`, "err"); }
+    finally { btn.disabled = false; }
+  });
   $("refreshEntries").addEventListener("click", async () => {
     try {
       await fetchEntriesForSelectedDate();
