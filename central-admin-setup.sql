@@ -103,6 +103,40 @@ begin
       create unique index settings_key_unique on public.settings(key);
     end if;
   end if;
+
+  -- 8) Set ON DELETE CASCADE on foreign keys so deleting a question/competition in Table Editor works cleanly
+  alter table public.contest_entries drop constraint if exists contest_entries_question_id_fkey;
+  alter table public.contest_entries add constraint contest_entries_question_id_fkey
+    foreign key (question_id) references public.contest_questions(id) on delete cascade;
+
+  alter table public.contest_winners drop constraint if exists contest_winners_question_id_fkey;
+  alter table public.contest_winners add constraint contest_winners_question_id_fkey
+    foreign key (question_id) references public.contest_questions(id) on delete cascade;
+
+  alter table public.contest_winners drop constraint if exists contest_winners_entry_id_fkey;
+  alter table public.contest_winners add constraint contest_winners_entry_id_fkey
+    foreign key (entry_id) references public.contest_entries(id) on delete cascade;
+
+  alter table public.drawing_entries drop constraint if exists drawing_entries_competition_id_fkey;
+  alter table public.drawing_entries add constraint drawing_entries_competition_id_fkey
+    foreign key (competition_id) references public.annual_competitions(id) on delete cascade;
+
+  -- 9) Delete duplicate / cancelled quiz questions that have no participant entries
+  delete from public.contest_questions q
+  where not exists (select 1 from public.contest_entries e where e.question_id = q.id)
+    and not exists (select 1 from public.contest_winners w where w.question_id = q.id)
+    and (
+      q.status = 'cancelled'
+      or exists (
+        select 1 from public.contest_questions q2
+        where lower(trim(q2.question_text)) = lower(trim(q.question_text))
+          and q2.id <> q.id
+          and (
+            exists (select 1 from public.contest_entries e2 where e2.question_id = q2.id)
+            or q2.created_at < q.created_at
+          )
+      )
+    );
 end $$;
 
 -- =====================================================================
