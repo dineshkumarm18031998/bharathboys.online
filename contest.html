@@ -296,16 +296,33 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   if (location.hash === "#drawing") openTab("drawing");
 
   // ================= QUIZ (SUPPORTS MULTIPLE ACTIVE QUESTIONS) =================
-  let questions = [], question = null, qIndex = 0, timer = null;
+  let questions = [], question = null, qIndex = 0, timer = null, resultCfg = { mode: "auto_after_close", date: "latest" };
   const answeredIds = new Set();
+
+  async function fetchResultConfig() {
+    try {
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/settings?key=eq.quiz_results_config&select=value`, {
+        headers: { apikey:ANON_KEY, Authorization: `Bearer ${ANON_KEY}` }, cache: "no-store"
+      });
+      if (!r.ok) return;
+      const rows = await r.json();
+      if (rows && rows[0] && rows[0].value) {
+        const v = typeof rows[0].value === "string" ? JSON.parse(rows[0].value) : rows[0].value;
+        if (v && typeof v === "object") resultCfg = { mode: v.mode || "auto_after_close", date: v.date || "latest" };
+      }
+    } catch (_) {}
+  }
 
   async function loadQuiz() {
     try {
-      const d = await api("public-contest", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+      const [d] = await Promise.all([
+        api("public-contest", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }),
+        fetchResultConfig()
+      ]);
       $("quizLoading").classList.add("hidden");
       questions = Array.isArray(d.questions) && d.questions.length ? d.questions : (d.question ? [d.question] : []);
       if (!questions.length) {
-        show($("quizNone"), "தற்போது திறந்த கேள்விகள் எதுவும் இல்லை. கீழே சமீபத்திய சரியான பதில்கள் மற்றும் வெற்றியாளர்களைப் பார்க்கலாம்!", "info");
+        show($("quizNone"), "தற்போது திறந்த கேள்விகள் எதுவும் இல்லை. கீழே கடைசியாக நடந்த போட்டியின் சரியான பதில் மற்றும் வெற்றியாளரைப் பார்க்கலாம்!", "info");
       } else {
         $("quizHeading").textContent = questions.length > 1 ? `இன்றைய கேள்விகள் (${questions.length})` : "இன்றைய கேள்வி";
         selectQuestion(0);
@@ -387,29 +404,56 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
 
   function renderResults(rs) {
     const box = $("results"); box.replaceChildren();
-    if (!rs.length) { box.textContent = "இன்னும் முடிவுகள் இல்லை."; return; }
+    if (resultCfg.mode === "hidden") {
+      box.textContent = "⏳ சரியான பதில் மற்றும் வெற்றியாளர் விவரம் நிர்வாகியால் விரைவில் வெளியிடப்படும்.";
+      return;
+    }
+    if (questions.length > 0 && resultCfg.mode === "auto_after_close") {
+      box.textContent = "⏳ தற்போது போட்டி நடைபெற்றுக் கொண்டிருக்கிறது. போட்டி நேரம் முடிந்து நிர்வாகி வெளியிட்டவுடன் சரியான பதில் மற்றும் வெற்றியாளர் விவரம் இங்கே காட்டப்படும்.";
+      return;
+    }
+    const openTexts = new Set(questions.map(q => String(q.question_text || "").trim().toLowerCase()));
+    const openDates = new Set(questions.map(q => q.quiz_date));
+    const filtered = (rs || []).filter(r => {
+      const qt = String(r.question_text || "").trim().toLowerCase();
+      if (openTexts.has(qt)) return false;
+      if (openDates.has(r.quiz_date)) return false;
+      if (resultCfg.date && resultCfg.date !== "latest" && r.quiz_date !== resultCfg.date) return false;
+      return true;
+    });
+    if (!filtered.length) {
+      box.textContent = questions.length > 0
+        ? "⏳ தற்போதைய போட்டி முடிந்தவுடன் சரியான பதில் மற்றும் வெற்றியாளர் விவரம் இங்கே வெளியிடப்படும்."
+        : "இன்னும் முடிவுகள் இல்லை.";
+      return;
+    }
     const groups = new Map();
-    for (const r of rs) {
+    for (const r of filtered) {
       const k = r.quiz_date || "unknown";
       if (!groups.has(k)) groups.set(k, []);
-      groups.get(k).push(r);
+      const list = groups.get(k);
+      const qt = String(r.question_text || "").trim().toLowerCase();
+      if (!list.some(x => String(x.question_text || "").trim().toLowerCase() === qt)) list.push(r);
     }
-    for (const [qDate, items] of groups.entries()) {
-      const card = el("div", { className: "res", style: "background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px" });
-      const prize = items.find(x => x.prize_text)?.prize_text;
-      const winObj = items.find(x => x.winner)?.winner;
-      const head = el("div", { style: "display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--line)" });
-      head.append(el("div", { className: "small mut", style: "font-weight:700", textContent: "📅 " + fmtDate(qDate) + (prize ? " · 🎁 " + prize : "") + (items.length > 1 ? ` · (${items.length} கேள்விகள்)` : "") }));
-      head.append(el("div", { className: winObj ? "win" : "small mut", style: "margin:0", textContent: winObj ? `🏆 வெற்றியாளர்: ${winObj.name} (${winObj.village})` : "⏳ வெற்றியாளர் விரைவில் அறிவிக்கப்படுவார்." }));
-      card.append(head);
-      items.forEach((r, idx) => {
-        const qRow = el("div", { style: idx > 0 ? "margin-top:10px;padding-top:8px;border-top:1px solid var(--line)" : "" });
-        qRow.append(el("div", { style: "font-weight:700", textContent: (items.length > 1 ? `#${idx + 1}. ` : "") + r.question_text }));
-        if (r.correct_answer) qRow.append(el("div", { className: "ans small", textContent: "✅ சரியான பதில்: " + r.correct_answer }));
-        card.append(qRow);
-      });
-      box.append(card);
-    }
+    // Only show the LAST published/closed quiz date (1 group only)
+    const latestEntry = [...groups.entries()][0];
+    if (!latestEntry) { box.textContent = "இன்னும் முடிவுகள் இல்லை."; return; }
+    const [qDate, items] = latestEntry;
+    const orderedItems = [...items].reverse();
+    const card = el("div", { className: "res", style: "background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:4px" });
+    const prize = orderedItems.find(x => x.prize_text)?.prize_text;
+    const winObj = orderedItems.find(x => x.winner)?.winner;
+    const head = el("div", { style: "display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--line)" });
+    head.append(el("div", { className: "small mut", style: "font-weight:700", textContent: "📅 " + fmtDate(qDate) + (prize ? " · 🎁 " + prize : "") + (orderedItems.length > 1 ? ` · (${orderedItems.length} கேள்விகள்)` : "") }));
+    head.append(el("div", { className: winObj ? "win" : "small mut", style: "margin:0", textContent: winObj ? `🏆 வெற்றியாளர்: ${winObj.name} (${winObj.village})` : "⏳ வெற்றியாளர் விரைவில் அறிவிக்கப்படுவார்." }));
+    card.append(head);
+    orderedItems.forEach((r, idx) => {
+      const qRow = el("div", { style: idx > 0 ? "margin-top:10px;padding-top:8px;border-top:1px solid var(--line)" : "" });
+      qRow.append(el("div", { style: "font-weight:700", textContent: (orderedItems.length > 1 ? `#${idx + 1}. ` : "") + r.question_text }));
+      if (r.correct_answer) qRow.append(el("div", { className: "ans small", textContent: "✅ சரியான பதில்: " + r.correct_answer }));
+      card.append(qRow);
+    });
+    box.append(card);
   }
 
   $("nextQuizBtn").addEventListener("click", () => {

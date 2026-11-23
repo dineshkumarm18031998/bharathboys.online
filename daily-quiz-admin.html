@@ -199,6 +199,29 @@
       </section>
 
       <section id="questionsPanel" class="card panel hidden">
+        <div class="card" style="background:#f8fafd;border:1.5px solid #cbd5e1;margin-bottom:14px;padding:14px">
+          <div style="font-weight:800;font-size:15px;margin-bottom:8px;color:var(--navy)">🎛 பொதுப் பக்க பதில் &amp; முடிவு கட்டுப்பாடு (Public Answer Result Control)</div>
+          <div class="grid" style="margin-bottom:10px">
+            <div class="field" style="margin:0">
+              <label for="pubResultMode">பொதுப் பக்கத்தில் (contest.html) சரியான பதில் எப்போது தெரிய வேண்டும்?</label>
+              <select id="pubResultMode">
+                <option value="auto_after_close">⏳ கேள்வி நேரத்தில் மறை · போட்டி முடிந்தவுடன் கடைசி பதிலை மட்டும் காட்டு (பரிந்துரைக்கப்படுகிறது)</option>
+                <option value="always_last">📢 கடைசியாக மூடப்பட்ட பதிலை மட்டும் காட்டு (திறந்த கேள்விகளைத் தவிர்த்து)</option>
+                <option value="hidden">🙈 பொதுப் பக்கத்தில் பதில்களை முழுமையாக மறை (Hide All Answers)</option>
+              </select>
+            </div>
+            <div class="field" style="margin:0">
+              <label for="pubResultDate">எந்த தேதியின் பதிலை மட்டும் காட்ட வேண்டும்?</label>
+              <select id="pubResultDate">
+                <option value="latest">📅 கடைசியாக மூடப்பட்ட தேதி மட்டும் (Last Published Closed Answer Only)</option>
+              </select>
+            </div>
+          </div>
+          <div class="row" style="margin:0">
+            <button type="button" class="primary" id="savePubResultCfgBtn">💾 பதில் காட்சி அமைப்பைச் சேமி</button>
+            <span id="pubResultStatusBadge" class="small muted"></span>
+          </div>
+        </div>
         <div class="row" style="margin-bottom:10px"><h2 class="section-title grow" style="margin:0">கேள்விகள் பட்டியல்</h2><button class="green" id="republishSelectedBtn">🔁 தேர்ந்தெடுத்தவற்றை மீண்டும் வெளியிடு</button><button class="green" id="publishAllDrafts">🚀 அனைத்து வரைவுகளையும் வெளியிடு</button><button class="primary" id="closeAllPublished">📢 அனைத்து வெளியீடுகளையும் மூடி பதிலை வெளியிடு</button><button class="light" id="refreshQuestions">புதுப்பி</button></div>
         <p class="small muted" style="margin-top:0">💡 <b>பல கேள்விகளை மீண்டும் வெளியிட:</b> கீழே வேண்டிய கேள்விகளைத் டிக் (☑) செய்து <b>“🔁 தேர்ந்தெடுத்தவற்றை மீண்டும் வெளியிடு”</b> அழுத்தினால் அந்தக் கேள்விகள் அனைத்தும் புதிய தேதிக்கு வெளியிடத் தயாராகப் படிவத்தில் ஏற்றப்படும்!</p>
         <div class="tablewrap questions-table-wrap"><table class="questions-table"><colgroup><col class="q-chk-col"><col class="q-date-col"><col class="q-text-col"><col class="q-status-col"><col class="q-actions-col"></colgroup><thead><tr><th><input type="checkbox" id="selectAllQuestions" title="அனைத்தையும் தேர்ந்தெடு" style="width:18px;height:18px;cursor:pointer"></th><th>தேதி</th><th>கேள்வி</th><th>நிலை</th><th>செயல்</th></tr></thead><tbody id="questionsBody"><tr><td colspan="5">தகவல் ஏற்றப்படவில்லை.</td></tr></tbody></table></div>
@@ -513,7 +536,8 @@
       await Promise.all([
         fetchEntriesForSelectedDate(),
         updateDrawQuestionPanel(),
-        computeUniqueQuizStats()
+        computeUniqueQuizStats(),
+        loadPubResultConfig()
       ]);
       renderQuestions(); renderEntries(); renderWinners(); renderStats();
       clearNotice($("appNotice"));
@@ -521,6 +545,35 @@
       showNotice($("appNotice"), `தகவலை ஏற்ற முடியவில்லை: ${err.message}`, "err");
     }
   }
+  async function loadPubResultConfig() {
+    try {
+      const closedDates = [...new Set((cachedQuestions || []).filter(q => q.status === "closed").map(q => q.quiz_date).filter(Boolean))].sort((a, b) => b.localeCompare(a));
+      const dSel = $("pubResultDate");
+      if (dSel) {
+        const keep = dSel.value || "latest";
+        dSel.innerHTML = `<option value="latest">📅 கடைசியாக மூடப்பட்ட தேதி மட்டும் (Last Published Closed Answer Only)</option>` +
+          closedDates.map(d => `<option value="${escapeHtml(d)}">📅 ${escapeHtml(fmtDmy(d))} தேதியின் பதில் மட்டும்</option>`).join("");
+        if (keep === "latest" || closedDates.includes(keep)) dSel.value = keep;
+      }
+      const { data } = await supabase.functions.invoke("central-admin", { body: { action: "get_setting", key: "quiz_results_config" } });
+      const cfg = data?.value;
+      if (cfg && typeof cfg === "object") {
+        if ($("pubResultMode") && cfg.mode) $("pubResultMode").value = cfg.mode;
+        if ($("pubResultDate") && cfg.date) $("pubResultDate").value = cfg.date;
+      }
+      updatePubResultBadge();
+    } catch (_) {}
+  }
+  function updatePubResultBadge() {
+    const b = $("pubResultStatusBadge");
+    if (!b || !$("pubResultMode")) return;
+    const openCnt = (cachedQuestions || []).filter(q => q.status === "published").length;
+    const mode = $("pubResultMode").value;
+    if (mode === "hidden") b.textContent = "🔴 தற்போது பொதுப் பக்கத்தில் பதில்கள் மறைக்கப்பட்டுள்ளன.";
+    else if (mode === "auto_after_close" && openCnt > 0) b.textContent = `⏳ தற்போது ${openCnt} கேள்வி திறந்துள்ளதால் பொதுப் பக்கத்தில் பதில்கள் தானாக மறைக்கப்பட்டுள்ளன.`;
+    else b.textContent = "🟢 பொதுப் பக்கத்தில் கடைசியாக மூடப்பட்ட போட்டியின் பதில் மட்டும் காட்டப்படுகிறது.";
+  }
+
   function renderStats() {
     $("statQuestions").textContent = cachedDashboard?.total_questions ?? cachedQuestions.length;
     const uCount = cachedUniqueStats ? cachedUniqueStats.uniqueParticipants : (cachedDashboard?.unique_participants ?? cachedDashboard?.total_participants ?? cachedEntries.length);
@@ -958,6 +1011,17 @@
         delete payload.question_id;
         delete payload.status;
         const existing = questionId ? cachedQuestions.find(q => q.id === questionId) : null;
+        if (!questionId) {
+          const oldDups = cachedQuestions.filter(q =>
+            q.status === "closed" &&
+            q.quiz_date === payload.quiz_date &&
+            String(q.question_text || "").trim().toLowerCase() === String(payload.question_text || "").trim().toLowerCase() &&
+            !cachedWinners.some(w => w.question_id === q.id)
+          );
+          for (const od of oldDups) {
+            try { await invokeAdmin("remove_question", { question_id: od.id }); } catch (_) {}
+          }
+        }
         const saved = questionId
           ? await invokeAdmin("update_question", { question_id: questionId, ...payload })
           : await invokeAdmin("create_question", payload);
@@ -1025,6 +1089,17 @@
   });
   $("resetQuestionBtn").addEventListener("click", resetQuestionForm);
   $("refreshQuestions").addEventListener("click", refreshAll);
+  if ($("savePubResultCfgBtn")) $("savePubResultCfgBtn").addEventListener("click", async () => {
+    const btn = $("savePubResultCfgBtn"); btn.disabled = true;
+    try {
+      const value = { mode: $("pubResultMode").value, date: $("pubResultDate").value };
+      const { data, error } = await supabase.functions.invoke("central-admin", { body: { action: "save_setting", key: "quiz_results_config", value } });
+      if (error || data?.error) throw new Error(error?.message || data?.error || "சேமிக்க முடியவில்லை");
+      updatePubResultBadge();
+      showNotice($("appNotice"), "✅ பொதுப் பக்க பதில் காட்சி அமைப்பு சேமிக்கப்பட்டது! (contest.html பக்கத்தை Refresh செய்தால் உடனே தெரியும்)", "ok");
+    } catch (err) { showNotice($("appNotice"), err.message, "err"); }
+    finally { btn.disabled = false; }
+  });
   $("publishAllDrafts").addEventListener("click", async () => {
     const drafts = cachedQuestions.filter(q => q.status === "draft");
     if (!drafts.length) return showNotice($("appNotice"), "வெளியிடுவதற்கு வரைவுக் கேள்விகள் எதுவும் இல்லை.", "err");
