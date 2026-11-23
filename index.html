@@ -412,19 +412,6 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 
 .gift-float{position:fixed;right:1.2rem;bottom:5.5rem;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#f5a623,#ff5500);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;text-decoration:none;z-index:800;box-shadow:0 4px 20px rgba(255,85,0,.45);animation:giftPulse 2.2s infinite}
 .gift-float:hover{transform:scale(1.08)}@keyframes giftPulse{0%,100%{box-shadow:0 4px 20px rgba(255,85,0,.45)}50%{box-shadow:0 4px 30px rgba(245,166,35,.85)}}
-#contestsSpotlight{background:linear-gradient(180deg,var(--bg),var(--surface));padding:56px 5% 64px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.cs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1.4rem;margin-top:1.6rem}
-.cs-card{background:var(--surface2);border:1.5px solid var(--border2);border-radius:20px;padding:1.6rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column;justify-content:space-between;gap:1rem;box-shadow:var(--glow-o)}
-.cs-card:hover{transform:translateY(-5px)}
-.cs-card.draw-card{border-color:rgba(0,196,167,0.3);box-shadow:var(--glow-t)}
-.cs-badge{display:inline-flex;align-items:center;gap:6px;font-size:.66rem;font-weight:800;padding:4px 12px;border-radius:50px;background:rgba(255,85,0,0.14);color:var(--orange);width:fit-content}
-.cs-card.draw-card .cs-badge{background:rgba(0,196,167,0.14);color:var(--teal)}
-.cs-title{font-size:1.18rem;font-weight:900;color:var(--text);margin:.3rem 0}
-.cs-status{font-size:.82rem;color:var(--text2);line-height:1.7;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.85rem 1rem}
-.cs-win{font-size:.8rem;font-weight:800;color:var(--gold);margin-top:.45rem}
-.cs-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:12px 20px;border-radius:12px;font-size:.82rem;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--orange),var(--gold));box-shadow:0 6px 20px rgba(255,85,0,0.3);transition:.2s}
-.cs-card.draw-card .cs-btn{background:linear-gradient(135deg,var(--teal),var(--teal2));box-shadow:0 6px 20px rgba(0,196,167,0.28)}
-.cs-btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
 #siteAnn{display:none;position:fixed;top:64px;left:0;right:0;z-index:850;background:#f5a623;color:#111;text-align:center;padding:.5rem 2.6rem;font-weight:700;font-size:.9rem}
 #siteAnn button{position:absolute;right:.6rem;top:50%;transform:translateY(-50%);background:none;border:0;font-size:1.1rem;cursor:pointer;color:#111}
 </style>
@@ -506,40 +493,8 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
       </div>
     </div>
     <div class="hero-btns rv d4">
-      <a href="contest.html" class="hbtn hbf">🎁 போட்டிகளில் பங்கேற்க</a>
-      <a href="#ideology" class="hbtn hbo">✦ எங்கள் கொள்கைகள்</a>
+      <a href="#ideology" class="hbtn hbf">✦ எங்கள் கொள்கைகள்</a>
       <a href="#bloodteam" class="hbtn hbo">🩸 இரத்தம் தேவை?</a>
-    </div>
-  </div>
-</section>
-
-<section id="contestsSpotlight">
-  <div class="si">
-    <div class="shdr center rv">
-      <div class="stag ts">✦ நேரடி போட்டிகள் &amp; பரிசுகள் ✦</div>
-      <h2 class="sh">போட்டிகளில் பங்கேற்று <span class="grd-o">பரிசுகளை வெல்லுங்கள்!</span></h2>
-      <div class="shr hrs"></div>
-      <p class="sd">பாரத் பாய்ஸ் நற்பணி மன்றம் நடத்தும் தினசரி வினாடி வினா மற்றும் ஓவியப் போட்டியில் உடனே பங்கேற்கலாம்</p>
-    </div>
-    <div class="cs-grid">
-      <div class="cs-card rv d1">
-        <div>
-          <div class="cs-badge" id="homeQuizBadge">❓ தினசரி வினாடி வினா</div>
-          <h3 class="cs-title">தினம் ஒரு அறிவுப் போட்டி</h3>
-          <div class="cs-status" id="homeQuizStatus">இன்றைய கேள்விகள் மற்றும் சமீபத்திய வெற்றியாளர் விவரங்களைப் பார்க்கலாம்.</div>
-          <div class="cs-win" id="homeQuizWinner"></div>
-        </div>
-        <a href="contest.html#quiz" class="cs-btn">❓ வினாடி வினாவில் பங்கேற்க →</a>
-      </div>
-      <div class="cs-card draw-card rv d2">
-        <div>
-          <div class="cs-badge" id="homeDrawBadge">🎨 ஓவியப் போட்டி</div>
-          <h3 class="cs-title" id="homeDrawTitle">பாரத் பாய்ஸ் – ஓவியப் போட்டி</h3>
-          <div class="cs-status" id="homeDrawStatus">1 முதல் 12-ஆம் வகுப்பு, கல்லூரி (Degree) மற்றும் பொதுப் பிரிவினர் தங்கள் ஓவியங்களை ஆன்லைனில் சமர்ப்பிக்கலாம்.</div>
-          <div class="cs-win" id="homeDrawWinner"></div>
-        </div>
-        <a href="contest.html#drawing" class="cs-btn">🎨 ஓவியப் போட்டியில் பங்கேற்க →</a>
-      </div>
     </div>
   </div>
 </section>
@@ -1250,37 +1205,6 @@ fitOneLine();
 
 renderDefaults();
 hydrateFromDB().then(()=>applySiteContent(DB._c['site_content']));
-hydrateLiveContestsSpotlight();
-async function hydrateLiveContestsSpotlight(){
-  try{
-    const hdr={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'};
-    const [qRes,dRes]=await Promise.all([
-      fetch(SUPABASE_URL+'/functions/v1/public-contest',{method:'POST',headers:hdr,body:'{}'}).then(r=>r.json()).catch(()=>null),
-      fetch(SUPABASE_URL+'/functions/v1/public-drawing',{method:'GET',headers:hdr}).then(r=>r.json()).catch(()=>null)
-    ]);
-    if(qRes){
-      const qs=Array.isArray(qRes.questions)&&qRes.questions.length?qRes.questions:(qRes.question?[qRes.question]:[]);
-      const qBadge=document.getElementById('homeQuizBadge'),qStat=document.getElementById('homeQuizStatus'),qWin=document.getElementById('homeQuizWinner');
-      if(qs.length&&qBadge&&qStat){
-        qBadge.textContent=`🟢 இப்போது நடைபெறுகிறது (${qs.length} கேள்வி${qs.length>1?'கள்':''})`;
-        qStat.textContent=qs[0].question_text+(qs.length>1?` (+ மேலும் ${qs.length-1} கேள்விகள்)`:'');
-      }
-      const latestWin=(qRes.results||[]).find(r=>r.winner)?.winner;
-      if(latestWin&&qWin)qWin.textContent=`🏆 சமீபத்திய வெற்றியாளர்: ${latestWin.name} (${latestWin.village})`;
-    }
-    if(dRes){
-      const comp=dRes.competition||dRes.upcoming;
-      const dBadge=document.getElementById('homeDrawBadge'),dTitle=document.getElementById('homeDrawTitle'),dStat=document.getElementById('homeDrawStatus'),dWin=document.getElementById('homeDrawWinner');
-      if(comp&&dTitle){
-        dTitle.textContent=String(comp.competition_name||'பாரத் பாய்ஸ் – ஓவியப் போட்டி').replace(/ஆண்டு\s*/g,'');
-        if(dBadge)dBadge.textContent=`🟢 ஓவியப் போட்டி ${comp.competition_year||''} – பதிவு திறந்துள்ளது`;
-        if(dStat&&comp.description)dStat.textContent=comp.description.slice(0,140)+(comp.description.length>140?'…':'');
-      }
-      const dw=(dRes.winners||[])[0];
-      if(dw&&dWin)dWin.textContent=`🏆 சமீபத்திய வெற்றியாளர்: ${dw.name} (${dw.village})`;
-    }
-  }catch(_){}
-}
 function applySiteContent(c){try{if(!c||typeof c!=='object')return;
 const ok=s=>typeof s==='string'&&s.trim().length>0;
 if(ok(c.hero_w))document.getElementById('heroW').textContent=c.hero_w.trim()+' ';
