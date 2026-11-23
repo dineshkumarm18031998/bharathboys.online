@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ta">
+<html lang="ta" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -9,9 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b111c;--card:#121a29;--card2:#172235;--line:#24324a;--txt:#eef2f8;--mut:#9aa8bd;--or:#ff5500;--gold:#f5a623;--ok:#18a058;--err:#e5484d}
+:root{--bg:#f4f7fb;--card:#ffffff;--card2:#f8fafd;--inbg:#ffffff;--line:#dce4f0;--txt:#162338;--mut:#5b6b82;--or:#ff5500;--gold:#e08e0b;--ok:#16834a;--err:#d92d20}
+[data-theme="dark"]{--bg:#0b111c;--card:#121a29;--card2:#172235;--inbg:#0e1522;--line:#24324a;--txt:#eef2f8;--mut:#9aa8bd;--or:#ff5500;--gold:#f5a623;--ok:#18a058;--err:#e5484d}
 *,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
-body{margin:0;width:100%;max-width:100%;overflow-x:hidden;background:radial-gradient(1200px 600px at 80% -10%,#3a1a0a55,transparent),var(--bg);color:var(--txt);font-family:'Noto Sans Tamil',Arial,sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
+body{margin:0;width:100%;max-width:100%;overflow-x:hidden;background:var(--bg);color:var(--txt);font-family:'Noto Sans Tamil',Arial,sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
 a{color:var(--gold)}
 .wrap{width:100%;max-width:860px;margin:auto;padding:16px}
 header{display:flex;align-items:center;gap:12px;padding:10px 0 18px;flex-wrap:wrap}
@@ -42,24 +43,24 @@ header h1{font-size:clamp(1rem,3.8vw,1.15rem);margin:0;line-height:1.35;overflow
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;min-width:0}
 .grid2>*{min-width:0;max-width:100%}
 label.f{display:block;font-weight:600;font-size:.9rem;margin:12px 0 6px;overflow-wrap:break-word}
-input.in,select.in{display:block;width:100%;max-width:100%;min-width:0;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:#0e1522;color:var(--txt);font:inherit;font-size:15px}
+input.in,select.in{display:block;width:100%;max-width:100%;min-width:0;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:var(--inbg);color:var(--txt);font:inherit;font-size:15px}
 input.in:focus,select.in:focus{outline:none;border-color:var(--gold)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;max-width:100%;border:0;border-radius:12px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;transition:.15s;overflow-wrap:break-word;text-align:center}
 .btn.pri{background:linear-gradient(135deg,#ff5500,#f5a623);color:#fff;width:100%;margin-top:16px;font-size:1.05rem}
 .btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--line);padding:9px 12px;font-weight:600;flex:1 1 auto}
 .btn:disabled{opacity:.55;cursor:wait}
 .msg{display:none;padding:12px 14px;border-radius:12px;margin:12px 0;white-space:pre-wrap;overflow-wrap:break-word}
-.msg.ok{display:block;background:#18a05822;border:1px solid #18a05866;color:#b6f0cf}
-.msg.err{display:block;background:#e5484d22;border:1px solid #e5484d66;color:#ffc9cb}
-.msg.info{display:block;background:#f5a62318;border:1px solid #f5a62355;color:#ffe2b0}
+.msg.ok{display:block;background:#16834a1a;border:1px solid #16834a66;color:var(--ok);font-weight:600}
+.msg.err{display:block;background:#d92d201a;border:1px solid #d92d2066;color:var(--err);font-weight:600}
+.msg.info{display:block;background:#f5a6231a;border:1px solid #f5a62366;color:var(--txt)}
 .mut{color:var(--mut)}.small{font-size:.82rem}.hidden{display:none!important}
 .count{font-weight:800;color:var(--gold)}
 ul.rules{margin:6px 0 0;padding-left:20px;overflow-wrap:break-word}ul.rules li{margin:3px 0}
 .res{border-top:1px solid var(--line);padding:12px 0;overflow-wrap:break-word}.res:first-child{border-top:0}
-.win{color:#ffd27a;font-weight:700;margin-top:4px}
-.ans{color:#9be7b9;font-weight:600;margin-top:4px}
+.win{color:var(--or);font-weight:800;margin-top:4px}
+.ans{color:var(--ok);font-weight:700;margin-top:4px}
 .picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:6px}
-.picker label{min-width:0;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px;border:1.5px dashed #3b4d6b;border-radius:14px;cursor:pointer;background:#0e1522;text-align:center;font-weight:600;overflow-wrap:break-word}
+.picker label{min-width:0;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px;border:1.5px dashed #94a3b8;border-radius:14px;cursor:pointer;background:var(--card2);text-align:center;font-weight:600;overflow-wrap:break-word}
 .picker input{display:none}
 .editor{margin-top:12px;max-width:100%}
 .canvasbox{position:relative;background:#06090f;border-radius:12px;overflow:hidden;touch-action:none;display:flex;justify-content:center;max-width:100%}
@@ -205,6 +206,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   "use strict";
   const SB_URL = "https://gnydvftdpoocqrilqual.supabase.co";
   const KEY = "sb_publishable_9Igf0tifL6HRuowU-vHIgw_86c2YetY"; // publishable key only
+  try { const s = localStorage.getItem("bb_theme"); document.documentElement.setAttribute("data-theme", s === "dark" ? "dark" : "light"); } catch {}
   const $ = (id) => document.getElementById(id);
   const MAX = 5 * 1024 * 1024;
 
@@ -318,7 +320,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     $("quizText").classList.toggle("hidden", questions.length > 1);
     const box = $("quizOpts"); box.replaceChildren();
     questions.forEach((qItem, qIdx) => {
-      const wrap = el("div", { style: questions.length > 1 ? "background:#152033;border:1px solid #283a56;border-radius:14px;padding:14px;margin-bottom:14px" : "" });
+      const wrap = el("div", { style: questions.length > 1 ? "background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px" : "" });
       if (questions.length > 1) {
         wrap.append(el("div", { style: "display:inline-block;background:#ff5500;color:#fff;font-weight:800;font-size:.8rem;padding:3px 11px;border-radius:20px;margin-bottom:8px", textContent: `கேள்வி #${qIdx + 1}` }));
         wrap.append(el("div", { className: "q", style: "margin-top:2px", textContent: qItem.question_text }));

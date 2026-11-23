@@ -49,7 +49,7 @@ function fileToDataUrl(file,maxW,quality){return new Promise((res,rej)=>{if(!['i
 /* ---------- navigation ---------- */
 function tab(name){document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===name));document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.panel===name));
  if(name==='reports')loadReports();if(name==='drawing')loadCompetitions();if(name==='settings')loadSettings();if(name==='anthem')loadAnthem();if(name==='website')loadSiteContent();
- if(name==='quiz'&&!quizLoaded){const fr=$('quizFrame');fr.onload=()=>{try{const d=fr.contentDocument;if(!d)return;const fit=()=>{const h=Math.max(d.documentElement.scrollHeight,d.body?.scrollHeight||0,720);fr.style.height=h+24+'px'};fit();new ResizeObserver(fit).observe(d.body)}catch{}};fr.src='daily-quiz-admin.html';quizLoaded=true}}
+ if(name==='quiz'&&!quizLoaded){const fr=$('quizFrame');fr.onload=()=>{try{const d=fr.contentDocument;if(!d)return;const fit=()=>{const h=Math.max(d.body?.offsetHeight||0,d.body?.scrollHeight||0,680);fr.style.height=h+28+'px'};fit();new ResizeObserver(fit).observe(d.body)}catch{}};fr.src='daily-quiz-admin.html';quizLoaded=true}}
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>tab(b.dataset.panel));
 document.querySelectorAll('.subnav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.subnav button').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.sub').forEach(x=>x.classList.toggle('active',x.id===b.dataset.sub));const s=b.dataset.sub;if(s==='s-text')loadSiteContent();if(s==='s-gallery')loadGallery();if(s==='s-members')loadCollection('members');if(s==='s-donors')loadCollection('donors')});
 
@@ -133,14 +133,14 @@ async function downloadInstaReelCard(x){
  const bg=g.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#0d1729');bg.addColorStop(0.5,'#162847');bg.addColorStop(1,'#1e110a');g.fillStyle=bg;g.fillRect(0,0,W,H);
  g.strokeStyle='#f5a623';g.lineWidth=8;g.strokeRect(28,28,W-56,H-56);
  g.fillStyle='#f5a623';g.font='800 44px Arial,"Noto Sans Tamil",sans-serif';g.textAlign='center';
- g.fillText('பாரத் பாய்ஸ் நற்பணி மன்றம்',W/2,115);
+ g.fillText('பாரத் பாய்ஸ் நற்பணி மன்றம்',W/2,115,W-160);
  g.fillStyle='#cbd5e1';g.font='600 28px Arial,"Noto Sans Tamil",sans-serif';
- g.fillText('புஞ்சை துறையம்பாளையம் · bharathboys.online',W/2,162);
+ g.fillText('புஞ்சை துறையம்பாளையம் · bharathboys.online',W/2,162,W-160);
  g.fillStyle='#ffffff';g.font='800 38px Arial,"Noto Sans Tamil",sans-serif';
- g.fillText(comp.competition_name||`ஆண்டு ஓவியப் போட்டி ${comp.competition_year}`,W/2,230);
+ g.fillText(comp.competition_name||`ஆண்டு ஓவியப் போட்டி ${comp.competition_year}`,W/2,230,W-160);
  const badge=x.review_status==='winner'?'🏆 வெற்றியாளர் ஓவியம் (WINNER) 🏆':'🎨 சிறந்த ஓவியம்';
  g.fillStyle='#ff5500';g.fillRect(190,262,W-380,64);
- g.fillStyle='#ffffff';g.font='800 32px Arial,"Noto Sans Tamil",sans-serif';g.fillText(badge,W/2,305);
+ g.fillStyle='#ffffff';g.font='800 32px Arial,"Noto Sans Tamil",sans-serif';g.fillText(badge,W/2,305,W-400);
  const boxX=75,boxY=360,boxW=W-150,boxH=1120;
  g.fillStyle='#ffffff';g.fillRect(boxX,boxY,boxW,boxH);
  g.strokeStyle='#f5a623';g.lineWidth=6;g.strokeRect(boxX,boxY,boxW,boxH);
@@ -151,14 +151,14 @@ async function downloadInstaReelCard(x){
  g.fillStyle='#101c30';g.fillRect(75,1520,W-150,320);
  g.strokeStyle='#f5a623';g.lineWidth=4;g.strokeRect(75,1520,W-150,320);
  g.fillStyle='#ffd27a';g.font='800 46px Arial,"Noto Sans Tamil",sans-serif';
- g.fillText(`🎨 ${x.full_name||''}`,W/2,1605);
+ g.fillText(`🎨 ${x.full_name||''}`,W/2,1605,W-200);
  const catLine=[x.standard_category,x.age?`வயது: ${x.age}`:''].filter(Boolean).join('  |  ');
  g.fillStyle='#ffffff';g.font='700 34px Arial,"Noto Sans Tamil",sans-serif';
- if(catLine)g.fillText(catLine,W/2,1675);
+ if(catLine)g.fillText(catLine,W/2,1675,W-200);
  g.fillStyle='#9be7b9';g.font='700 34px Arial,"Noto Sans Tamil",sans-serif';
- g.fillText(`📍 ஊர்: ${x.village||'—'}`,W/2,1740);
+ g.fillText(`📍 ஊர்: ${x.village||'—'}`,W/2,1740,W-200);
  g.fillStyle='#94a3b8';g.font='600 26px Arial,"Noto Sans Tamil",sans-serif';
- g.fillText('வாழ்த்துகள்! · பாரத் பாய்ஸ் நற்பணி மன்றம்',W/2,1805);
+ g.fillText('வாழ்த்துகள்! · பாரத் பாய்ஸ் நற்பணி மன்றம்',W/2,1805,W-200);
  const outBlob=await new Promise(r=>cv.toBlob(r,'image/png'));
  const fname=`BharathBoys_InstaReel_${(x.full_name||'Winner').replace(/\s+/g,'_')}.png`;
  const file=new File([outBlob],fname,{type:'image/png'});

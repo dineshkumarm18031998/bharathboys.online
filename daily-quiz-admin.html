@@ -821,8 +821,8 @@
     const labels = ["பெயர்","கைபேசி","ஊர்","தேர்ந்தெடுத்த பதில்","சரியானதா","பதிவு நேரம்"];
     const quote = v => `"${String(v ?? "").replace(/"/g,'""')}"`;
     const csv = "\uFEFF" + [labels.map(quote).join(","), ...rows.map(r => cols.map(c => {
-      if (c === "selected_option") return quote(["A","B","C","D"][Number(r[c])] ?? "");
-      if (c === "is_correct") return quote(r[c] ? "சரி" : "தவறு");
+      if (c === "selected_option") return quote(r.score_label || ["A","B","C","D"][Number(r[c])] || "");
+      if (c === "is_correct") return quote(r.all_correct ? "அனைத்து பதில்களும் சரி" : (r[c] ? "சரி" : "தவறு"));
       return quote(r[c]);
     }).join(","))].join("\r\n");
     const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
