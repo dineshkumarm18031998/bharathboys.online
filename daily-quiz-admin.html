@@ -206,7 +206,7 @@
         <div class="row"><h2 class="section-title grow">பங்கேற்பாளர் பதிவுகள்</h2><button class="light" id="refreshEntries">புதுப்பி</button><button class="green" id="exportEntries">CSV பதிவிறக்கம்</button></div>
         <div class="grid" style="margin-bottom:12px">
           <div class="field"><label for="entriesDate">தேதி வடிகட்டி (அனைத்து தேதிகளுக்கும் காலியாக விடலாம்)</label><input id="entriesDate" type="date"></div>
-          <div class="field"><label for="answerFilter">பதில் வகை / Shortlist</label><select id="answerFilter"><option value="all_correct">🌟 அனைத்துக் கேள்விகளுக்கும் சரியான பதில் அளித்தவர்கள் (All Correct Shortlist)</option><option value="correct">சரியான பதில் மட்டும் (தனி கேள்வி)</option><option value="all">அனைத்தும்</option><option value="incorrect">தவறான பதில் மட்டும்</option></select></div>
+          <div class="field"><label for="answerFilter">பதில் வகை / Shortlist</label><select id="answerFilter"><option value="all_summary">📊 அனைத்துப் பங்கேற்பாளர்கள் – மதிப்பெண் வரிசையில் (5/5, 4/5…)</option><option value="all_correct">🌟 100% அனைத்துக் கேள்விகளுக்கும் சரியான பதில் மட்டும் (All-Correct Shortlist)</option><option value="all">📋 தனி கேள்வி வாரியாக – அனைத்தும்</option><option value="correct">✓ தனி கேள்வி – சரியான பதில் மட்டும்</option><option value="incorrect">✕ தனி கேள்வி – தவறான பதில் மட்டும்</option></select></div>
           <div class="field full"><label for="entriesQuestionSelect">கேள்வியைத் தேர்ந்தெடுக்கவும் (ஒரே நாளில் பல கேள்விகள் இருந்தால் இங்கே மாற்றலாம்)</label><select id="entriesQuestionSelect"></select></div>
         </div>
         <div class="tablewrap"><table><thead><tr><th>பெயர்</th><th>கைபேசி</th><th>ஊர்</th><th>பதில்</th><th>முடிவு</th><th>நேரம்</th><th>கைமுறை தேர்வு</th></tr></thead><tbody id="entriesBody"><tr><td colspan="7">கேள்வியைத் தேர்ந்தெடுத்து புதுப்பிக்கவும்.</td></tr></tbody></table></div>
@@ -379,12 +379,11 @@
     }
     if ($("entriesQuestionSelect").value !== question.id) $("entriesQuestionSelect").value = question.id;
 
-    if (filter === "all_correct") {
+    if (filter === "all_summary" || filter === "all_correct") {
       try {
         const res = await invokeAdmin("list_date_entries", { quiz_date: question.quiz_date });
         const summary = res.summary || [];
-        const allRight = summary.filter(p => p.all_correct);
-        const list = allRight.length ? allRight : summary;
+        const list = filter === "all_correct" ? summary.filter(p => p.all_correct) : summary;
         cachedEntries = list.map(p => ({
           id: p.entry_id,
           question_id: p.question_id || question.id,
@@ -393,6 +392,7 @@
           village: p.village,
           selected_option: -1,
           score_label: `${p.correct} / ${p.total_questions} சரி`,
+          wrong_count: p.total_questions - p.correct,
           all_correct: p.all_correct,
           is_correct: p.all_correct || p.correct > 0,
           created_at: p.created_at
@@ -543,7 +543,7 @@
     $("entriesBody").innerHTML = cachedEntries.length ? cachedEntries.map(e => `
       <tr><td><b>${escapeHtml(e.full_name)}</b></td><td>${escapeHtml(e.mobile)}</td><td>${escapeHtml(e.village)}</td>
       <td>${e.score_label ? `<span class="score-pill ${e.all_correct ? "all" : "part"}">${e.all_correct ? "🌟 " : ""}${escapeHtml(e.score_label)}</span>` : (["A","B","C","D"][Number(e.selected_option)] ?? "-")}</td>
-      <td>${e.all_correct ? '<span class="score-pill all">🌟 அனைத்து பதில்களும் சரி</span>' : (e.is_correct ? '<span class="pill" style="background:#e9f7ef;color:#116239;font-weight:700">✓ சரி</span>' : "தவறு")}</td>
+      <td>${e.all_correct ? '<span class="score-pill all">🌟 அனைத்து பதில்களும் சரி</span>' : (e.score_label ? `<span class="score-pill part">${escapeHtml(e.score_label)} (${e.wrong_count || 0} தவறு)</span>` : (e.is_correct ? '<span class="pill" style="background:#e9f7ef;color:#116239;font-weight:700">✓ சரி</span>' : "தவறு"))}</td>
       <td>${escapeHtml(e.created_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(e.created_at)) : "")}</td>
       <td>${e.is_correct ? `<button type="button" class="green" style="padding:7px 10px;font-size:12.5px" data-pick-entry="${escapeHtml(e.id)}" data-pick-q="${escapeHtml(e.question_id)}" data-pick-name="${escapeHtml(e.full_name)}">🏆 வெற்றியாளராக்கு</button>` : "—"}</td></tr>`).join("")
       : `<tr><td colspan="7">பதிவுகள் இல்லை.</td></tr>`;
