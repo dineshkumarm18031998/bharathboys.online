@@ -500,6 +500,8 @@
         ${q.status === "draft" ? `<button class="green" data-publish="${escapeHtml(q.id)}">வெளியிடு</button>` : ""}
         ${["draft","published"].includes(q.status) ? `<button class="light" data-edit="${escapeHtml(q.id)}">திருத்து</button>` : ""}
         ${q.status === "published" ? `<button class="light" data-close="${escapeHtml(q.id)}">மூடு</button>` : ""}
+        ${["closed","cancelled"].includes(q.status) ? `<button class="green" style="width:auto;min-width:96px" data-reuse="${escapeHtml(q.id)}" title="புதிய தேதிக்கு மீண்டும் வெளியிட படிவத்தில் ஏற்று">🔁 மீண்டும் வெளியிடு</button>` : ""}
+        ${["closed","cancelled"].includes(q.status) ? `<button class="light" style="width:auto;min-width:96px" data-reopen="${escapeHtml(q.id)}" title="இதே கேள்வியை மீண்டும் திற">🔓 மீண்டும் திற</button>` : ""}
         ${["draft","published","closed"].includes(q.status) ? `<button class="danger" data-remove="${escapeHtml(q.id)}">${q.status === "draft" ? "நீக்கு" : "ரத்து"}</button>` : ""}
       </div></td></tr>`).join("")
       : `<tr><td colspan="4">கேள்விகள் எதுவும் இல்லை.</td></tr>`;
@@ -514,6 +516,8 @@
         btn.disabled = false;
       }
     }));
+    $("questionsBody").querySelectorAll("[data-reuse]").forEach(btn => btn.addEventListener("click", () => reuseQuestionForNewDay(btn.dataset.reuse)));
+    $("questionsBody").querySelectorAll("[data-reopen]").forEach(btn => btn.addEventListener("click", () => reopenClosedQuestion(btn.dataset.reopen, btn)));
     $("questionsBody").querySelectorAll("[data-edit]").forEach(btn => btn.addEventListener("click", () => loadQuestion(btn.dataset.edit)));
     $("questionsBody").querySelectorAll("[data-remove]").forEach(btn => btn.addEventListener("click", () => removeQuestion(btn.dataset.remove)));
     $("questionsBody").querySelectorAll("[data-close]").forEach(btn => btn.addEventListener("click", async () => {
@@ -522,6 +526,68 @@
       try { await invokeAdmin("close_question", { question_id: btn.dataset.close }); showNotice($("appNotice"), "கேள்வி மூடப்பட்டது.", "ok"); await refreshAll(); }
       catch (err) { showNotice($("appNotice"), `மூட முடியவில்லை: ${err.message}`, "err"); btn.disabled = false; }
     }));
+  }
+
+  function reuseQuestionForNewDay(id) {
+    const q = cachedQuestions.find(x => x.id === id);
+    if (!q) return;
+    const today = indiaDate();
+    if ($("questionId").value || !$("questionText").value.trim()) {
+      resetQuestionForm();
+      $("quizDate").value = today;
+      $("closeDate").value = today;
+      $("closeHour").value = "10"; $("closeMinute").value = "00"; $("closePeriod").value = "PM";
+      $("questionText").value = q.question_text || "";
+      (q.options || []).forEach((v, i) => { if ($(`option${i}`)) $(`option${i}`).value = v; });
+      $("correctOption").value = String(q.correct_option ?? "");
+      $("prizeText").value = q.prize_text || "";
+      $("questionPanel").querySelector(".section-title").textContent = "🔁 கேள்வியை மீண்டும் வெளியிடு (தேதி / நேரத்தை மாற்றி வெளியிடலாம்)";
+    } else {
+      addExtraQuestionCard();
+      const blocks = [...$("extraQuestionsContainer").querySelectorAll(".extra-q-block")];
+      const last = blocks[blocks.length - 1];
+      if (last) {
+        last.querySelector(".eq-text").value = q.question_text || "";
+        (q.options || []).forEach((v, i) => { const el = last.querySelector(`.eq-opt${i}`); if (el) el.value = v; });
+        last.querySelector(".eq-correct").value = String(q.correct_option ?? "");
+      }
+    }
+    showNotice($("appNotice"), "🔁 கேள்வி படிவத்தில் ஏற்றப்பட்டது! விரும்பிய தேதி மற்றும் கடைசி நேரத்தைத் தேர்ந்தெடுத்து 'வெளியிடு' அழுத்தவும்.", "ok");
+    activateTab("questionPanel");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function reopenClosedQuestion(id, btn) {
+    const q = cachedQuestions.find(x => x.id === id);
+    if (!q) return;
+    const hasW = cachedWinners.some(w => w.question_id === id);
+    if (hasW) {
+      if (!confirm("இந்தக் கேள்விக்கு ஏற்கனவே வெற்றியாளர் தேர்வு செய்யப்பட்டுள்ளார்.\n\nவெற்றியாளர் பதிவை நீக்கிவிட்டு இதே கேள்வியை மீண்டும் திறக்கவா?\n(அல்லது பழைய வெற்றியாளரை அப்படியே வைத்துப் புதிய நாளில் வெளியிட '🔁 மீண்டும் வெளியிடு' பொத்தானைப் பயன்படுத்தவும்.)")) return;
+    } else {
+      if (!confirm("இந்த மூடப்பட்ட கேள்வியை மீண்டும் பொதுப் பக்கத்தில் திறக்கவா? (கடைசி நேரம் இன்றிரவு 10:00 PM ஆக நீட்டிக்கப்படும்)")) return;
+    }
+    btn.disabled = true;
+    try {
+      const today = indiaDate();
+      const endToday = new Date(`${today}T22:00:00+05:30`).getTime();
+      const closesAt = new Date(endToday > Date.now() + 1800000 ? endToday : Date.now() + 6 * 3600 * 1000).toISOString();
+      try {
+        await invokeAdmin("reopen_question", { question_id: id, clear_winner: hasW, quiz_date: q.quiz_date < today ? today : q.quiz_date, closes_at: closesAt });
+      } catch (e) {
+        if (String(e.message || "").includes("Unknown action")) {
+          const created = await invokeAdmin("create_question", {
+            quiz_date: today, question_text: q.question_text, options: q.options,
+            correct_option: Number(q.correct_option), closes_at: closesAt, prize_text: q.prize_text || null
+          });
+          if (created.question?.id) await invokeAdmin("publish_question", { question_id: created.question.id });
+        } else throw e;
+      }
+      showNotice($("appNotice"), "🔓 கேள்வி மீண்டும் பொதுப் பக்கத்தில் திறக்கப்பட்டது!", "ok");
+      await refreshAll();
+    } catch (err) {
+      showNotice($("appNotice"), `மீண்டும் திறக்க முடியவில்லை: ${err.message}`, "err");
+      btn.disabled = false;
+    }
   }
 
   async function removeQuestion(id) {
