@@ -75,7 +75,12 @@ async function loadReports(){try{clear('reportsMsg');reportData=await call('repo
  if(uPart===undefined||allCorr===undefined){
    try{
      const qList=await callQuizAdmin('list_questions');
-     const dates=[...new Set((qList?.questions||[]).filter(x=>x.status!=='cancelled').map(x=>x.quiz_date).filter(Boolean))];
+     const activeQs=(qList?.questions||[]).filter(x=>x.status!=='cancelled');
+     const byText=new Map();
+     for(const x of activeQs){const k=String(x.question_text||'').trim().toLowerCase()||x.id;if(!byText.has(k)||x.status==='published')byText.set(k,x)}
+     const cleanQs=[...byText.values()];
+     if(cleanQs.length){q.total_questions=cleanQs.length;q.published=cleanQs.filter(x=>x.status==='published').length;q.closed=cleanQs.filter(x=>x.status==='closed').length;q.draft=cleanQs.filter(x=>x.status==='draft').length}
+     const dates=[...new Set(activeQs.map(x=>x.quiz_date).filter(Boolean))];
      if(dates.length){
        const dRes=await Promise.all(dates.map(dt=>callQuizAdmin('list_date_entries',{quiz_date:dt})));
        const mobMap=new Map(),corrSet=new Set();

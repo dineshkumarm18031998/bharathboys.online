@@ -222,7 +222,7 @@
             <span id="pubResultStatusBadge" class="small muted"></span>
           </div>
         </div>
-        <div class="row" style="margin-bottom:10px"><h2 class="section-title grow" style="margin:0">கேள்விகள் பட்டியல்</h2><button class="green" id="republishSelectedBtn">🔁 தேர்ந்தெடுத்தவற்றை மீண்டும் வெளியிடு</button><button class="green" id="publishAllDrafts">🚀 அனைத்து வரைவுகளையும் வெளியிடு</button><button class="primary" id="closeAllPublished">📢 அனைத்து வெளியீடுகளையும் மூடி பதிலை வெளியிடு</button><button class="light" id="refreshQuestions">புதுப்பி</button></div>
+        <div class="row" style="margin-bottom:10px"><h2 class="section-title grow" style="margin:0">கேள்விகள் பட்டியல்</h2><button class="green" id="republishSelectedBtn">🔁 தேர்ந்தெடுத்தவற்றை மீண்டும் வெளியிடு</button><button class="danger" id="deleteSelectedQuestionsBtn">🗑 தேர்ந்தெடுத்தவற்றை நீக்கு</button><button class="green" id="publishAllDrafts">🚀 அனைத்து வரைவுகளையும் வெளியிடு</button><button class="primary" id="closeAllPublished">📢 அனைத்து வெளியீடுகளையும் மூடி பதிலை வெளியிடு</button><button class="light" id="refreshQuestions">புதுப்பி</button></div>
         <p class="small muted" style="margin-top:0">💡 <b>பல கேள்விகளை மீண்டும் வெளியிட:</b> கீழே வேண்டிய கேள்விகளைத் டிக் (☑) செய்து <b>“🔁 தேர்ந்தெடுத்தவற்றை மீண்டும் வெளியிடு”</b> அழுத்தினால் அந்தக் கேள்விகள் அனைத்தும் புதிய தேதிக்கு வெளியிடத் தயாராகப் படிவத்தில் ஏற்றப்படும்!</p>
         <div class="tablewrap questions-table-wrap"><table class="questions-table"><colgroup><col class="q-chk-col"><col class="q-date-col"><col class="q-text-col"><col class="q-status-col"><col class="q-actions-col"></colgroup><thead><tr><th><input type="checkbox" id="selectAllQuestions" title="அனைத்தையும் தேர்ந்தெடு" style="width:18px;height:18px;cursor:pointer"></th><th>தேதி</th><th>கேள்வி</th><th>நிலை</th><th>செயல்</th></tr></thead><tbody id="questionsBody"><tr><td colspan="5">தகவல் ஏற்றப்படவில்லை.</td></tr></tbody></table></div>
       </section>
@@ -493,13 +493,16 @@
   }
 
   let cachedUniqueStats = null;
-  async function computeUniqueQuizStats() {
+  async function computeUniqueQuizStatsAndDedupe(rawQuestions) {
     try {
-      const dates = [...new Set((cachedQuestions || []).filter(q => q.status !== "cancelled").map(q => q.quiz_date).filter(Boolean))];
-      if (!dates.length) { cachedUniqueStats = { uniqueParticipants: 0, allCorrectPeople: 0, totalAnswers: 0, correctAnswers: 0 }; return; }
-      const dateResults = await Promise.all(dates.map(d => invokeAdmin("list_date_entries", { quiz_date: d }).catch(() => ({ summary: [], entries: [] }))));
+      const activeQs = (rawQuestions || []).filter(q => q.status !== "cancelled");
+      const dates = [...new Set(activeQs.map(q => q.quiz_date).filter(Boolean))];
+      const dateResults = dates.length
+        ? await Promise.all(dates.map(d => invokeAdmin("list_date_entries", { quiz_date: d }).catch(() => ({ summary: [], entries: [] }))))
+        : [];
       const allMobiles = new Set();
       const allCorrectMobiles = new Set();
+      const entryCountByQid = new Map();
       let totalAns = 0, corrAns = 0;
       for (const dr of dateResults) {
         for (const p of (dr.summary || [])) {
@@ -511,6 +514,7 @@
         for (const e of (dr.entries || [])) {
           totalAns++;
           if (e.is_correct) corrAns++;
+          if (e.question_id) entryCountByQid.set(e.question_id, (entryCountByQid.get(e.question_id) || 0) + 1);
         }
       }
       cachedUniqueStats = {
@@ -519,7 +523,52 @@
         totalAnswers: totalAns,
         correctAnswers: corrAns
       };
-    } catch (_) { cachedUniqueStats = null; }
+
+      const winnerQids = new Set((cachedWinners || []).map(w => w.question_id).filter(Boolean));
+      const byText = new Map();
+      for (const q of activeQs) {
+        const key = String(q.question_text || "").trim().toLowerCase() || q.id;
+        if (!byText.has(key)) byText.set(key, []);
+        byText.get(key).push(q);
+      }
+      const deduped = [];
+      const toCancelIds = [];
+      for (const group of byText.values()) {
+        if (group.length === 1) {
+          deduped.push(group[0]);
+          continue;
+        }
+        group.sort((a, b) => {
+          const aOpen = a.status === "published" ? 1 : (a.status === "draft" ? 0.5 : 0);
+          const bOpen = b.status === "published" ? 1 : (b.status === "draft" ? 0.5 : 0);
+          if (aOpen !== bOpen) return bOpen - aOpen;
+          const aWin = winnerQids.has(a.id) ? 1 : 0;
+          const bWin = winnerQids.has(b.id) ? 1 : 0;
+          if (aWin !== bWin) return bWin - aWin;
+          const aEnt = entryCountByQid.get(a.id) || 0;
+          const bEnt = entryCountByQid.get(b.id) || 0;
+          if (aEnt !== bEnt) return bEnt - aEnt;
+          const dCmp = String(b.quiz_date || "").localeCompare(String(a.quiz_date || ""));
+          if (dCmp !== 0) return dCmp;
+          return String(b.created_at || "").localeCompare(String(a.created_at || ""));
+        });
+        const kept = group[0];
+        deduped.push(kept);
+        for (const dup of group.slice(1)) {
+          if (dup.quiz_date === kept.quiz_date && !winnerQids.has(dup.id) && (entryCountByQid.get(dup.id) || 0) === 0 && dup.status !== "published") {
+            toCancelIds.push(dup.id);
+          }
+        }
+      }
+      deduped.sort((a, b) => String(b.quiz_date || "").localeCompare(String(a.quiz_date || "")) || String(b.created_at || "").localeCompare(String(a.created_at || "")));
+      cachedQuestions = deduped;
+      if (toCancelIds.length) {
+        Promise.all(toCancelIds.map(id => invokeAdmin("remove_question", { question_id: id }).catch(() => {})));
+      }
+    } catch (_) {
+      cachedQuestions = (rawQuestions || []).filter(q => q.status !== "cancelled");
+      cachedUniqueStats = null;
+    }
   }
 
   async function refreshAll() {
@@ -529,14 +578,13 @@
         invokeAdmin("dashboard"),
         invokeAdmin("list_winners")
       ]);
-      cachedQuestions = q.questions || [];
       cachedDashboard = stats || null;
       cachedWinners = w.winners || [];
+      await computeUniqueQuizStatsAndDedupe(q.questions || []);
       populateQuestionDropdowns();
       await Promise.all([
         fetchEntriesForSelectedDate(),
         updateDrawQuestionPanel(),
-        computeUniqueQuizStats(),
         loadPubResultConfig()
       ]);
       renderQuestions(); renderEntries(); renderWinners(); renderStats();
@@ -575,7 +623,7 @@
   }
 
   function renderStats() {
-    $("statQuestions").textContent = cachedDashboard?.total_questions ?? cachedQuestions.length;
+    $("statQuestions").textContent = cachedQuestions.length;
     const uCount = cachedUniqueStats ? cachedUniqueStats.uniqueParticipants : (cachedDashboard?.unique_participants ?? cachedDashboard?.total_participants ?? cachedEntries.length);
     const totalAns = cachedUniqueStats ? cachedUniqueStats.totalAnswers : (cachedDashboard?.total_participants ?? cachedEntries.length);
     const allCorr = cachedUniqueStats ? cachedUniqueStats.allCorrectPeople : (cachedDashboard?.all_correct_participants ?? cachedDashboard?.correct_answers ?? cachedEntries.filter(x => x.is_correct).length);
@@ -597,7 +645,7 @@
         ${q.status === "published" ? `<button class="light" data-close="${escapeHtml(q.id)}">மூடு</button>` : ""}
         ${["closed","cancelled"].includes(q.status) ? `<button class="green" style="width:auto;min-width:96px" data-reuse="${escapeHtml(q.id)}" title="புதிய தேதிக்கு மீண்டும் வெளியிட படிவத்தில் ஏற்று">🔁 மீண்டும் வெளியிடு</button>` : ""}
         ${["closed","cancelled"].includes(q.status) ? `<button class="light" style="width:auto;min-width:96px" data-reopen="${escapeHtml(q.id)}" title="இதே கேள்வியை மீண்டும் திற">🔓 மீண்டும் திற</button>` : ""}
-        ${["draft","published","closed"].includes(q.status) ? `<button class="danger" data-remove="${escapeHtml(q.id)}">${q.status === "draft" ? "நீக்கு" : "ரத்து"}</button>` : ""}
+        ${["draft","published","closed"].includes(q.status) ? `<button class="danger" data-remove="${escapeHtml(q.id)}">🗑 நீக்கு</button>` : ""}
       </div></td></tr>`).join("")
       : `<tr><td colspan="5">கேள்விகள் எதுவும் இல்லை.</td></tr>`;
     $("questionsBody").querySelectorAll("[data-publish]").forEach(btn => btn.addEventListener("click", async () => {
@@ -1086,6 +1134,18 @@
     selectedIds.forEach((id) => reuseQuestionForNewDay(id));
     $("questionPanel").querySelector(".section-title").textContent = `🔁 தேர்ந்தெடுத்த ${selectedIds.length} கேள்விகளை மீண்டும் வெளியிடு`;
     showNotice($("appNotice"), `🔁 தேர்ந்தெடுத்த ${selectedIds.length} கேள்விகளும் படிவத்தில் ஏற்றப்பட்டன! விரும்பிய தேதி & கடைசி நேரத்தைத் தேர்ந்தெடுத்து 'வெளியிடு' அழுத்தவும்.`, "ok");
+  });
+  if ($("deleteSelectedQuestionsBtn")) $("deleteSelectedQuestionsBtn").addEventListener("click", async () => {
+    const selectedIds = [...$("questionsBody").querySelectorAll(".q-row-chk:checked")].map(c => c.value);
+    if (!selectedIds.length) return showNotice($("appNotice"), "நீக்குவதற்குக் குறைந்தது ஒரு கேள்வியையாவது டிக் (☑) செய்யவும்.", "err");
+    if (!confirm(`தேர்ந்தெடுத்த ${selectedIds.length} கேள்விகளையும் பட்டியலிலிருந்து நீக்கவா?`)) return;
+    const btn = $("deleteSelectedQuestionsBtn"); btn.disabled = true;
+    try {
+      for (const id of selectedIds) await invokeAdmin("remove_question", { question_id: id });
+      showNotice($("appNotice"), `🗑 தேர்ந்தெடுத்த ${selectedIds.length} கேள்விகளும் நீக்கப்பட்டன!`, "ok");
+      await refreshAll();
+    } catch (err) { showNotice($("appNotice"), `நீக்க முடியவில்லை: ${err.message}`, "err"); }
+    finally { btn.disabled = false; }
   });
   $("resetQuestionBtn").addEventListener("click", resetQuestionForm);
   $("refreshQuestions").addEventListener("click", refreshAll);
