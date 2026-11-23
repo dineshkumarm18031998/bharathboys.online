@@ -56,9 +56,9 @@
   .row-actions{display:flex;gap:6px;flex-wrap:wrap}
     /* Consistent table sizing and wrapping across every admin list */
     .tablewrap{width:100%;max-width:100%;overflow-x:auto}
-    .tablewrap table{width:100%;table-layout:fixed}
-    .tablewrap th,.tablewrap td{vertical-align:middle;overflow-wrap:anywhere;word-break:normal;line-height:1.45}
-    .tablewrap td button{max-width:100%;white-space:normal;min-height:40px}
+    .tablewrap table{width:100%;table-layout:auto}
+    .tablewrap th,.tablewrap td{vertical-align:middle;overflow-wrap:break-word;word-break:normal;line-height:1.45}
+    .tablewrap td button{white-space:nowrap;min-height:38px;padding:8px 14px}
     .questions-table{min-width:0;table-layout:fixed}
     .questions-table .q-date-col{width:13%}
     .questions-table .q-text-col{width:57%}
@@ -87,7 +87,7 @@
     .q-badge{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;padding:5px 12px;border-radius:20px;font-weight:800;font-size:13px}
     .add-q-btn{width:100%;background:#fff8f1;color:#c95a00;border:2px dashed #f28c28;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:800;margin:4px 0 16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
     .add-q-btn:hover{background:#fff0e0;border-color:#d96b08}
-    .score-pill{display:inline-block;padding:4px 10px;border-radius:20px;font-weight:800;font-size:12px}
+    .score-pill{display:inline-block;padding:4px 10px;border-radius:20px;font-weight:800;font-size:12px;white-space:nowrap}
     .score-pill.all{background:#dcfce7;color:#14532d;border:1px solid #86efac}
     .score-pill.part{background:#fef3c7;color:#92400e}
 </style>
@@ -545,7 +545,7 @@
       <td>${e.score_label ? `<span class="score-pill ${e.all_correct ? "all" : "part"}">${e.all_correct ? "🌟 " : ""}${escapeHtml(e.score_label)}</span>` : (["A","B","C","D"][Number(e.selected_option)] ?? "-")}</td>
       <td>${e.all_correct ? '<span class="score-pill all">🌟 அனைத்து பதில்களும் சரி</span>' : (e.score_label ? `<span class="score-pill part">${escapeHtml(e.score_label)} (${e.wrong_count || 0} தவறு)</span>` : (e.is_correct ? '<span class="pill" style="background:#e9f7ef;color:#116239;font-weight:700">✓ சரி</span>' : "தவறு"))}</td>
       <td>${escapeHtml(e.created_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(e.created_at)) : "")}</td>
-      <td>${e.is_correct ? `<button type="button" class="green" style="padding:7px 10px;font-size:12.5px" data-pick-entry="${escapeHtml(e.id)}" data-pick-q="${escapeHtml(e.question_id)}" data-pick-name="${escapeHtml(e.full_name)}">🏆 வெற்றியாளராக்கு</button>` : "—"}</td></tr>`).join("")
+      <td>${e.is_correct ? `<button type="button" class="green" style="padding:8px 14px;font-size:13px;white-space:nowrap" data-pick-entry="${escapeHtml(e.id)}" data-pick-q="${escapeHtml(e.question_id)}" data-pick-name="${escapeHtml(e.full_name)}">★ வெற்றியாளராக்கு</button>` : "—"}</td></tr>`).join("")
       : `<tr><td colspan="7">பதிவுகள் இல்லை.</td></tr>`;
     $("entriesBody").querySelectorAll("[data-pick-entry]").forEach(btn => btn.addEventListener("click", async () => {
       const qid = btn.dataset.pickQ, eid = btn.dataset.pickEntry, nm = btn.dataset.pickName;
@@ -576,27 +576,28 @@
       const opts = w.question?.options || [];
       const cAns = opts[Number(w.question?.correct_option)] || "";
       const mobile = String(w.entry?.mobile || w.contest_entries?.mobile || "").replace(/\D/g, "");
+      const dmyDate = fmtDmy(quizDate);
       const message = [
-        "🎉 மனமார்ந்த வாழ்த்துகள்! 🎉",
+        "✨ *மனமார்ந்த வாழ்த்துகள்!* ✨",
         "",
-        "பாரத் பாய்ஸ் நற்பணி மன்றம் நடத்தும் “தினம் ஒரு கேள்வி” போட்டியில் நீங்கள் வெற்றியாளராகத் தேர்வு செய்யப்பட்டுள்ளீர்கள் என்பதை மகிழ்ச்சியுடன் தெரிவித்துக் கொள்கிறோம்! 🏆",
+        "பாரத் பாய்ஸ் நற்பணி மன்றம் நடத்தும் *“தினம் ஒரு கேள்வி”* போட்டியில் நீங்கள் வெற்றியாளராகத் தேர்வு செய்யப்பட்டுள்ளீர்கள் என்பதை மகிழ்ச்சியுடன் தெரிவித்துக் கொள்கிறோம்! ⭐",
         "",
-        `📅 போட்டி நடைபெற்ற தேதி: ${quizDate}`,
+        `❖ *போட்டி நடைபெற்ற தேதி:* ${dmyDate}`,
         "",
-        `🎁 உங்களுக்கான பரிசு: ${w.question?.prize_text || w.prize_text || "சிறப்புப் பரிசு"}`,
+        `❖ *உங்களுக்கான பரிசு:* ${w.question?.prize_text || w.prize_text || "சிறப்புப் பரிசு"}`,
         "",
-        "🌾 பரிசு வழங்கும் நாள்:",
+        "❖ *பரிசு வழங்கும் நாள்:*",
         "நமது பாரத் பாய்ஸ் நற்பணி மன்றத்தின் பொங்கல் விழா நிகழ்வில், ஜனவரி 15 மற்றும் 16 ஆகிய தேதிகளில் பரிசு வழங்கப்படும்.",
         "",
-        "📍 விழாவில் நேரில் கலந்து கொண்டு உங்கள் பரிசைப் பெற்றுக்கொள்ளுமாறு அன்புடன் கேட்டுக்கொள்கிறோம்.",
+        "➤ விழாவில் நேரில் கலந்து கொண்டு உங்கள் பரிசைப் பெற்றுக்கொள்ளுமாறு அன்புடன் கேட்டுக்கொள்கிறோம்.",
         "",
-        "உங்கள் வெற்றிக்கு எங்களது மனமார்ந்த வாழ்த்துகள்! 💐",
+        "உங்கள் வெற்றிக்கு எங்களது மனமார்ந்த வாழ்த்துகள்! ❤",
         "",
         "நன்றி,",
-        "பாரத் பாய்ஸ் நற்பணி மன்றம்"
+        "*பாரத் பாய்ஸ் நற்பணி மன்றம்*"
       ].join("\n");
       const whatsappUrl = mobile.length === 10
-        ? `https://wa.me/91${mobile}?text=${encodeURIComponent(message)}`
+        ? `https://api.whatsapp.com/send?phone=91${mobile}&text=${encodeURIComponent(message)}`
         : "";
       const contactButton = whatsappUrl
         ? `<a class="success whatsapp-winner-btn" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`
