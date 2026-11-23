@@ -59,14 +59,15 @@
     .tablewrap table{width:100%;table-layout:auto}
     .tablewrap th,.tablewrap td{vertical-align:middle;overflow-wrap:break-word;word-break:normal;line-height:1.45}
     .tablewrap td button{white-space:nowrap;min-height:38px;padding:8px 14px}
-    .questions-table{min-width:0;table-layout:fixed}
-    .questions-table .q-date-col{width:13%}
-    .questions-table .q-text-col{width:57%}
-    .questions-table .q-status-col{width:13%}
-    .questions-table .q-actions-col{width:17%}
+    .questions-table{min-width:0;table-layout:auto}
+    .questions-table .q-chk-col{width:42px}
+    .questions-table .q-date-col{width:110px}
+    .questions-table .q-text-col{width:auto}
+    .questions-table .q-status-col{width:120px}
+    .questions-table .q-actions-col{width:210px}
     .questions-table th,.questions-table td{padding:12px 10px}
-    .questions-table td:nth-child(1),.questions-table td:nth-child(3){white-space:nowrap}
-    .questions-table td:nth-child(2){overflow-wrap:anywhere;word-break:normal}
+    .questions-table td:nth-child(2),.questions-table td:nth-child(4){white-space:nowrap}
+    .questions-table td:nth-child(3){overflow-wrap:break-word;word-break:normal}
     .question-action-buttons{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
     .question-action-buttons button{width:96px;min-width:96px;height:42px;padding:8px 10px;font-size:14px;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap}
     @media(max-width:760px){
@@ -198,8 +199,9 @@
       </section>
 
       <section id="questionsPanel" class="card panel hidden">
-        <div class="row" style="margin-bottom:10px"><h2 class="section-title grow" style="margin:0">கேள்விகள் பட்டியல்</h2><button class="green" id="publishAllDrafts">🚀 அனைத்து வரைவுகளையும் வெளியிடு</button><button class="primary" id="closeAllPublished">📢 அனைத்து வெளியீடுகளையும் மூடி பதிலை வெளியிடு</button><button class="light" id="refreshQuestions">புதுப்பி</button></div>
-        <div class="tablewrap questions-table-wrap"><table class="questions-table"><colgroup><col class="q-date-col"><col class="q-text-col"><col class="q-status-col"><col class="q-actions-col"></colgroup><thead><tr><th>தேதி</th><th>கேள்வி</th><th>நிலை</th><th>செயல்</th></tr></thead><tbody id="questionsBody"><tr><td colspan="4">தகவல் ஏற்றப்படவில்லை.</td></tr></tbody></table></div>
+        <div class="row" style="margin-bottom:10px"><h2 class="section-title grow" style="margin:0">கேள்விகள் பட்டியல்</h2><button class="green" id="republishSelectedBtn">🔁 தேர்ந்தெடுத்தவற்றை மீண்டும் வெளியிடு</button><button class="green" id="publishAllDrafts">🚀 அனைத்து வரைவுகளையும் வெளியிடு</button><button class="primary" id="closeAllPublished">📢 அனைத்து வெளியீடுகளையும் மூடி பதிலை வெளியிடு</button><button class="light" id="refreshQuestions">புதுப்பி</button></div>
+        <p class="small muted" style="margin-top:0">💡 <b>பல கேள்விகளை மீண்டும் வெளியிட:</b> கீழே வேண்டிய கேள்விகளைத் டிக் (☑) செய்து <b>“🔁 தேர்ந்தெடுத்தவற்றை மீண்டும் வெளியிடு”</b> அழுத்தினால் அந்தக் கேள்விகள் அனைத்தும் புதிய தேதிக்கு வெளியிடத் தயாராகப் படிவத்தில் ஏற்றப்படும்!</p>
+        <div class="tablewrap questions-table-wrap"><table class="questions-table"><colgroup><col class="q-chk-col"><col class="q-date-col"><col class="q-text-col"><col class="q-status-col"><col class="q-actions-col"></colgroup><thead><tr><th><input type="checkbox" id="selectAllQuestions" title="அனைத்தையும் தேர்ந்தெடு" style="width:18px;height:18px;cursor:pointer"></th><th>தேதி</th><th>கேள்வி</th><th>நிலை</th><th>செயல்</th></tr></thead><tbody id="questionsBody"><tr><td colspan="5">தகவல் ஏற்றப்படவில்லை.</td></tr></tbody></table></div>
       </section>
 
       <section id="entriesPanel" class="card panel hidden">
@@ -493,8 +495,10 @@
     $("statWinners").textContent = cachedDashboard?.total_winners ?? cachedWinners.length;
   }
   function renderQuestions() {
+    if ($("selectAllQuestions")) $("selectAllQuestions").checked = false;
     $("questionsBody").innerHTML = cachedQuestions.length ? cachedQuestions.map(q => `
-      <tr><td>${escapeHtml(String(q.quiz_date || "").split("-").reverse().join("-"))}</td><td>${escapeHtml(q.question_text)}</td>
+      <tr><td><input type="checkbox" class="q-row-chk" value="${escapeHtml(q.id)}" style="width:18px;height:18px;cursor:pointer"></td>
+      <td>${escapeHtml(String(q.quiz_date || "").split("-").reverse().join("-"))}</td><td>${escapeHtml(q.question_text)}</td>
       <td><span class="pill">${escapeHtml(({draft:"வரைவு",published:"வெளியீடு",closed:"மூடப்பட்டது",cancelled:"ரத்து"})[q.status] || q.status)}</span></td>
       <td><div class="question-action-buttons">
         ${q.status === "draft" ? `<button class="green" data-publish="${escapeHtml(q.id)}">வெளியிடு</button>` : ""}
@@ -504,7 +508,7 @@
         ${["closed","cancelled"].includes(q.status) ? `<button class="light" style="width:auto;min-width:96px" data-reopen="${escapeHtml(q.id)}" title="இதே கேள்வியை மீண்டும் திற">🔓 மீண்டும் திற</button>` : ""}
         ${["draft","published","closed"].includes(q.status) ? `<button class="danger" data-remove="${escapeHtml(q.id)}">${q.status === "draft" ? "நீக்கு" : "ரத்து"}</button>` : ""}
       </div></td></tr>`).join("")
-      : `<tr><td colspan="4">கேள்விகள் எதுவும் இல்லை.</td></tr>`;
+      : `<tr><td colspan="5">கேள்விகள் எதுவும் இல்லை.</td></tr>`;
     $("questionsBody").querySelectorAll("[data-publish]").forEach(btn => btn.addEventListener("click", async () => {
       btn.disabled = true;
       try {
@@ -919,6 +923,17 @@
   document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => activateTab(t.dataset.tab)));
   $("questionForm").addEventListener("submit", ev => { ev.preventDefault(); saveQuestion("draft"); });
   $("publishBtn").addEventListener("click", () => saveQuestion("published"));
+  $("selectAllQuestions").addEventListener("change", (ev) => {
+    $("questionsBody").querySelectorAll(".q-row-chk").forEach(chk => { chk.checked = ev.target.checked; });
+  });
+  $("republishSelectedBtn").addEventListener("click", () => {
+    const selectedIds = [...$("questionsBody").querySelectorAll(".q-row-chk:checked")].map(c => c.value);
+    if (!selectedIds.length) return showNotice($("appNotice"), "முதலில் பட்டியலில் குறைந்தது ஒரு கேள்வியையாவது டிக் (☑) செய்யவும்.", "err");
+    resetQuestionForm();
+    selectedIds.forEach((id) => reuseQuestionForNewDay(id));
+    $("questionPanel").querySelector(".section-title").textContent = `🔁 தேர்ந்தெடுத்த ${selectedIds.length} கேள்விகளை மீண்டும் வெளியிடு`;
+    showNotice($("appNotice"), `🔁 தேர்ந்தெடுத்த ${selectedIds.length} கேள்விகளும் படிவத்தில் ஏற்றப்பட்டன! விரும்பிய தேதி & கடைசி நேரத்தைத் தேர்ந்தெடுத்து 'வெளியிடு' அழுத்தவும்.`, "ok");
+  });
   $("resetQuestionBtn").addEventListener("click", resetQuestionForm);
   $("refreshQuestions").addEventListener("click", refreshAll);
   $("publishAllDrafts").addEventListener("click", async () => {
