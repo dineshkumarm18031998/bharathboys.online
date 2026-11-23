@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /central-admin.html
+Disallow: /daily-quiz-admin.html
+Disallow: /central-admin-setup.sql
 
 Sitemap: https://bharathboys.online/sitemap.xml
