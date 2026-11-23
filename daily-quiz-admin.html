@@ -677,9 +677,10 @@
         <td><b>${escapeHtml(w.winner_name || "—")}</b></td>
         <td>${escapeHtml(w.winner_village || "—")}</td>
         <td>${escapeHtml(w.drawn_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(w.drawn_at)) : "")}</td>
-        <td><div class="row">${contactButton}<button type="button" class="light" style="padding:7px 10px;font-size:12px" data-del-winner="${escapeHtml(w.question_id)}">🔄 மாற்று</button></div></td></tr>`;
+        <td><div class="row">${contactButton}<button type="button" class="primary" style="padding:7px 10px;font-size:12px" data-quiz-reel="${escapeHtml(w.question_id)}" title="Instagram Reels / WhatsApp Status வாழ்த்து கார்டு (1080×1920)">🎬 வாழ்த்து கார்டு</button><button type="button" class="light" style="padding:7px 10px;font-size:12px" data-del-winner="${escapeHtml(w.question_id)}">🔄 மாற்று</button></div></td></tr>`;
     }).join("")
       : `<tr><td colspan="6">வெற்றியாளர் பதிவுகள் இல்லை.</td></tr>`;
+    $("winnersBody").querySelectorAll("[data-quiz-reel]").forEach(btn => btn.addEventListener("click", () => generateQuizWinnerPoster(btn.dataset.quizReel)));
     $("winnersBody").querySelectorAll("[data-del-winner]").forEach(btn => btn.addEventListener("click", async () => {
       if (!confirm("இந்த வெற்றியாளர் பதிவை நீக்கிவிட்டு வேறு வெற்றியாளரைத் தேர்வு செய்யவா?")) return;
       btn.disabled = true;
@@ -728,6 +729,56 @@
     link.remove();
     URL.revokeObjectURL(url);
     showNotice($("drawResult"), `மொத்தம் ${orderedWinners.length} வெற்றியாளர் பதிவுகள் பதிவிறக்கம் செய்யப்பட்டன.`, "ok");
+  }
+
+  async function generateQuizWinnerPoster(questionId) {
+    const w = cachedWinners.find(x => x.question_id === questionId);
+    if (!w) return;
+    const quizDate = fmtDmy(w.question?.quiz_date || w.quiz_date || "");
+    const prize = w.question?.prize_text || w.prize_text || "சிறப்புப் பரிசு";
+    const cv = document.createElement("canvas");
+    cv.width = 1080; cv.height = 1920;
+    const g = cv.getContext("2d");
+    const bg = g.createLinearGradient(0, 0, 1080, 1920);
+    bg.addColorStop(0, "#10203a"); bg.addColorStop(0.5, "#19335c"); bg.addColorStop(1, "#0d1b30");
+    g.fillStyle = bg; g.fillRect(0, 0, 1080, 1920);
+    g.strokeStyle = "#f5a623"; g.lineWidth = 6; g.strokeRect(48, 48, 984, 1824);
+    g.fillStyle = "#f5a623"; g.font = "800 54px 'Noto Sans Tamil', Arial, sans-serif"; g.textAlign = "center";
+    g.fillText("பாரத் பாய்ஸ் நற்பணி மன்றம்", 540, 210);
+    g.fillStyle = "#ffffff"; g.font = "700 42px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText("தினசரி வினாடி வினா போட்டி", 540, 290);
+    g.fillStyle = "#ff5500"; g.beginPath(); g.roundRect(220, 360, 640, 96, 48); g.fill();
+    g.fillStyle = "#ffffff"; g.font = "800 40px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText("🏆 மனமார்ந்த வாழ்த்துகள்! 🏆", 540, 422);
+    g.fillStyle = "#172a47"; g.strokeStyle = "#f5a62388"; g.lineWidth = 3;
+    g.beginPath(); g.roundRect(100, 530, 880, 860, 36); g.fill(); g.stroke();
+    g.fillStyle = "#94a3b8"; g.font = "600 34px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText("வெற்றியாளர்", 540, 650);
+    g.fillStyle = "#ffffff"; g.font = "800 68px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText(String(w.winner_name || "வெற்றியாளர்").slice(0, 24), 540, 760);
+    g.fillStyle = "#f5a623"; g.font = "700 46px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText("📍 " + String(w.winner_village || ""), 540, 860);
+    g.fillStyle = "#cbd5e1"; g.font = "600 36px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText("📅 போட்டி தேதி: " + quizDate, 540, 1010);
+    g.fillStyle = "#4ade80"; g.font = "700 40px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText("🎁 பரிசு: " + String(prize).slice(0, 28), 540, 1110);
+    g.fillStyle = "#e2e8f0"; g.font = "600 32px 'Noto Sans Tamil', Arial, sans-serif";
+    g.fillText("பொங்கல் விழா நிகழ்வில் (ஜனவரி 15 & 16)", 540, 1240);
+    g.fillText("நேரில் பரிசு வழங்கப்படும்!", 540, 1295);
+    g.fillStyle = "#f5a623"; g.font = "700 36px Arial, sans-serif";
+    g.fillText("🌐 bharathboys.online", 540, 1760);
+    const blob = await new Promise(r => cv.toBlob(r, "image/png"));
+    const fname = `bharath-boys-quiz-winner-${w.question?.quiz_date || "poster"}.png`;
+    if (blob && navigator.canShare) {
+      const file = new File([blob], fname, { type: "image/png" });
+      if (navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: "பாரத் பாய்ஸ் வெற்றியாளர்" }); return; } catch (_) {}
+      }
+    }
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = fname; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 2500);
+    showNotice($("drawResult"), "🎬 வெற்றியாளர் வாழ்த்து கார்டு (1080×1920) பதிவிறக்கம் செய்யப்பட்டது! இதை WhatsApp Status / Instagram Reels-இல் பகிரலாம்.", "ok");
   }
 
   function renumberExtraQuestions() {

@@ -20,14 +20,18 @@ header img{width:50px;height:50px;border-radius:50%;object-fit:cover;background:
 header div{min-width:0;flex:1 1 160px}
 header h1{font-size:clamp(1rem,3.8vw,1.15rem);margin:0;line-height:1.35;overflow-wrap:break-word}header small{color:var(--mut)}
 .home{margin-left:auto;text-decoration:none;background:var(--card2);border:1px solid var(--line);padding:8px 12px;border-radius:10px;color:var(--txt);font-size:.85rem;white-space:nowrap}
-.hero{background:linear-gradient(135deg,#ff5500,#f5a623);border-radius:20px;padding:20px;color:#fff;margin-bottom:16px;box-shadow:0 10px 40px #ff550033;overflow-wrap:break-word}
+.tbtn{background:var(--card2);border:1px solid var(--line);padding:8px 11px;border-radius:10px;color:var(--txt);font-size:.9rem;cursor:pointer;white-space:nowrap;transition:.15s}
+.hero{background:linear-gradient(135deg,#ff5500,#f5a623);border-radius:20px;padding:22px;color:#fff;margin-bottom:16px;box-shadow:0 12px 42px #ff550038;overflow-wrap:break-word;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .hero h2{margin:0 0 6px;font-size:clamp(1.15rem,4.5vw,1.45rem);line-height:1.35}.hero p{margin:0;opacity:.95;font-size:.95rem}
+.sharebtn{background:#ffffff24;backdrop-filter:blur(8px);border:1.5px solid #ffffff66;color:#fff;padding:9px 14px;border-radius:30px;font:inherit;font-size:.84rem;font-weight:800;cursor:pointer;white-space:nowrap;transition:.15s}
+.sharebtn:hover{background:#ffffff38;transform:translateY(-1px)}
 .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
-.tab{min-width:0;max-width:100%;background:var(--card);border:1.5px solid var(--line);color:var(--txt);padding:13px 10px;border-radius:14px;font:inherit;font-weight:800;cursor:pointer;transition:.2s;overflow-wrap:break-word;line-height:1.35}
+.tab{min-width:0;max-width:100%;background:var(--card);border:1.5px solid var(--line);color:var(--txt);padding:13px 10px;border-radius:14px;font:inherit;font-weight:800;cursor:pointer;transition:.2s;overflow-wrap:break-word;line-height:1.35;box-shadow:0 4px 14px #16233807}
+.tab:hover{transform:translateY(-1px)}
 .tab.active{border-color:var(--or);background:linear-gradient(135deg,#ff550022,#f5a62318)}
 .tab span{display:block;font-size:.75rem;font-weight:400;color:var(--mut);margin-top:2px}
 .panel{display:none;min-width:0;max-width:100%;animation:fade .25s}.panel.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
-.card{width:100%;max-width:100%;min-width:0;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px}
+.card{width:100%;max-width:100%;min-width:0;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 6px 24px #16233808}
 .card h3{margin:0 0 10px;font-size:1.1rem;line-height:1.35;overflow-wrap:break-word}
 .qswitcher{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
 .qpill{background:var(--card2);border:1.5px solid var(--line);color:var(--txt);padding:8px 14px;border-radius:30px;font:inherit;font-size:.86rem;font-weight:700;cursor:pointer;transition:.15s}
@@ -78,12 +82,16 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   <header>
     <img src="bharath-boys-logo.png" alt="பாரத் பாய்ஸ் லோகோ" onerror="this.style.display='none'">
     <div><h1>பாரத் பாய்ஸ் நற்பணி மன்றம்</h1><small>போட்டிகள் போர்டல்</small></div>
-    <a class="home" href="index.html">← முகப்பு</a>
+    <button type="button" class="tbtn" id="themeToggleBtn" title="Light / Dark Mode" aria-label="Theme Toggle">🌙</button>
+    <a class="home" style="margin-left:0" href="index.html">← முகப்பு</a>
   </header>
 
   <section class="hero">
-    <h2>🎁 போட்டிகளில் பங்கேற்று பரிசுகளை வெல்லுங்கள்!</h2>
-    <p>தினசரி வினாடி வினா மற்றும் ஓவியப் போட்டி</p>
+    <div style="min-width:0;flex:1 1 240px">
+      <h2>🎁 போட்டிகளில் பங்கேற்று பரிசுகளை வெல்லுங்கள்!</h2>
+      <p>தினசரி வினாடி வினா மற்றும் ஓவியப் போட்டி</p>
+    </div>
+    <button type="button" class="sharebtn" id="shareContestBtn">📲 WhatsApp-இல் பகிர்</button>
   </section>
 
   <nav class="tabs">
@@ -249,6 +257,27 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     return "";
   }
 
+  // ---------- theme & share ----------
+  function applyTheme(t) {
+    const mode = t === "dark" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", mode);
+    if ($("themeToggleBtn")) $("themeToggleBtn").textContent = mode === "dark" ? "☀️" : "🌙";
+  }
+  applyTheme(localStorage.getItem("bb_theme") || "light");
+  if ($("themeToggleBtn")) $("themeToggleBtn").addEventListener("click", () => {
+    const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    localStorage.setItem("bb_theme", next);
+    applyTheme(next);
+  });
+  if ($("shareContestBtn")) $("shareContestBtn").addEventListener("click", async () => {
+    const url = "https://bharathboys.online/contest.html";
+    const text = "✨ பாரத் பாய்ஸ் நற்பணி மன்றம் நடத்தும் தினசரி வினாடி வினா & ஓவியப் போட்டி! இப்போதே பங்கேற்று பரிசுகளை வெல்லுங்கள்: " + url;
+    if (navigator.share) {
+      try { await navigator.share({ title: "பாரத் பாய்ஸ் போட்டிகள்", text, url }); return; } catch (_) {}
+    }
+    window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(text), "_blank", "noopener");
+  });
+
   // ---------- tabs ----------
   const tabs = document.querySelectorAll(".tab");
   function openTab(p) {
@@ -352,13 +381,27 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   function renderResults(rs) {
     const box = $("results"); box.replaceChildren();
     if (!rs.length) { box.textContent = "இன்னும் முடிவுகள் இல்லை."; return; }
+    const groups = new Map();
     for (const r of rs) {
-      const d = el("div", { className: "res" });
-      d.append(el("div", { className: "small mut", textContent: "📅 " + fmtDate(r.quiz_date) + (r.prize_text ? " · 🎁 " + r.prize_text : "") }));
-      d.append(el("div", { style: "font-weight:700;margin-top:2px", textContent: r.question_text }));
-      if (r.correct_answer) d.append(el("div", { className: "ans small", textContent: "✅ சரியான பதில்: " + r.correct_answer }));
-      d.append(el("div", { className: r.winner ? "win" : "small mut", textContent: r.winner ? `🏆 வெற்றியாளர்: ${r.winner.name} (${r.winner.village})` : "⏳ வெற்றியாளர் விரைவில் அறிவிக்கப்படுவார்." }));
-      box.append(d);
+      const k = r.quiz_date || "unknown";
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(r);
+    }
+    for (const [qDate, items] of groups.entries()) {
+      const card = el("div", { className: "res", style: "background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px" });
+      const prize = items.find(x => x.prize_text)?.prize_text;
+      const winObj = items.find(x => x.winner)?.winner;
+      const head = el("div", { style: "display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px dashed var(--line)" });
+      head.append(el("div", { className: "small mut", style: "font-weight:700", textContent: "📅 " + fmtDate(qDate) + (prize ? " · 🎁 " + prize : "") + (items.length > 1 ? ` · (${items.length} கேள்விகள்)` : "") }));
+      head.append(el("div", { className: winObj ? "win" : "small mut", style: "margin:0", textContent: winObj ? `🏆 வெற்றியாளர்: ${winObj.name} (${winObj.village})` : "⏳ வெற்றியாளர் விரைவில் அறிவிக்கப்படுவார்." }));
+      card.append(head);
+      items.forEach((r, idx) => {
+        const qRow = el("div", { style: idx > 0 ? "margin-top:10px;padding-top:8px;border-top:1px solid var(--line)" : "" });
+        qRow.append(el("div", { style: "font-weight:700", textContent: (items.length > 1 ? `#${idx + 1}. ` : "") + r.question_text }));
+        if (r.correct_answer) qRow.append(el("div", { className: "ans small", textContent: "✅ சரியான பதில்: " + r.correct_answer }));
+        card.append(qRow);
+      });
+      box.append(card);
     }
   }
 
