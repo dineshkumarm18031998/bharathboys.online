@@ -395,21 +395,29 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     try {
       const d = await api("public-drawing", { method: "GET" });
       $("dLoading").classList.add("hidden");
-      comp = d.competition;
-      const info = comp || d.upcoming;
+      comp = d.competition || d.upcoming;
+      const info = comp;
       if (info) {
         $("dTitle").textContent = String(info.competition_name || "ஓவியப் போட்டி").replace(/ஆண்டு\s*/g, "");
         const m = $("dMeta"); m.replaceChildren();
         const chip = (l, v) => { const c = el("span", { className: "chip" }); c.append(l + " ", el("b", { textContent: v })); m.append(c); };
         chip("🗓 ஆண்டு:", String(info.competition_year));
-        chip("▶ பதிவு தொடக்கம்:", fmtDateTime(info.registration_start));
-        chip("⏹ பதிவு முடிவு:", fmtDateTime(info.registration_end));
+        if (info.registration_start) chip("▶ பதிவு தொடக்கம்:", fmtDateTime(info.registration_start));
+        if (info.registration_end) chip("⏹ பதிவு முடிவு:", fmtDateTime(info.registration_end));
         if (info.description) { $("dDesc").textContent = info.description; $("dDesc").classList.remove("hidden"); }
-        if (info.instructions) { $("dInstr").textContent = info.instructions; $("dInstr").classList.remove("hidden"); }
+        if (info.instructions) {
+          $("dInstr").textContent = info.instructions;
+          $("dInstr").classList.remove("hidden");
+          $("dDefaultRules").classList.add("hidden");
+        }
         $("dInfo").classList.remove("hidden");
       }
-      if (comp) $("dForm").classList.remove("hidden");
-      else show($("dNone"), d.message || "தற்போது ஓவியப் போட்டிப் பதிவு திறக்கப்படவில்லை.", "info");
+      if (comp) {
+        hide($("dNone"));
+        $("dForm").classList.remove("hidden");
+      } else {
+        show($("dNone"), d.message || "தற்போது ஓவியப் போட்டிப் பதிவு திறக்கப்படவில்லை.", "info");
+      }
       const w = d.winners || [];
       if (w.length) {
         const ul = el("ul", { className: "winners" });
