@@ -397,10 +397,34 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   function tick() {
     const ms = new Date(question.closes_at).getTime() - Date.now(), cd = $("cd");
     if (!cd) return;
-    if (ms <= 0) { cd.textContent = "நேரம் முடிந்தது"; $("quizSubmit").disabled = true; clearInterval(timer); show($("quizMsg"), "மன்னிக்கவும், இந்தக் கேள்விக்கான நேரம் முடிந்துவிட்டது.", "err"); return; }
+    if (ms <= 0) {
+      cd.textContent = "நேரம் முடிந்தது";
+      $("quizSubmit").disabled = true;
+      clearInterval(timer);
+      show($("quizMsg"), "மன்னிக்கவும், இந்தக் கேள்விக்கான நேரம் முடிந்துவிட்டது.", "err");
+      setTimeout(() => loadQuiz(), 1500);
+      return;
+    }
     const h = Math.floor(ms / 3600000), mi = Math.floor(ms % 3600000 / 60000), s = Math.floor(ms % 60000 / 1000);
     cd.textContent = `${h} மணி ${mi} நிமி ${s} வி`;
   }
+
+  function savePersonMemory(name, mobile, village) {
+    try { localStorage.setItem("bb_person", JSON.stringify({ name: name.trim(), mobile: normMobile(mobile) || mobile.trim(), village: village.trim() })); } catch (_) {}
+  }
+  function loadPersonMemory() {
+    try {
+      const p = JSON.parse(localStorage.getItem("bb_person") || "null");
+      if (!p) return;
+      if (p.name && !$("qName").value) $("qName").value = p.name;
+      if (p.mobile && !$("qMobile").value) $("qMobile").value = p.mobile;
+      if (p.village && !$("qVillage").value) $("qVillage").value = p.village;
+      if (p.name && !$("dName").value) $("dName").value = p.name;
+      if (p.mobile && !$("dMobile").value) $("dMobile").value = p.mobile;
+      if (p.village && !$("dVillage").value) $("dVillage").value = p.village;
+    } catch (_) {}
+  }
+  loadPersonMemory();
 
   function renderResults(rs) {
     const box = $("results"); box.replaceChildren();
@@ -477,6 +501,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     try {
       const r = await api("submit-entry", { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question_id: answers[0].question_id, selected_option: answers[0].selected_option, answers, full_name: name.trim(), mobile: normMobile(mobile), village: village.trim() }) });
+      savePersonMemory(name, mobile, village);
       $("quizForm").classList.add("hidden"); clearInterval(timer);
       show($("quizDone"), "✅ " + (r.message || "உங்கள் பதில் வெற்றிகரமாக பதிவு செய்யப்பட்டது.") + "\nசரியான பதில்கள் மற்றும் வெற்றியாளர் பெயர் போட்டி நேரம் முடிந்த பிறகு கீழே அறிவிக்கப்படும்.", "ok");
     } catch (e) { show($("quizMsg"), e.message, "err"); }

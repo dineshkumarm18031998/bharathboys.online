@@ -303,10 +303,23 @@
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
     }[ch]));
   }
-  function indiaDate() {
+  function indiaDate(offsetDays = 0) {
     return new Intl.DateTimeFormat("en-CA", {
       timeZone:"Asia/Kolkata", year:"numeric", month:"2-digit", day:"2-digit"
-    }).format(new Date());
+    }).format(new Date(Date.now() + offsetDays * 86400000));
+  }
+  function defaultFutureClose(baseDate) {
+    const today = indiaDate(0);
+    const dt = baseDate || today;
+    if (dt === today) {
+      const tenPm = new Date(`${today}T22:00:00+05:30`).getTime();
+      const eleven59Pm = new Date(`${today}T23:59:00+05:30`).getTime();
+      if (Date.now() < tenPm - 15 * 60000) return { date: today, hour: "10", minute: "00", period: "PM" };
+      if (Date.now() < eleven59Pm - 5 * 60000) return { date: today, hour: "11", minute: "59", period: "PM" };
+      const tmr = indiaDate(1);
+      return { date: tmr, hour: "10", minute: "00", period: "PM" };
+    }
+    return { date: dt, hour: "10", minute: "00", period: "PM" };
   }
   function localDateTimeToIso() {
     const date = $("closeDate").value;
@@ -332,13 +345,15 @@
     $("closePeriod").value = hour24 >= 12 ? "PM" : "AM";
   }
   function setDefaultDates() {
-    $("quizDate").value = indiaDate();
-    $("closeDate").value = indiaDate();
-    $("entriesDate").value = indiaDate();
-    $("drawDate").value = indiaDate();
-    $("closeHour").value = "10";
-    $("closeMinute").value = "00";
-    $("closePeriod").value = "PM";
+    const today = indiaDate(0);
+    const fc = defaultFutureClose(today);
+    $("quizDate").value = today;
+    $("closeDate").value = fc.date;
+    $("entriesDate").value = today;
+    $("drawDate").value = today;
+    $("closeHour").value = fc.hour;
+    $("closeMinute").value = fc.minute;
+    $("closePeriod").value = fc.period;
   }
   async function invokeAdmin(action, payload = {}) {
     const { data: { session } } = await supabase.auth.getSession();
@@ -376,6 +391,15 @@
     return `${fmtDmy(q.quiz_date)} · #${idx + 1} ${short}${q.question_text?.length > 48 ? "…" : ""} [${STATUS_LABEL[q.status] || q.status}${hasW ? " · 🏆" : ""}]`;
   }
   function populateQuestionDropdowns() {
+    if (cachedQuestions.length) {
+      const latestDate = cachedQuestions[0].quiz_date;
+      if ($("entriesDate").value && !cachedQuestions.some(q => q.quiz_date === $("entriesDate").value)) {
+        $("entriesDate").value = latestDate;
+      }
+      if ($("drawDate").value && !cachedQuestions.some(q => q.quiz_date === $("drawDate").value)) {
+        $("drawDate").value = latestDate;
+      }
+    }
     const eDate = $("entriesDate").value;
     const dDate = $("drawDate").value;
     const eList = eDate ? cachedQuestions.filter(q => q.quiz_date === eDate) : cachedQuestions;
@@ -390,6 +414,37 @@
     };
     fill($("entriesQuestionSelect"), eList, cachedQuestions);
     fill($("drawQuestionSelect"), dList, cachedQuestions);
+  }
+
+  function buildDeduplicatedDateSummary(quizDate, entries, fallbackSummary) {
+    const activeDateQs = cachedQuestions.filter(q => q.quiz_date === quizDate && q.status !== "cancelled");
+    const validQids = new Set(activeDateQs.map(q => q.id));
+    const totalQ = validQids.size || activeDateQs.length;
+    if (!totalQ || !Array.isArray(entries) || !entries.length) return fallbackSummary || [];
+    const byMob = new Map();
+    for (const e of entries) {
+      if (!validQids.has(e.question_id)) continue;
+      let p = byMob.get(e.mobile);
+      if (!p) {
+        p = { mobile: e.mobile, full_name: e.full_name, village: e.village, entry_id: e.id, question_id: e.question_id, created_at: e.created_at, answeredQids: new Set(), correctQids: new Set() };
+        byMob.set(e.mobile, p);
+      }
+      p.answeredQids.add(e.question_id);
+      if (e.is_correct) { p.correctQids.add(e.question_id); p.entry_id = e.id; p.question_id = e.question_id; }
+    }
+    if (!byMob.size) return fallbackSummary || [];
+    return [...byMob.values()].map(p => ({
+      mobile: p.mobile,
+      full_name: p.full_name,
+      village: p.village,
+      entry_id: p.entry_id,
+      question_id: p.question_id,
+      created_at: p.created_at,
+      answered: p.answeredQids.size,
+      correct: p.correctQids.size,
+      total_questions: totalQ,
+      all_correct: totalQ > 0 && p.correctQids.size === totalQ
+    })).sort((a, b) => (b.correct - a.correct) || (b.answered - a.answered));
   }
 
   async function fetchEntriesForSelectedDate() {
@@ -407,17 +462,18 @@
     if (filter === "all_summary" || filter === "all_correct") {
       try {
         const res = await invokeAdmin("list_date_entries", { quiz_date: question.quiz_date });
-        const summary = res.summary || [];
+        const summary = buildDeduplicatedDateSummary(question.quiz_date, res.entries, res.summary);
         const list = filter === "all_correct" ? summary.filter(p => p.all_correct) : summary;
         cachedEntries = list.map(p => ({
           id: p.entry_id,
           question_id: p.question_id || question.id,
+          quiz_date: question.quiz_date,
           full_name: p.full_name,
           mobile: p.mobile,
           village: p.village,
           selected_option: -1,
           score_label: `${p.correct} / ${p.total_questions} சரி`,
-          wrong_count: p.total_questions - p.correct,
+          wrong_count: Math.max(0, p.total_questions - p.correct),
           all_correct: p.all_correct,
           is_correct: p.all_correct || p.correct > 0,
           created_at: p.created_at
@@ -450,17 +506,17 @@
     }
     const ansLetter = ["A","B","C","D"][Number(q.correct_option)] || "";
     const ansText = (q.options || [])[Number(q.correct_option)] || "—";
-    const win = cachedWinners.find(w => w.question_id === q.id);
+    const win = cachedWinners.find(w => w.question_id === q.id) || cachedWinners.find(w => (w.question?.quiz_date || w.quiz_date) === q.quiz_date);
     const sameDateQs = cachedQuestions.filter(x => x.quiz_date === q.quiz_date && x.status !== "cancelled");
     let entries = [];
     let dateSummary = [];
     try {
       const [r, ds] = await Promise.all([
         invokeAdmin("list_entries", { question_id: q.id }),
-        sameDateQs.length > 1 ? invokeAdmin("list_date_entries", { quiz_date: q.quiz_date }).catch(() => ({ summary: [] })) : Promise.resolve({ summary: [] })
+        sameDateQs.length > 1 ? invokeAdmin("list_date_entries", { quiz_date: q.quiz_date }).catch(() => ({ summary: [], entries: [] })) : Promise.resolve({ summary: [], entries: [] })
       ]);
       entries = r.participants || r.entries || [];
-      dateSummary = ds.summary || [];
+      dateSummary = sameDateQs.length > 1 ? buildDeduplicatedDateSummary(q.quiz_date, ds.entries, ds.summary) : (ds.summary || []);
     } catch (_) {}
     const correctList = entries.filter(e => e.is_correct === true);
     const allCorrectMobiles = new Set(dateSummary.filter(p => p.all_correct).map(p => p.mobile));
@@ -563,8 +619,34 @@
       deduped.sort((a, b) => String(b.quiz_date || "").localeCompare(String(a.quiz_date || "")) || String(b.created_at || "").localeCompare(String(a.created_at || "")));
       cachedQuestions = deduped;
       if (toCancelIds.length) {
-        Promise.all(toCancelIds.map(id => invokeAdmin("remove_question", { question_id: id }).catch(() => {})));
+        await Promise.all(toCancelIds.map(id => invokeAdmin("remove_question", { question_id: id }).catch(() => {})));
       }
+      // Recompute unique stats using only deduplicated valid question IDs
+      const validQids = new Set(cachedQuestions.map(q => q.id));
+      allMobiles.clear();
+      allCorrectMobiles.clear();
+      totalAns = 0; corrAns = 0;
+      dates.forEach((dt, idx) => {
+        const dr = dateResults[idx] || { entries: [], summary: [] };
+        const cleanSum = buildDeduplicatedDateSummary(dt, dr.entries, dr.summary);
+        for (const p of cleanSum) {
+          if (p.mobile) {
+            allMobiles.add(p.mobile);
+            if (p.all_correct) allCorrectMobiles.add(p.mobile);
+          }
+        }
+        for (const e of (dr.entries || [])) {
+          if (!validQids.has(e.question_id)) continue;
+          totalAns++;
+          if (e.is_correct) corrAns++;
+        }
+      });
+      cachedUniqueStats = {
+        uniqueParticipants: allMobiles.size,
+        allCorrectPeople: allCorrectMobiles.size,
+        totalAnswers: totalAns,
+        correctAnswers: corrAns
+      };
     } catch (_) {
       cachedQuestions = (rawQuestions || []).filter(q => q.status !== "cancelled");
       cachedUniqueStats = null;
@@ -674,12 +756,13 @@
   function reuseQuestionForNewDay(id) {
     const q = cachedQuestions.find(x => x.id === id);
     if (!q) return;
-    const today = indiaDate();
+    const today = indiaDate(0);
+    const fc = defaultFutureClose(today);
     if ($("questionId").value || !$("questionText").value.trim()) {
       resetQuestionForm();
-      $("quizDate").value = today;
-      $("closeDate").value = today;
-      $("closeHour").value = "10"; $("closeMinute").value = "00"; $("closePeriod").value = "PM";
+      $("quizDate").value = fc.date;
+      $("closeDate").value = fc.date;
+      $("closeHour").value = fc.hour; $("closeMinute").value = fc.minute; $("closePeriod").value = fc.period;
       $("questionText").value = q.question_text || "";
       (q.options || []).forEach((v, i) => { if ($(`option${i}`)) $(`option${i}`).value = v; });
       $("correctOption").value = String(q.correct_option ?? "");
@@ -749,25 +832,41 @@
     }
   }
   function renderEntries() {
-    $("entriesBody").innerHTML = cachedEntries.length ? cachedEntries.map(e => `
+    $("entriesBody").innerHTML = cachedEntries.length ? cachedEntries.map(e => {
+      const isPartial = e.score_label && !e.all_correct;
+      const btnCls = isPartial ? "light" : "green";
+      const btnTxt = isPartial ? `★ வெற்றியாளராக்கு (${e.score_label})` : "🏆 வெற்றியாளராக்கு";
+      return `
       <tr><td><b>${escapeHtml(e.full_name)}</b></td><td>${escapeHtml(e.mobile)}</td><td>${escapeHtml(e.village)}</td>
       <td>${e.score_label ? `<span class="score-pill ${e.all_correct ? "all" : "part"}">${e.all_correct ? "🌟 " : ""}${escapeHtml(e.score_label)}</span>` : (["A","B","C","D"][Number(e.selected_option)] ?? "-")}</td>
       <td>${e.all_correct ? '<span class="score-pill all">🌟 அனைத்து பதில்களும் சரி</span>' : (e.score_label ? `<span class="score-pill part">${escapeHtml(e.score_label)} (${e.wrong_count || 0} தவறு)</span>` : (e.is_correct ? '<span class="pill" style="background:#e9f7ef;color:#116239;font-weight:700">✓ சரி</span>' : "தவறு"))}</td>
       <td>${escapeHtml(e.created_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(e.created_at)) : "")}</td>
-      <td>${e.is_correct ? `<button type="button" class="green" style="padding:8px 14px;font-size:13px;white-space:nowrap" data-pick-entry="${escapeHtml(e.id)}" data-pick-q="${escapeHtml(e.question_id)}" data-pick-name="${escapeHtml(e.full_name)}">★ வெற்றியாளராக்கு</button>` : "—"}</td></tr>`).join("")
+      <td>${e.is_correct ? `<button type="button" class="${btnCls}" style="padding:8px 14px;font-size:13px;white-space:nowrap" data-pick-entry="${escapeHtml(e.id)}" data-pick-q="${escapeHtml(e.question_id)}" data-pick-name="${escapeHtml(e.full_name)}" data-pick-partial="${isPartial ? "1" : ""}" data-pick-score="${escapeHtml(e.score_label || "")}">${escapeHtml(btnTxt)}</button>` : "—"}</td></tr>`;
+    }).join("")
       : `<tr><td colspan="7">பதிவுகள் இல்லை.</td></tr>`;
     $("entriesBody").querySelectorAll("[data-pick-entry]").forEach(btn => btn.addEventListener("click", async () => {
       const qid = btn.dataset.pickQ, eid = btn.dataset.pickEntry, nm = btn.dataset.pickName;
+      const isPartial = btn.dataset.pickPartial === "1", scoreLbl = btn.dataset.pickScore;
       const q = cachedQuestions.find(x => x.id === qid);
-      if (q && q.status === "published") {
-        if (!confirm(`இந்தக் கேள்வி இன்னும் திறந்துள்ளது. முதலில் கேள்வியை மூடிவிட்டு "${nm}" அவர்களை வெற்றியாளராகத் தேர்வு செய்யவா?`)) return;
-        await invokeAdmin("close_question", { question_id: qid });
-      } else if (!confirm(`"${nm}" அவர்களை இந்தக் கேள்விக்கான வெற்றியாளராக அறிவிக்கவா?`)) return;
-      const hasW = cachedWinners.some(w => w.question_id === qid);
-      if (hasW && !confirm("ஏற்கனவே உள்ள வெற்றியாளரை மாற்றி இவரை வெற்றியாளராக்கவா?")) return;
+      const qDate = q?.quiz_date || $("entriesDate").value;
+      if (isPartial) {
+        if (!confirm(`⚠️ "${nm}" அனைத்துக் கேள்விகளுக்கும் சரியான பதில் அளிக்கவில்லை (${scoreLbl}).\n\nஇருப்பினும் இவரை கைமுறையாக வெற்றியாளராகத் தேர்வு செய்யவா?`)) return;
+      }
+      const sameDateOpen = cachedQuestions.filter(x => x.quiz_date === qDate && x.status === "published");
+      if ((q && q.status === "published") || sameDateOpen.length) {
+        if (!confirm(`இந்தத் தேதியின் கேள்விகள் இன்னும் திறந்துள்ளன. முதலில் கேள்விகளை மூடிவிட்டு "${nm}" அவர்களை வெற்றியாளராகத் தேர்வு செய்யவா?`)) return;
+        for (const oq of sameDateOpen) await invokeAdmin("close_question", { question_id: oq.id });
+      } else if (!isPartial && !confirm(`"${nm}" அவர்களை இந்தப் போட்டிக்கான வெற்றியாளராக அறிவிக்கவா?`)) return;
+      const sameDateWinners = cachedWinners.filter(w => (w.question?.quiz_date || w.quiz_date) === qDate || w.question_id === qid);
+      if (sameDateWinners.length && !confirm(`ஏற்கனவே உள்ள வெற்றியாளரை (${sameDateWinners[0].winner_name}) மாற்றி "${nm}" அவர்களை வெற்றியாளராக்கவா?`)) return;
       btn.disabled = true;
       try {
-        await invokeAdmin("draw_winner", { question_id: qid, entry_id: eid, replace: hasW });
+        for (const oldW of sameDateWinners) {
+          if (oldW.question_id !== qid) {
+            try { await invokeAdmin("remove_winner", { question_id: oldW.question_id }); } catch (_) {}
+          }
+        }
+        await invokeAdmin("draw_winner", { question_id: qid, entry_id: eid, replace: sameDateWinners.some(w => w.question_id === qid) });
         showNotice($("appNotice"), `🏆 ${nm} வெற்றியாளராகத் தேர்வு செய்யப்பட்டு பொதுப் பக்கத்தில் வெளியிடப்பட்டார்!`, "ok");
         await refreshAll();
       } catch (err) { showNotice($("appNotice"), err.message, "err"); btn.disabled = false; }
@@ -959,14 +1058,16 @@
   $("addMoreQuestionBtn").addEventListener("click", addExtraQuestionCard);
 
   function resetQuestionForm() {
-    $("questionForm").reset(); $("questionId").value = ""; $("quizDate").value = indiaDate();
+    const today = indiaDate(0);
+    const fc = defaultFutureClose(today);
+    $("questionForm").reset(); $("questionId").value = ""; $("quizDate").value = today;
     $("extraQuestionsContainer").innerHTML = "";
     $("addMoreQuestionBtn").classList.remove("hidden");
     $("questionPanel").querySelector(".section-title").textContent = "புதிய தினசரி கேள்வி";
     $("questionForm").querySelector('button[type="submit"]').textContent = "வரைவாகச் சேமி";
     $("publishBtn").textContent = "வெளியிடு";
-    $("closeDate").value = indiaDate();
-    $("closeHour").value = "10"; $("closeMinute").value = "00"; $("closePeriod").value = "PM";
+    $("closeDate").value = fc.date;
+    $("closeHour").value = fc.hour; $("closeMinute").value = fc.minute; $("closePeriod").value = fc.period;
   }
   function loadQuestion(id) {
     const q = cachedQuestions.find(x => x.id === id);
@@ -1192,12 +1293,20 @@
   });
   $("answerFilter").addEventListener("change", () => $("refreshEntries").click());
   $("entriesDate").addEventListener("change", () => { populateQuestionDropdowns(); $("refreshEntries").click(); });
-  $("entriesQuestionSelect").addEventListener("change", () => $("refreshEntries").click());
+  $("entriesQuestionSelect").addEventListener("change", () => {
+    const q = cachedQuestions.find(x => x.id === $("entriesQuestionSelect").value);
+    if (q && q.quiz_date) $("entriesDate").value = q.quiz_date;
+    $("refreshEntries").click();
+  });
   $("exportEntries").addEventListener("click", () => downloadCsv(cachedEntries, `bharath-boys-entries-${$("entriesDate").value || indiaDate()}.csv`));
   $("refreshWinners").addEventListener("click", refreshAll);
   $("exportWinners").addEventListener("click", exportWinnersCsv);
   $("drawDate").addEventListener("change", async () => { populateQuestionDropdowns(); await updateDrawQuestionPanel(); });
-  $("drawQuestionSelect").addEventListener("change", updateDrawQuestionPanel);
+  $("drawQuestionSelect").addEventListener("change", async () => {
+    const q = cachedQuestions.find(x => x.id === $("drawQuestionSelect").value);
+    if (q && q.quiz_date) $("drawDate").value = q.quiz_date;
+    await updateDrawQuestionPanel();
+  });
   $("allCorrectOnlyToggle").addEventListener("change", updateDrawQuestionPanel);
 
   async function runDrawWinner(entryId = null) {
@@ -1210,14 +1319,20 @@
       if (!confirm("இந்தத் தேதியின் கேள்விகள் இன்னும் திறந்துள்ளன. இப்போதே கேள்விகளை மூடி, சரியான பதில்களை வெளியிட்டு வெற்றியாளரைத் தேர்வு செய்யவா?")) return;
       for (const oq of sameDateOpen) await invokeAdmin("close_question", { question_id: oq.id });
     }
-    const hasW = cachedWinners.some(w => w.question_id === question.id);
+    const sameDateWinners = cachedWinners.filter(w => (w.question?.quiz_date || w.quiz_date) === question.quiz_date || w.question_id === question.id);
+    const hasW = sameDateWinners.length > 0;
     const allCorrectOnly = $("allCorrectOnlyToggle").checked;
     const modeLabel = entryId ? "கைமுறைத் தேர்வில் (Manual)" : "தானியங்கி குலுக்கல் முறையில் (Auto Lucky Draw)";
-    if (!confirm(`${hasW ? "ஏற்கனவே உள்ள வெற்றியாளரை மாற்றி, " : ""}${allCorrectOnly ? "அனைத்துக் கேள்விகளுக்கும் சரியான பதில் அளித்தவர்களிலிருந்து " : ""}${modeLabel} வெற்றியாளரைத் தேர்வு செய்து பொதுப் பக்கத்தில் வெளியிடவா?`)) return;
+    if (!confirm(`${hasW ? `ஏற்கனவே உள்ள வெற்றியாளரை (${sameDateWinners[0].winner_name}) மாற்றி, ` : ""}${allCorrectOnly ? "அனைத்துக் கேள்விகளுக்கும் சரியான பதில் அளித்தவர்களிலிருந்து " : ""}${modeLabel} வெற்றியாளரைத் தேர்வு செய்து பொதுப் பக்கத்தில் வெளியிடவா?`)) return;
     const btn = entryId ? $("manualDrawBtn") : $("drawWinnerBtn");
     btn.disabled = true;
     try {
-      const payload = { question_id: question.id, replace: hasW, all_correct_on_date: allCorrectOnly };
+      for (const oldW of sameDateWinners) {
+        if (oldW.question_id !== question.id) {
+          try { await invokeAdmin("remove_winner", { question_id: oldW.question_id }); } catch (_) {}
+        }
+      }
+      const payload = { question_id: question.id, replace: sameDateWinners.some(w => w.question_id === question.id), all_correct_on_date: allCorrectOnly };
       if (entryId) payload.entry_id = entryId;
       const r = await invokeAdmin("draw_winner", payload);
       const w = r.winner || r;
