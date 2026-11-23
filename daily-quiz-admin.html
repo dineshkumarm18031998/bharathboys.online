@@ -117,8 +117,8 @@
       <div id="appNotice" class="notice"></div>
       <div class="stats">
         <div class="card stat"><span>கேள்விகள்</span><strong id="statQuestions">—</strong></div>
-        <div class="card stat"><span>மொத்தப் பங்கேற்பாளர்கள்</span><strong id="statEntries">—</strong></div>
-        <div class="card stat"><span>சரியான பதில்கள்</span><strong id="statCorrect">—</strong></div>
+        <div class="card stat"><span id="statEntriesLabel">மொத்தப் பங்கேற்பாளர்கள்</span><strong id="statEntries">—</strong></div>
+        <div class="card stat"><span id="statCorrectLabel">100% சரியானவர்கள் (சரியான பதில்கள்)</span><strong id="statCorrect">—</strong></div>
         <div class="card stat"><span>வெற்றியாளர்கள்</span><strong id="statWinners">—</strong></div>
       </div>
 
@@ -469,6 +469,36 @@
       : `<option value="">— தகுதியான சரியான பதில் அளித்தவர்கள் யாரும் இல்லை —</option>`;
   }
 
+  let cachedUniqueStats = null;
+  async function computeUniqueQuizStats() {
+    try {
+      const dates = [...new Set((cachedQuestions || []).filter(q => q.status !== "cancelled").map(q => q.quiz_date).filter(Boolean))];
+      if (!dates.length) { cachedUniqueStats = { uniqueParticipants: 0, allCorrectPeople: 0, totalAnswers: 0, correctAnswers: 0 }; return; }
+      const dateResults = await Promise.all(dates.map(d => invokeAdmin("list_date_entries", { quiz_date: d }).catch(() => ({ summary: [], entries: [] }))));
+      const allMobiles = new Set();
+      const allCorrectMobiles = new Set();
+      let totalAns = 0, corrAns = 0;
+      for (const dr of dateResults) {
+        for (const p of (dr.summary || [])) {
+          if (p.mobile) {
+            allMobiles.add(p.mobile);
+            if (p.all_correct) allCorrectMobiles.add(p.mobile);
+          }
+        }
+        for (const e of (dr.entries || [])) {
+          totalAns++;
+          if (e.is_correct) corrAns++;
+        }
+      }
+      cachedUniqueStats = {
+        uniqueParticipants: allMobiles.size,
+        allCorrectPeople: allCorrectMobiles.size,
+        totalAnswers: totalAns,
+        correctAnswers: corrAns
+      };
+    } catch (_) { cachedUniqueStats = null; }
+  }
+
   async function refreshAll() {
     try {
       const [q, stats, w] = await Promise.all([
@@ -480,8 +510,11 @@
       cachedDashboard = stats || null;
       cachedWinners = w.winners || [];
       populateQuestionDropdowns();
-      await fetchEntriesForSelectedDate();
-      await updateDrawQuestionPanel();
+      await Promise.all([
+        fetchEntriesForSelectedDate(),
+        updateDrawQuestionPanel(),
+        computeUniqueQuizStats()
+      ]);
       renderQuestions(); renderEntries(); renderWinners(); renderStats();
       clearNotice($("appNotice"));
     } catch (err) {
@@ -490,8 +523,13 @@
   }
   function renderStats() {
     $("statQuestions").textContent = cachedDashboard?.total_questions ?? cachedQuestions.length;
-    $("statEntries").textContent = cachedDashboard?.total_participants ?? cachedEntries.length;
-    $("statCorrect").textContent = cachedDashboard?.correct_answers ?? cachedEntries.filter(x => x.is_correct).length;
+    const uCount = cachedUniqueStats ? cachedUniqueStats.uniqueParticipants : (cachedDashboard?.unique_participants ?? cachedDashboard?.total_participants ?? cachedEntries.length);
+    const totalAns = cachedUniqueStats ? cachedUniqueStats.totalAnswers : (cachedDashboard?.total_participants ?? cachedEntries.length);
+    const allCorr = cachedUniqueStats ? cachedUniqueStats.allCorrectPeople : (cachedDashboard?.all_correct_participants ?? cachedDashboard?.correct_answers ?? cachedEntries.filter(x => x.is_correct).length);
+    const corrAns = cachedUniqueStats ? cachedUniqueStats.correctAnswers : (cachedDashboard?.correct_answers ?? cachedEntries.filter(x => x.is_correct).length);
+    $("statEntries").textContent = uCount;
+    if ($("statEntriesLabel")) $("statEntriesLabel").textContent = totalAns > uCount ? `மொத்தப் பங்கேற்பாளர்கள் (${totalAns} பதில்கள்)` : "மொத்தப் பங்கேற்பாளர்கள்";
+    $("statCorrect").textContent = totalAns > uCount ? `${allCorr} பேர் (${corrAns}/${totalAns} சரி)` : corrAns;
     $("statWinners").textContent = cachedDashboard?.total_winners ?? cachedWinners.length;
   }
   function renderQuestions() {

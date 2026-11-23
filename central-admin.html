@@ -69,12 +69,38 @@ await sessionView();
 
 /* ---------- reports ---------- */
 const stat=(n,l,c='')=>`<div class="stat ${c}"><b>${esc(n)}</b><span>${esc(l)}</span></div>`;
+async function callQuizAdmin(action,payload={}){const{data,error}=await sb.functions.invoke('admin-contest',{body:{action,...payload}});if(error||data?.error)return null;return data}
 async function loadReports(){try{clear('reportsMsg');reportData=await call('reports');const q=reportData.quiz,d=reportData.drawing;
- $('quizStats').innerHTML=stat(q.total_questions,'மொத்த கேள்விகள்')+stat(q.published,'வெளியிடப்பட்டவை','g')+stat(q.closed,'மூடப்பட்டவை')+stat(q.total_participants,'மொத்த பங்கேற்பாளர்கள்','o')+stat(q.correct_answers,'சரியான பதில்கள்','g')+stat(q.winners,'வெற்றியாளர்கள்','o');
+ let uPart=q.unique_participants,allCorr=q.all_correct_participants,qVillages=reportData.quiz_villages_unique||reportData.quiz_villages;
+ if(uPart===undefined||allCorr===undefined){
+   try{
+     const qList=await callQuizAdmin('list_questions');
+     const dates=[...new Set((qList?.questions||[]).filter(x=>x.status!=='cancelled').map(x=>x.quiz_date).filter(Boolean))];
+     if(dates.length){
+       const dRes=await Promise.all(dates.map(dt=>callQuizAdmin('list_date_entries',{quiz_date:dt})));
+       const mobMap=new Map(),corrSet=new Set();
+       for(const r of dRes){
+         for(const p of(r?.summary||[])){
+           if(p.mobile){mobMap.set(p.mobile,p.village||'—');if(p.all_correct)corrSet.add(p.mobile)}
+         }
+       }
+       uPart=mobMap.size;allCorr=corrSet.size;
+       const vMap=new Map();
+       for(const v of mobMap.values()){const vn=String(v||'').trim()||'—',k=vn.toLowerCase();const cur=vMap.get(k);if(cur)cur.count++;else vMap.set(k,{village:vn,count:1})}
+       qVillages=[...vMap.values()].sort((a,b)=>b.count-a.count);
+       reportData.quiz_villages_unique=qVillages;q.unique_participants=uPart;q.all_correct_participants=allCorr;
+     }
+   }catch(_){}
+ }
+ const dispPart=uPart!==undefined?uPart:q.total_participants;
+ const partLbl=uPart!==undefined&&q.total_participants>uPart?`மொத்த பங்கேற்பாளர்கள் (${q.total_participants} பதில்கள்)`:'மொத்த பங்கேற்பாளர்கள்';
+ const dispCorr=allCorr!==undefined&&q.total_participants>(uPart??0)?`${allCorr} பேர் (${q.correct_answers}/${q.total_participants})`:q.correct_answers;
+ const corrLbl=allCorr!==undefined&&q.total_participants>(uPart??0)?'100% சரியானவர்கள் (சரியான பதில்கள்)':'சரியான பதில்கள்';
+ $('quizStats').innerHTML=stat(q.total_questions,'மொத்த கேள்விகள்')+stat(q.published,'வெளியிடப்பட்டவை','g')+stat(q.closed,'மூடப்பட்டவை')+stat(dispPart,partLbl,'o')+stat(dispCorr,corrLbl,'g')+stat(q.winners,'வெற்றியாளர்கள்','o');
  $('drawStats').innerHTML=stat(d.total_competitions,'போட்டிகள்')+stat(d.total_participants,'பங்கேற்பாளர்கள்','o')+stat(d.pending,'நிலுவை')+stat(d.shortlisted,'Shortlisted','g')+stat(d.rejected,'Rejected')+stat(d.winners,'Winners','o');
- const vrow=a=>(a||[]).map(v=>'<tr><td>'+esc(v.village)+'</td><td>'+esc(v.count)+'</td></tr>').join('')||'<tr><td colspan="2">தரவு இல்லை.</td></tr>';$('quizVillages').innerHTML=vrow(reportData.quiz_villages);$('drawVillages').innerHTML=vrow(reportData.drawing_villages);$('compReport').innerHTML=reportData.competitions.map(c=>`<tr><td>${esc(c.year)}<br>${esc(c.name)}</td><td>${esc(c.status)}</td><td>${esc(c.participants)}</td><td>${esc(c.pending)}</td><td>${esc(c.shortlisted)}</td><td>${esc(c.rejected)}</td><td>${esc(c.winners)}</td></tr>`).join('')||'<tr><td colspan="7">போட்டி இல்லை.</td></tr>'}catch(e){notice('reportsMsg',e.message,'err')}}
+ const vrow=a=>(a||[]).map(v=>'<tr><td>'+esc(v.village)+'</td><td>'+esc(v.count)+'</td></tr>').join('')||'<tr><td colspan="2">தரவு இல்லை.</td></tr>';$('quizVillages').innerHTML=vrow(qVillages);$('drawVillages').innerHTML=vrow(reportData.drawing_villages);$('compReport').innerHTML=reportData.competitions.map(c=>`<tr><td>${esc(c.year)}<br>${esc(c.name)}</td><td>${esc(c.status)}</td><td>${esc(c.participants)}</td><td>${esc(c.pending)}</td><td>${esc(c.shortlisted)}</td><td>${esc(c.rejected)}</td><td>${esc(c.winners)}</td></tr>`).join('')||'<tr><td colspan="7">போட்டி இல்லை.</td></tr>'}catch(e){notice('reportsMsg',e.message,'err')}}
 $('reloadReports').onclick=loadReports;
-$('exportReports').onclick=async()=>{if(!reportData)await loadReports();if(!reportData)return;const q=reportData.quiz,d=reportData.drawing;download('bharath-boys-report.csv',[['Section','Metric','Value'],['Daily Quiz','Total questions',q.total_questions],['Daily Quiz','Draft',q.draft],['Daily Quiz','Published',q.published],['Daily Quiz','Closed',q.closed],['Daily Quiz','Cancelled',q.cancelled],['Daily Quiz','Total participants',q.total_participants],['Daily Quiz','Correct answers',q.correct_answers],['Daily Quiz','Winners',q.winners],['Annual Drawing','Competitions',d.total_competitions],['Annual Drawing','Participants',d.total_participants],['Annual Drawing','Pending',d.pending],['Annual Drawing','Shortlisted',d.shortlisted],['Annual Drawing','Rejected',d.rejected],['Annual Drawing','Winners',d.winners],[],['Year','Competition','Status','Participants','Pending','Shortlisted','Rejected','Winners'],...reportData.competitions.map(c=>[c.year,c.name,c.status,c.participants,c.pending,c.shortlisted,c.rejected,c.winners]),[],['Daily Quiz – Village','Participants'],...(reportData.quiz_villages||[]).map(v=>[v.village,v.count]),[],['Annual Drawing – Village','Participants'],...(reportData.drawing_villages||[]).map(v=>[v.village,v.count])])};
+$('exportReports').onclick=async()=>{if(!reportData)await loadReports();if(!reportData)return;const q=reportData.quiz,d=reportData.drawing;download('bharath-boys-report.csv',[['Section','Metric','Value'],['Daily Quiz','Total questions',q.total_questions],['Daily Quiz','Draft',q.draft],['Daily Quiz','Published',q.published],['Daily Quiz','Closed',q.closed],['Daily Quiz','Cancelled',q.cancelled],['Daily Quiz','Unique participants',q.unique_participants??q.total_participants],['Daily Quiz','Total answer submissions',q.total_participants],['Daily Quiz','Correct answers',q.correct_answers],['Daily Quiz','Winners',q.winners],['Annual Drawing','Competitions',d.total_competitions],['Annual Drawing','Participants',d.total_participants],['Annual Drawing','Pending',d.pending],['Annual Drawing','Shortlisted',d.shortlisted],['Annual Drawing','Rejected',d.rejected],['Annual Drawing','Winners',d.winners],[],['Year','Competition','Status','Participants','Pending','Shortlisted','Rejected','Winners'],...reportData.competitions.map(c=>[c.year,c.name,c.status,c.participants,c.pending,c.shortlisted,c.rejected,c.winners]),[],['Daily Quiz – Village','Unique Participants'],...(reportData.quiz_villages_unique||reportData.quiz_villages||[]).map(v=>[v.village,v.count]),[],['Annual Drawing – Village','Participants'],...(reportData.drawing_villages||[]).map(v=>[v.village,v.count])])};
 
 /* ---------- website text ---------- */
 async function loadSiteContent(){try{clear('webMsg');const{content:c}=await call('get_site_content');$('c_w').value=c.hero_w||'';$('c_o').value=c.hero_o||'';$('c_addr').value=c.address||'';$('c_phones').value=(c.phones||[]).join('\n');$('c_ann').value=c.announcement||''}catch(e){notice('webMsg',e.message,'err')}}
