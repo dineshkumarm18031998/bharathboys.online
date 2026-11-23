@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>போட்டிகள் | பாரத் பாய்ஸ் நற்பணி மன்றம்</title>
-<meta name="description" content="பாரத் பாய்ஸ் நற்பணி மன்றம் – தினசரி வினாடி வினா மற்றும் ஆண்டு ஓவியப் போட்டி">
+<meta name="description" content="பாரத் பாய்ஸ் நற்பணி மன்றம் – தினசரி வினாடி வினா மற்றும் ஓவியப் போட்டி">
 <link rel="icon" href="bharath-boys-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;800&display=swap" rel="stylesheet">
@@ -45,11 +45,12 @@ header h1{font-size:clamp(1rem,3.8vw,1.15rem);margin:0;line-height:1.35;overflow
 label.f{display:block;font-weight:600;font-size:.9rem;margin:12px 0 6px;overflow-wrap:break-word}
 input.in,select.in{display:block;width:100%;max-width:100%;min-width:0;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:var(--inbg);color:var(--txt);font:inherit;font-size:15px}
 input.in:focus,select.in:focus{outline:none;border-color:var(--gold)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;max-width:100%;border:0;border-radius:12px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;transition:.15s;overflow-wrap:break-word;text-align:center}
-.btn.pri{background:linear-gradient(135deg,#ff5500,#f5a623);color:#fff;width:100%;margin-top:16px;font-size:1.05rem}
-.btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--line);padding:9px 12px;font-weight:600;flex:1 1 auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;max-width:100%;border:0;border-radius:12px;padding:13px 20px;font:inherit;font-weight:800;cursor:pointer;transition:.15s;overflow-wrap:break-word;text-align:center}
+.btn.pri{background:linear-gradient(135deg,#ff5500,#f5a623);color:#fff;width:100%;margin-top:18px;font-size:1.05rem;box-shadow:0 6px 20px #ff55002b}
+.btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--line);padding:10px 16px;font-weight:600;flex:1 1 auto}
 .btn:disabled{opacity:.55;cursor:wait}
-.msg{display:none;padding:12px 14px;border-radius:12px;margin:12px 0;white-space:pre-wrap;overflow-wrap:break-word}
+.msg{display:none;padding:13px 16px;border-radius:12px;margin:14px 0;white-space:pre-wrap;overflow-wrap:break-word}
+.msg:empty{display:none!important}
 .msg.ok{display:block;background:#16834a1a;border:1px solid #16834a66;color:var(--ok);font-weight:600}
 .msg.err{display:block;background:#d92d201a;border:1px solid #d92d2066;color:var(--err);font-weight:600}
 .msg.info{display:block;background:#f5a6231a;border:1px solid #f5a62366;color:var(--txt)}
@@ -82,12 +83,12 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
 
   <section class="hero">
     <h2>🎁 போட்டிகளில் பங்கேற்று பரிசுகளை வெல்லுங்கள்!</h2>
-    <p>தினசரி வினாடி வினா மற்றும் ஆண்டு ஓவியப் போட்டி – உள்நுழைவு தேவையில்லை.</p>
+    <p>தினசரி வினாடி வினா மற்றும் ஓவியப் போட்டி</p>
   </section>
 
   <nav class="tabs">
     <button class="tab active" data-p="quiz">❓ தினசரி வினாடி வினா<span>அறிவுப் போட்டி &amp; முடிவுகள்</span></button>
-    <button class="tab" data-p="drawing">🎨 ஆண்டு ஓவியப் போட்டி<span>வகுப்பு &amp; வயது வாரியாக பங்கேற்கவும்</span></button>
+    <button class="tab" data-p="drawing">🎨 ஓவியப் போட்டி<span>வகுப்பு &amp; வயது வாரியாக பங்கேற்கவும்</span></button>
   </nav>
 
   <!-- ================= DAILY QUIZ ================= -->
@@ -110,8 +111,8 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
         <button class="btn pri" id="quizSubmit" type="submit">பதிலைச் சமர்ப்பி</button>
         <p class="small mut">ஒரு கைபேசி எண்ணுக்கு ஒரு கேள்விக்கு ஒரு பதில் மட்டுமே. பல கேள்விகள் இருந்தால் ஒவ்வொரு கேள்விக்கும் தனித்தனியாகப் பதிலளிக்கலாம்.</p>
       </form>
-      <div id="quizDone" class="msg ok"></div>
-      <button type="button" id="nextQuizBtn" class="btn sec hidden" style="margin-top:8px;width:100%">அடுத்த கேள்விக்குச் செல் →</button>
+      <div id="quizDone" class="msg"></div>
+      <button type="button" id="nextQuizBtn" class="btn sec hidden" style="margin-top:10px;width:100%">அடுத்த கேள்விக்குச் செல் →</button>
     </div>
     <div class="card"><h3>📜 விதிமுறைகள்</h3><ul class="rules">
       <li>அனைத்து விவரங்களும் கட்டாயம்.</li><li>கடைசி நேரம் முடிந்த பின் பதில்கள் ஏற்கப்படாது.</li>
@@ -119,10 +120,10 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     <div class="card"><h3>🏆 சமீபத்திய சரியான பதில்கள் &amp; வெற்றியாளர்கள்</h3><div id="results" class="mut small">ஏற்றப்படுகிறது…</div></div>
   </section>
 
-  <!-- ================= ANNUAL DRAWING ================= -->
+  <!-- ================= DRAWING COMPETITION ================= -->
   <section id="drawing" class="panel">
     <div class="card">
-      <h3 id="dTitle">ஆண்டு ஓவியப் போட்டி</h3>
+      <h3 id="dTitle">ஓவியப் போட்டி</h3>
       <div id="dLoading" class="mut">ஏற்றப்படுகிறது…</div>
       <div id="dNone" class="msg info"></div>
       <div id="dInfo" class="hidden">
@@ -193,7 +194,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
         <div id="dMsg" class="msg"></div>
         <button class="btn pri" id="dSubmit" type="submit">ஓவியத்தைச் சமர்ப்பி</button>
       </form>
-      <div id="dDone" class="msg ok"></div>
+      <div id="dDone" class="msg"></div>
     </div>
     <div class="card hidden" id="winCard"><h3>🏆 ஓவியப் போட்டி வெற்றியாளர்கள்</h3><div id="winners"></div></div>
   </section>
@@ -397,7 +398,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
       comp = d.competition;
       const info = comp || d.upcoming;
       if (info) {
-        $("dTitle").textContent = `${info.competition_name}`;
+        $("dTitle").textContent = String(info.competition_name || "ஓவியப் போட்டி").replace(/ஆண்டு\s*/g, "");
         const m = $("dMeta"); m.replaceChildren();
         const chip = (l, v) => { const c = el("span", { className: "chip" }); c.append(l + " ", el("b", { textContent: v })); m.append(c); };
         chip("🗓 ஆண்டு:", String(info.competition_year));
