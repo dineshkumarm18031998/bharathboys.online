@@ -308,19 +308,32 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   function renderQuestion() {
     const m = $("quizMeta"); m.replaceChildren();
     const chip = (label, val, id) => { const c = el("span", { className: "chip" }); c.append(label + " ", el("b", { textContent: val, id: id || "" })); m.append(c); };
-    if (questions.length > 1) chip("🔢 கேள்வி:", `${qIndex + 1} / ${questions.length}`);
+    if (questions.length > 1) chip("🔢 மொத்தக் கேள்விகள்:", String(questions.length));
     chip("📅 தேதி:", fmtDate(question.quiz_date));
     chip("⏰ கடைசி நேரம்:", fmtDateTime(question.closes_at));
     chip("⌛ மீதம்:", "", "cd");
     if (question.prize_text) chip("🎁 பரிசு:", question.prize_text);
-    $("quizText").textContent = question.question_text;
+    $("quizSwitcher").classList.add("hidden");
+    $("quizText").textContent = questions.length === 1 ? question.question_text : "";
+    $("quizText").classList.toggle("hidden", questions.length > 1);
     const box = $("quizOpts"); box.replaceChildren();
-    (question.options || []).forEach((o, i) => {
-      const inp = el("input", { type: "radio", name: "opt", value: String(i), id: "o" + i });
-      const lab = el("label", { className: "opt", htmlFor: "o" + i }, [inp, el("span", { textContent: `${"அஆஇஈஉஊ"[i] || i + 1}. ${o}` })]);
-      inp.addEventListener("change", () => box.querySelectorAll(".opt").forEach((x) => x.classList.toggle("sel", x.contains(document.activeElement) || x.querySelector("input").checked)));
-      box.append(lab);
+    questions.forEach((qItem, qIdx) => {
+      const wrap = el("div", { style: questions.length > 1 ? "background:#152033;border:1px solid #283a56;border-radius:14px;padding:14px;margin-bottom:14px" : "" });
+      if (questions.length > 1) {
+        wrap.append(el("div", { style: "display:inline-block;background:#ff5500;color:#fff;font-weight:800;font-size:.8rem;padding:3px 11px;border-radius:20px;margin-bottom:8px", textContent: `கேள்வி #${qIdx + 1}` }));
+        wrap.append(el("div", { className: "q", style: "margin-top:2px", textContent: qItem.question_text }));
+      }
+      (qItem.options || []).forEach((o, i) => {
+        const rName = "opt_" + qItem.id;
+        const rId = `o_${qIdx}_${i}`;
+        const inp = el("input", { type: "radio", name: rName, value: String(i), id: rId });
+        const lab = el("label", { className: "opt", htmlFor: rId }, [inp, el("span", { textContent: `${"அஆஇஈஉஊ"[i] || i + 1}. ${o}` })]);
+        inp.addEventListener("change", () => wrap.querySelectorAll(".opt").forEach((x) => x.classList.toggle("sel", x.querySelector("input").checked)));
+        wrap.append(lab);
+      });
+      box.append(wrap);
     });
+    $("quizSubmit").textContent = questions.length > 1 ? `அனைத்து ${questions.length} பதில்களையும் சமர்ப்பி` : "பதிலைச் சமர்ப்பி";
     $("quizForm").classList.remove("hidden");
     tick(); clearInterval(timer); timer = setInterval(tick, 1000);
   }
@@ -353,23 +366,24 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
 
   $("quizForm").addEventListener("submit", async (ev) => {
     ev.preventDefault(); hide($("quizMsg"));
-    const sel = document.querySelector('input[name="opt"]:checked');
     const name = $("qName").value, mobile = $("qMobile").value, village = $("qVillage").value;
-    const err = validPerson(name, mobile, village) || (!sel ? "ஒரு பதிலைத் தேர்ந்தெடுக்கவும்." : "");
-    if (err) return show($("quizMsg"), err, "err");
+    const pErr = validPerson(name, mobile, village);
+    if (pErr) return show($("quizMsg"), pErr, "err");
+    const answers = [];
+    for (let i = 0; i < questions.length; i++) {
+      const qItem = questions[i];
+      const sel = document.querySelector(`input[name="opt_${qItem.id}"]:checked`);
+      if (!sel) return show($("quizMsg"), questions.length > 1 ? `கேள்வி #${i + 1}-க்கு ஒரு பதிலைத் தேர்ந்தெடுக்கவும்.` : "ஒரு பதிலைத் தேர்ந்தெடுக்கவும்.", "err");
+      answers.push({ question_id: qItem.id, selected_option: Number(sel.value) });
+    }
     const btn = $("quizSubmit"); btn.disabled = true; btn.textContent = "சமர்ப்பிக்கப்படுகிறது…";
     try {
       const r = await api("submit-entry", { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question_id: question.id, full_name: name.trim(), mobile: normMobile(mobile), village: village.trim(), selected_option: Number(sel.value) }) });
-      answeredIds.add(question.id);
-      renderSwitcher();
+        body: JSON.stringify({ question_id: answers[0].question_id, selected_option: answers[0].selected_option, answers, full_name: name.trim(), mobile: normMobile(mobile), village: village.trim() }) });
       $("quizForm").classList.add("hidden"); clearInterval(timer);
-      const hasMore = questions.some((q) => !answeredIds.has(q.id));
-      show($("quizDone"), "✅ " + (r.message || "உங்கள் பதில் வெற்றிகரமாக பதிவு செய்யப்பட்டது.") +
-        (hasMore ? "\nஇன்னும் பிற கேள்விகள் உள்ளன – கீழே உள்ள பொத்தானை அழுத்தி அடுத்த கேள்விக்கும் பதிலளிக்கலாம்!" : "\nமுடிவுகள் போட்டி நேரம் முடிந்த பிறகு கீழே அறிவிக்கப்படும்."), "ok");
-      if (questions.length > 1 && hasMore) $("nextQuizBtn").classList.remove("hidden");
+      show($("quizDone"), "✅ " + (r.message || "உங்கள் பதில் வெற்றிகரமாக பதிவு செய்யப்பட்டது.") + "\nசரியான பதில்கள் மற்றும் வெற்றியாளர் பெயர் போட்டி நேரம் முடிந்த பிறகு கீழே அறிவிக்கப்படும்.", "ok");
     } catch (e) { show($("quizMsg"), e.message, "err"); }
-    finally { btn.disabled = false; btn.textContent = "பதிலைச் சமர்ப்பி"; }
+    finally { btn.disabled = false; btn.textContent = questions.length > 1 ? `அனைத்து ${questions.length} பதில்களையும் சமர்ப்பி` : "பதிலைச் சமர்ப்பி"; }
   });
 
   // ================= DRAWING =================

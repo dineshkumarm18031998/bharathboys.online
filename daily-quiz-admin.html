@@ -82,6 +82,14 @@
     .winners-toolbar button{min-height:42px}
     @media(max-width:760px){.winners-heading{align-items:flex-start;flex-direction:column}.winners-toolbar{width:100%}.winners-toolbar button{flex:1}}
     .whatsapp-winner-btn{display:inline-flex;align-items:center;justify-content:center;padding:9px 13px;border-radius:9px;text-decoration:none;font-weight:700;white-space:nowrap;min-height:38px}
+    .q-block{background:linear-gradient(180deg,#f9fbff,#f3f7fc);border:1.5px solid #d5e0ee;border-radius:14px;padding:16px;margin-bottom:14px}
+    .q-block-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+    .q-badge{display:inline-flex;align-items:center;gap:6px;background:var(--navy);color:#fff;padding:5px 12px;border-radius:20px;font-weight:800;font-size:13px}
+    .add-q-btn{width:100%;background:#fff8f1;color:#c95a00;border:2px dashed #f28c28;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:800;margin:4px 0 16px;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s}
+    .add-q-btn:hover{background:#fff0e0;border-color:#d96b08}
+    .score-pill{display:inline-block;padding:4px 10px;border-radius:20px;font-weight:800;font-size:12px}
+    .score-pill.all{background:#dcfce7;color:#14532d;border:1px solid #86efac}
+    .score-pill.part{background:#fef3c7;color:#92400e}
 </style>
 <script>if(window.self!==window.top){document.write('<style>#logoutBtn,header.top,footer{display:none!important}body{background:transparent}.wrap{padding:4px!important}</style>')}</script>
 </head>
@@ -146,36 +154,46 @@
               </div>
               <small class="time-help">இந்திய நேரம் (IST) · 12 மணி நேர வடிவம்</small>
             </div>
-            <div class="field full"><label for="questionText">கேள்வி</label><textarea id="questionText" minlength="5" maxlength="1000" required></textarea></div>
-            <div class="field full"><label>நான்கு பதில் விருப்பங்கள்</label>
-              <div class="optiongrid">
-                <div class="option-field">
-                  <span class="option-letter" aria-hidden="true">A</span>
-                  <textarea id="option0" rows="2" maxlength="300" aria-label="A பதில் விருப்பம்" placeholder="முதல் பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
-                </div>
-                <div class="option-field">
-                  <span class="option-letter" aria-hidden="true">B</span>
-                  <textarea id="option1" rows="2" maxlength="300" aria-label="B பதில் விருப்பம்" placeholder="இரண்டாவது பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
-                </div>
-                <div class="option-field">
-                  <span class="option-letter" aria-hidden="true">C</span>
-                  <textarea id="option2" rows="2" maxlength="300" aria-label="C பதில் விருப்பம்" placeholder="மூன்றாவது பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
-                </div>
-                <div class="option-field">
-                  <span class="option-letter" aria-hidden="true">D</span>
-                  <textarea id="option3" rows="2" maxlength="300" aria-label="D பதில் விருப்பம்" placeholder="நான்காவது பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
-                </div>
-              </div>
+            <div class="field full">
+              <label for="prizeText">பரிசு விவரம் (இந்தத் தேதியின் போட்டிக்கான பரிசு)</label>
+              <input id="prizeText" maxlength="250" placeholder="எ.கா. சிறப்புப் பரிசு">
             </div>
-            <div class="field"><label for="correctOption">சரியான பதில்</label><select id="correctOption" required><option value="">தேர்வு செய்க</option><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
-            <div class="field"><label for="prizeText">பரிசு விவரம்</label><input id="prizeText" maxlength="250" placeholder="எ.கா. சிறப்பு பரிசு"></div>
+            <div class="field full">
+              <div class="q-block">
+                <div class="q-block-head"><span class="q-badge">❓ கேள்வி #1</span><span class="small muted">முதன்மைக் கேள்வி</span></div>
+                <div class="field"><label for="questionText">கேள்வி உரை</label><textarea id="questionText" minlength="5" maxlength="1000" placeholder="கேள்வியை இங்கே உள்ளிடவும்…" required></textarea></div>
+                <div class="field"><label>நான்கு பதில் விருப்பங்கள்</label>
+                  <div class="optiongrid">
+                    <div class="option-field">
+                      <span class="option-letter" aria-hidden="true">A</span>
+                      <textarea id="option0" rows="2" maxlength="300" aria-label="A பதில் விருப்பம்" placeholder="முதல் பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
+                    </div>
+                    <div class="option-field">
+                      <span class="option-letter" aria-hidden="true">B</span>
+                      <textarea id="option1" rows="2" maxlength="300" aria-label="B பதில் விருப்பம்" placeholder="இரண்டாவது பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
+                    </div>
+                    <div class="option-field">
+                      <span class="option-letter" aria-hidden="true">C</span>
+                      <textarea id="option2" rows="2" maxlength="300" aria-label="C பதில் விருப்பம்" placeholder="மூன்றாவது பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
+                    </div>
+                    <div class="option-field">
+                      <span class="option-letter" aria-hidden="true">D</span>
+                      <textarea id="option3" rows="2" maxlength="300" aria-label="D பதில் விருப்பம்" placeholder="நான்காவது பதில் விருப்பத்தை உள்ளிடவும்" required></textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="field" style="margin-bottom:0"><label for="correctOption">இந்தக் கேள்விக்கான சரியான பதில்</label><select id="correctOption" required><option value="">தேர்வு செய்க</option><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
+              </div>
+              <div id="extraQuestionsContainer"></div>
+              <button type="button" id="addMoreQuestionBtn" class="add-q-btn">➕ மேலும் ஒரு கேள்வி சேர் (+ Add Another Question for Today)</button>
+            </div>
           </div>
           <div class="row">
             <button class="primary" type="submit">வரைவாகச் சேமி</button>
             <button class="green" type="button" id="publishBtn">வெளியிடு</button>
             <button class="light" type="button" id="resetQuestionBtn">புதிய கேள்வி</button>
           </div>
-          <p class="small muted">சரியான பதில் பொதுப் பக்கத்தில் காட்டப்படாது. வெளியிடுவதற்கு முன் தேதி, நேரம், விருப்பங்கள் அனைத்தையும் சரிபார்க்கவும்.</p>
+          <p class="small muted">💡 <b>பல கேள்விகள்:</b> ஒரே நாளில் 2, 3 அல்லது 5 கேள்விகள் கேட்க மேலே உள்ள <b>“➕ மேலும் ஒரு கேள்வி சேர்”</b> பொத்தானை அழுத்தி கேள்விகளைச் சேர்த்து ஒரே நேரத்தில் வெளியிடலாம்!</p>
         </form>
       </section>
 
@@ -188,7 +206,7 @@
         <div class="row"><h2 class="section-title grow">பங்கேற்பாளர் பதிவுகள்</h2><button class="light" id="refreshEntries">புதுப்பி</button><button class="green" id="exportEntries">CSV பதிவிறக்கம்</button></div>
         <div class="grid" style="margin-bottom:12px">
           <div class="field"><label for="entriesDate">தேதி வடிகட்டி (அனைத்து தேதிகளுக்கும் காலியாக விடலாம்)</label><input id="entriesDate" type="date"></div>
-          <div class="field"><label for="answerFilter">பதில் வகை</label><select id="answerFilter"><option value="all">அனைத்தும்</option><option value="correct">சரியான பதில் மட்டும்</option><option value="incorrect">தவறான பதில் மட்டும்</option></select></div>
+          <div class="field"><label for="answerFilter">பதில் வகை / Shortlist</label><select id="answerFilter"><option value="all_correct">🌟 அனைத்துக் கேள்விகளுக்கும் சரியான பதில் அளித்தவர்கள் (All Correct Shortlist)</option><option value="correct">சரியான பதில் மட்டும் (தனி கேள்வி)</option><option value="all">அனைத்தும்</option><option value="incorrect">தவறான பதில் மட்டும்</option></select></div>
           <div class="field full"><label for="entriesQuestionSelect">கேள்வியைத் தேர்ந்தெடுக்கவும் (ஒரே நாளில் பல கேள்விகள் இருந்தால் இங்கே மாற்றலாம்)</label><select id="entriesQuestionSelect"></select></div>
         </div>
         <div class="tablewrap"><table><thead><tr><th>பெயர்</th><th>கைபேசி</th><th>ஊர்</th><th>பதில்</th><th>முடிவு</th><th>நேரம்</th><th>கைமுறை தேர்வு</th></tr></thead><tbody id="entriesBody"><tr><td colspan="7">கேள்வியைத் தேர்ந்தெடுத்து புதுப்பிக்கவும்.</td></tr></tbody></table></div>
@@ -207,6 +225,12 @@
           <div class="field"><label for="drawQuestionSelect">கேள்வியைத் தேர்ந்தெடுக்கவும்</label><select id="drawQuestionSelect"></select></div>
         </div>
         <div id="drawQuestionInfo" class="card" style="background:#f8fafd;margin-bottom:14px;padding:13px"></div>
+        <div class="field" style="background:#eef7ff;border:1px solid #bfd8f5;border-radius:11px;padding:10px 13px;margin-bottom:12px">
+          <label style="display:flex;align-items:center;gap:10px;margin:0;cursor:pointer;font-size:13.5px">
+            <input type="checkbox" id="allCorrectOnlyToggle" checked style="width:18px;height:18px;flex:0 0 auto">
+            <span>🌟 <b>அனைத்துக் கேள்விகளுக்கும் சரியான பதில் அளித்தவர்களை மட்டும்</b> (100% All-Correct Shortlist) தகுதியானவர்களாகத் தேர்ந்தெடு</span>
+          </label>
+        </div>
         <div class="grid" style="margin-bottom:10px">
           <div class="card" style="margin-bottom:0;background:#fffaf3;border-color:#f5d5a7">
             <h3 class="section-title" style="font-size:16px;margin-bottom:6px">🎲 1. தானியங்கி குலுக்கல் தேர்வு (Auto Lucky Draw)</h3>
@@ -344,6 +368,7 @@
   }
 
   async function fetchEntriesForSelectedDate() {
+    const filter = $("answerFilter").value;
     const qid = $("entriesQuestionSelect").value;
     const question = cachedQuestions.find(q => q.id === qid) || cachedQuestions.find(q => q.quiz_date === ($("entriesDate").value || indiaDate())) || cachedQuestions[0];
     if (!question) {
@@ -353,9 +378,33 @@
       return;
     }
     if ($("entriesQuestionSelect").value !== question.id) $("entriesQuestionSelect").value = question.id;
+
+    if (filter === "all_correct") {
+      try {
+        const res = await invokeAdmin("list_date_entries", { quiz_date: question.quiz_date });
+        const summary = res.summary || [];
+        const allRight = summary.filter(p => p.all_correct);
+        const list = allRight.length ? allRight : summary;
+        cachedEntries = list.map(p => ({
+          id: p.entry_id,
+          question_id: p.question_id || question.id,
+          full_name: p.full_name,
+          mobile: p.mobile,
+          village: p.village,
+          selected_option: -1,
+          score_label: `${p.correct} / ${p.total_questions} சரி`,
+          all_correct: p.all_correct,
+          is_correct: p.all_correct || p.correct > 0,
+          created_at: p.created_at
+        }));
+        renderEntries();
+        renderStats();
+        return;
+      } catch (_) {}
+    }
+
     const result = await invokeAdmin("list_entries", { question_id: question.id });
     let rows = result.participants || result.entries || [];
-    const filter = $("answerFilter").value;
     if (filter === "correct") rows = rows.filter(row => row.is_correct === true);
     if (filter === "incorrect") rows = rows.filter(row => row.is_correct === false);
     cachedEntries = rows;
@@ -368,6 +417,7 @@
     const q = cachedQuestions.find(x => x.id === qid);
     const infoBox = $("drawQuestionInfo");
     const manSel = $("manualWinnerSelect");
+    const allCorrectOnly = $("allCorrectOnlyToggle").checked;
     if (!q) {
       infoBox.innerHTML = `<span class="muted small">கேள்வியைத் தேர்ந்தெடுக்கவும்.</span>`;
       manSel.innerHTML = `<option value="">— கேள்வி இல்லை —</option>`;
@@ -376,17 +426,28 @@
     const ansLetter = ["A","B","C","D"][Number(q.correct_option)] || "";
     const ansText = (q.options || [])[Number(q.correct_option)] || "—";
     const win = cachedWinners.find(w => w.question_id === q.id);
+    const sameDateQs = cachedQuestions.filter(x => x.quiz_date === q.quiz_date && x.status !== "cancelled");
     let entries = [];
+    let dateSummary = [];
     try {
-      const r = await invokeAdmin("list_entries", { question_id: q.id });
+      const [r, ds] = await Promise.all([
+        invokeAdmin("list_entries", { question_id: q.id }),
+        sameDateQs.length > 1 ? invokeAdmin("list_date_entries", { quiz_date: q.quiz_date }).catch(() => ({ summary: [] })) : Promise.resolve({ summary: [] })
+      ]);
       entries = r.participants || r.entries || [];
+      dateSummary = ds.summary || [];
     } catch (_) {}
     const correctList = entries.filter(e => e.is_correct === true);
+    const allCorrectMobiles = new Set(dateSummary.filter(p => p.all_correct).map(p => p.mobile));
+    const eligibleList = (allCorrectOnly && sameDateQs.length > 1)
+      ? correctList.filter(e => allCorrectMobiles.has(e.mobile))
+      : correctList;
+
     infoBox.innerHTML = `
-      <div style="font-weight:700;margin-bottom:4px">📅 ${escapeHtml(fmtDmy(q.quiz_date))} · <span class="pill">${escapeHtml(STATUS_LABEL[q.status] || q.status)}</span></div>
+      <div style="font-weight:700;margin-bottom:4px">📅 ${escapeHtml(fmtDmy(q.quiz_date))} (இன்றைய தேதியில் மொத்தம் <b>${sameDateQs.length}</b> கேள்விகள்) · <span class="pill">${escapeHtml(STATUS_LABEL[q.status] || q.status)}</span></div>
       <div style="margin-bottom:6px">${escapeHtml(q.question_text)}</div>
       <div class="small" style="color:#0f6b3c;font-weight:700">✅ சரியான பதில்: (${escapeHtml(ansLetter)}) ${escapeHtml(ansText)}</div>
-      <div class="small muted" style="margin-top:4px">மொத்தப் பங்கேற்பாளர்கள்: <b>${entries.length}</b> · சரியான பதில் அளித்த தகுதியானவர்கள்: <b>${correctList.length}</b></div>
+      <div class="small muted" style="margin-top:4px">இந்தக் கேள்விக்குப் பங்கேற்றவர்கள்: <b>${entries.length}</b> · இந்தக் கேள்விக்குச் சரியான பதில்: <b>${correctList.length}</b>${sameDateQs.length > 1 ? ` · 🌟 <b>அனைத்து ${sameDateQs.length} கேள்விகளுக்கும் சரியான பதில் அளித்தவர்கள்: ${allCorrectMobiles.size}</b>` : ""}</div>
       ${win ? `<div class="small" style="margin-top:6px;color:#b45309;font-weight:700">🏆 தற்போதைய வெற்றியாளர்: ${escapeHtml(win.winner_name)} (${escapeHtml(win.winner_village)})</div>` : ""}
       ${q.status === "published" ? `<div style="margin-top:8px"><button type="button" class="light" id="quickClosePublishBtn">📢 இப்போதே கேள்வியை மூடி சரியான பதிலை பொதுப் பக்கத்தில் வெளியிடு</button></div>` : ""}
     `;
@@ -400,10 +461,10 @@
         await refreshAll();
       } catch (err) { showNotice($("drawResult"), err.message, "err"); qc.disabled = false; }
     };
-    manSel.innerHTML = correctList.length
-      ? `<option value="">— சரியான பதில் அளித்தவரைத் தேர்ந்தெடுக்கவும் (${correctList.length} பேர்) —</option>` +
-        correctList.map(e => `<option value="${escapeHtml(e.id)}">${escapeHtml(e.full_name)} – ${escapeHtml(e.village)} (${escapeHtml(e.mobile)})</option>`).join("")
-      : `<option value="">— சரியான பதில் அளித்தவர்கள் யாரும் இல்லை —</option>`;
+    manSel.innerHTML = eligibleList.length
+      ? `<option value="">— தகுதியானவரைத் தேர்ந்தெடுக்கவும் (${eligibleList.length} பேர்) —</option>` +
+        eligibleList.map(e => `<option value="${escapeHtml(e.id)}">🌟 ${escapeHtml(e.full_name)} – ${escapeHtml(e.village)} (${escapeHtml(e.mobile)})${sameDateQs.length > 1 && allCorrectMobiles.has(e.mobile) ? ` [${sameDateQs.length}/${sameDateQs.length} சரி]` : ""}</option>`).join("")
+      : `<option value="">— தகுதியான சரியான பதில் அளித்தவர்கள் யாரும் இல்லை —</option>`;
   }
 
   async function refreshAll() {
@@ -468,9 +529,9 @@
   }
   function renderEntries() {
     $("entriesBody").innerHTML = cachedEntries.length ? cachedEntries.map(e => `
-      <tr><td>${escapeHtml(e.full_name)}</td><td>${escapeHtml(e.mobile)}</td><td>${escapeHtml(e.village)}</td>
-      <td>${["A","B","C","D"][Number(e.selected_option)] ?? "-"}</td>
-      <td>${e.is_correct ? '<span class="pill" style="background:#e9f7ef;color:#116239;font-weight:700">✓ சரி</span>' : "தவறு"}</td>
+      <tr><td><b>${escapeHtml(e.full_name)}</b></td><td>${escapeHtml(e.mobile)}</td><td>${escapeHtml(e.village)}</td>
+      <td>${e.score_label ? `<span class="score-pill ${e.all_correct ? "all" : "part"}">${e.all_correct ? "🌟 " : ""}${escapeHtml(e.score_label)}</span>` : (["A","B","C","D"][Number(e.selected_option)] ?? "-")}</td>
+      <td>${e.all_correct ? '<span class="score-pill all">🌟 அனைத்து பதில்களும் சரி</span>' : (e.is_correct ? '<span class="pill" style="background:#e9f7ef;color:#116239;font-weight:700">✓ சரி</span>' : "தவறு")}</td>
       <td>${escapeHtml(e.created_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(e.created_at)) : "")}</td>
       <td>${e.is_correct ? `<button type="button" class="green" style="padding:7px 10px;font-size:12.5px" data-pick-entry="${escapeHtml(e.id)}" data-pick-q="${escapeHtml(e.question_id)}" data-pick-name="${escapeHtml(e.full_name)}">🏆 வெற்றியாளராக்கு</button>` : "—"}</td></tr>`).join("")
       : `<tr><td colspan="7">பதிவுகள் இல்லை.</td></tr>`;
@@ -586,8 +647,48 @@
     showNotice($("drawResult"), `மொத்தம் ${orderedWinners.length} வெற்றியாளர் பதிவுகள் பதிவிறக்கம் செய்யப்பட்டன.`, "ok");
   }
 
+  function renumberExtraQuestions() {
+    const blocks = [...$("extraQuestionsContainer").querySelectorAll(".extra-q-block")];
+    blocks.forEach((b, idx) => {
+      const badge = b.querySelector(".q-badge");
+      if (badge) badge.textContent = `❓ கேள்வி #${idx + 2}`;
+    });
+  }
+  function addExtraQuestionCard() {
+    const container = $("extraQuestionsContainer");
+    const num = container.querySelectorAll(".extra-q-block").length + 2;
+    const div = document.createElement("div");
+    div.className = "q-block extra-q-block";
+    div.innerHTML = `
+      <div class="q-block-head">
+        <span class="q-badge">❓ கேள்வி #${num}</span>
+        <button type="button" class="danger remove-extra-q" style="padding:6px 12px;font-size:12.5px">✕ இந்தக் கேள்வியை நீக்கு</button>
+      </div>
+      <div class="field"><label>கேள்வி உரை</label><textarea class="eq-text" minlength="5" maxlength="1000" placeholder="அடுத்த கேள்வியை இங்கே உள்ளிடவும்…" required></textarea></div>
+      <div class="field"><label>நான்கு பதில் விருப்பங்கள்</label>
+        <div class="optiongrid">
+          <div class="option-field"><span class="option-letter">A</span><textarea class="eq-opt0" rows="2" maxlength="300" placeholder="முதல் பதில் விருப்பம்" required></textarea></div>
+          <div class="option-field"><span class="option-letter">B</span><textarea class="eq-opt1" rows="2" maxlength="300" placeholder="இரண்டாவது பதில் விருப்பம்" required></textarea></div>
+          <div class="option-field"><span class="option-letter">C</span><textarea class="eq-opt2" rows="2" maxlength="300" placeholder="மூன்றாவது பதில் விருப்பம்" required></textarea></div>
+          <div class="option-field"><span class="option-letter">D</span><textarea class="eq-opt3" rows="2" maxlength="300" placeholder="நான்காவது பதில் விருப்பம்" required></textarea></div>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0"><label>இந்தக் கேள்விக்கான சரியான பதில்</label>
+        <select class="eq-correct" required><option value="">தேர்வு செய்க</option><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select>
+      </div>
+    `;
+    div.querySelector(".remove-extra-q").addEventListener("click", () => {
+      div.remove();
+      renumberExtraQuestions();
+    });
+    container.appendChild(div);
+  }
+  $("addMoreQuestionBtn").addEventListener("click", addExtraQuestionCard);
+
   function resetQuestionForm() {
     $("questionForm").reset(); $("questionId").value = ""; $("quizDate").value = indiaDate();
+    $("extraQuestionsContainer").innerHTML = "";
+    $("addMoreQuestionBtn").classList.remove("hidden");
     $("questionPanel").querySelector(".section-title").textContent = "புதிய தினசரி கேள்வி";
     $("questionForm").querySelector('button[type="submit"]').textContent = "வரைவாகச் சேமி";
     $("publishBtn").textContent = "வெளியிடு";
@@ -601,6 +702,8 @@
       const proceed = confirm("இந்த கேள்வியில் இதுவரை பங்கேற்பாளர் பதில்கள் அல்லது வெற்றியாளர் பதிவு இல்லாவிட்டால் மட்டுமே திருத்த முடியும். தொடரவா?");
       if (!proceed) return;
     }
+    $("extraQuestionsContainer").innerHTML = "";
+    $("addMoreQuestionBtn").classList.add("hidden");
     $("questionId").value = q.id;
     $("questionPanel").querySelector(".section-title").textContent =
       q.status === "published" ? "வெளியிடப்பட்ட கேள்வியைத் திருத்து" : "வரைவுக் கேள்வியைத் திருத்து";
@@ -622,10 +725,7 @@
     }
     activateTab("questionPanel");
   }
-  function questionPayload(status) {
-    const options = [0,1,2,3].map(i => $(`option${i}`).value.trim());
-    if (options.some(v => !v)) throw new Error("நான்கு பதில் விருப்பங்களையும் நிரப்பவும்.");
-    if ($("correctOption").value === "") throw new Error("சரியான பதிலைத் தேர்ந்தெடுக்கவும்.");
+  function collectAllQuestionsPayload(status) {
     if (!$("closeDate").value) throw new Error("கடைசி தேதியைத் தேர்ந்தெடுக்கவும்.");
     if (!$("closeHour").value || $("closeMinute").value === "") throw new Error("கடைசி நேரத்தைத் தேர்ந்தெடுக்கவும்.");
     const quizDate = $("quizDate").value;
@@ -634,16 +734,45 @@
     const closesAt = localDateTimeToIso();
     if (new Date(closesAt).getTime() <= Date.now()) throw new Error("கடைசி நேரம் எதிர்காலத்தில் இருக்க வேண்டும்.");
     if ($("closeDate").value < quizDate) throw new Error("கடைசி தேதி கேள்வி தேதிக்கு முன்பாக இருக்கக்கூடாது.");
-    return {
+    const prize = $("prizeText").value.trim() || null;
+
+    const list = [];
+    const q1Opts = [0,1,2,3].map(i => $(`option${i}`).value.trim());
+    if (q1Opts.some(v => !v)) throw new Error("கேள்வி #1: நான்கு பதில் விருப்பங்களையும் நிரப்பவும்.");
+    if ($("correctOption").value === "") throw new Error("கேள்வி #1: சரியான பதிலைத் தேர்ந்தெடுக்கவும்.");
+    if (!$("questionText").value.trim()) throw new Error("கேள்வி #1: கேள்வி உரையை உள்ளிடவும்.");
+    list.push({
       question_id: $("questionId").value || null,
       quiz_date: quizDate,
       question_text: $("questionText").value.trim(),
-      options,
+      options: q1Opts,
       correct_option: Number($("correctOption").value),
       closes_at: closesAt,
-      prize_text: $("prizeText").value.trim() || null,
+      prize_text: prize,
       status
-    };
+    });
+
+    const extraBlocks = [...$("extraQuestionsContainer").querySelectorAll(".extra-q-block")];
+    extraBlocks.forEach((b, idx) => {
+      const num = idx + 2;
+      const qTxt = b.querySelector(".eq-text").value.trim();
+      const opts = [0,1,2,3].map(i => b.querySelector(`.eq-opt${i}`).value.trim());
+      const corr = b.querySelector(".eq-correct").value;
+      if (!qTxt) throw new Error(`கேள்வி #${num}: கேள்வி உரையை உள்ளிடவும்.`);
+      if (opts.some(v => !v)) throw new Error(`கேள்வி #${num}: நான்கு பதில் விருப்பங்களையும் நிரப்பவும்.`);
+      if (corr === "") throw new Error(`கேள்வி #${num}: சரியான பதிலைத் தேர்ந்தெடுக்கவும்.`);
+      list.push({
+        question_id: null,
+        quiz_date: quizDate,
+        question_text: qTxt,
+        options: opts,
+        correct_option: Number(corr),
+        closes_at: closesAt,
+        prize_text: prize,
+        status
+      });
+    });
+    return list;
   }
   async function saveQuestion(status) {
     const saveButton = $("questionForm").querySelector('button[type="submit"]');
@@ -651,39 +780,26 @@
     saveButton.disabled = true;
     publishButton.disabled = true;
     try {
-      const payload = questionPayload(status);
-      const questionId = payload.question_id;
-      delete payload.question_id;
-      delete payload.status;
-
-      const existing = questionId ? cachedQuestions.find(q => q.id === questionId) : null;
-      let saved;
-
-      if (questionId) {
-        saved = await invokeAdmin("update_question", {
-          question_id: questionId,
-          ...payload
-        });
-      } else {
-        saved = await invokeAdmin("create_question", payload);
+      const payloads = collectAllQuestionsPayload(status);
+      for (const payload of payloads) {
+        const questionId = payload.question_id;
+        delete payload.question_id;
+        delete payload.status;
+        const existing = questionId ? cachedQuestions.find(q => q.id === questionId) : null;
+        const saved = questionId
+          ? await invokeAdmin("update_question", { question_id: questionId, ...payload })
+          : await invokeAdmin("create_question", payload);
+        const savedQuestionId = saved.question?.id || questionId;
+        if (!savedQuestionId) throw new Error("கேள்வி சேமிக்கப்பட்டது; ஆனால் அதன் அடையாள எண்ணைப் பெற முடியவில்லை.");
+        if (status === "published" && (!existing || existing.status === "draft")) {
+          await invokeAdmin("publish_question", { question_id: savedQuestionId });
+        }
       }
 
-      const savedQuestionId = saved.question?.id || questionId;
-      if (!savedQuestionId) {
-        throw new Error("கேள்வி சேமிக்கப்பட்டது; ஆனால் அதன் அடையாள எண்ணைப் பெற முடியவில்லை.");
-      }
-
-      // Draft -> publish is a separate backend action.
-      // Published edits stay published; update_question validates that no entries/winner exist.
-      if (status === "published" && (!existing || existing.status === "draft")) {
-        await invokeAdmin("publish_question", { question_id: savedQuestionId });
-      }
-
-      const successMessage = existing?.status === "published"
-        ? "வெளியிடப்பட்ட கேள்வியின் மாற்றங்கள் சேமிக்கப்பட்டு மீண்டும் வெளியிடப்பட்டுள்ளன."
-        : status === "published"
-          ? "கேள்வி வெற்றிகரமாக வெளியிடப்பட்டது."
-          : "கேள்வி வரைவாகச் சேமிக்கப்பட்டது.";
+      const count = payloads.length;
+      const successMessage = count > 1
+        ? (status === "published" ? `மொத்தம் ${count} கேள்விகள் வெற்றிகரமாக வெளியிடப்பட்டன!` : `மொத்தம் ${count} கேள்விகள் வரைவாகச் சேமிக்கப்பட்டன!`)
+        : (status === "published" ? "கேள்வி வெற்றிகரமாக வெளியிடப்பட்டது." : "கேள்வி வரைவாகச் சேமிக்கப்பட்டது.");
 
       showNotice($("appNotice"), successMessage, "ok");
       resetQuestionForm();
@@ -740,27 +856,30 @@
   $("exportWinners").addEventListener("click", exportWinnersCsv);
   $("drawDate").addEventListener("change", async () => { populateQuestionDropdowns(); await updateDrawQuestionPanel(); });
   $("drawQuestionSelect").addEventListener("change", updateDrawQuestionPanel);
+  $("allCorrectOnlyToggle").addEventListener("change", updateDrawQuestionPanel);
 
   async function runDrawWinner(entryId = null) {
     const qid = $("drawQuestionSelect").value;
     const question = cachedQuestions.find(q => q.id === qid) || cachedQuestions.find(q => q.quiz_date === $("drawDate").value);
     if (!question) return showNotice($("drawResult"), "முதலில் கேள்வியைத் தேர்ந்தெடுக்கவும்.", "err");
     if (entryId === "" || (entryId !== null && !entryId)) return showNotice($("drawResult"), "கைமுறைத் தேர்வுக்கு ஒரு பங்கேற்பாளரைத் தேர்ந்தெடுக்கவும்.", "err");
-    if (question.status === "published") {
-      if (!confirm("இந்தக் கேள்வி இன்னும் திறந்துள்ளது. இப்போதே கேள்வியை மூடி, சரியான பதிலை வெளியிட்டு வெற்றியாளரைத் தேர்வு செய்யவா?")) return;
-      await invokeAdmin("close_question", { question_id: question.id });
+    const sameDateOpen = cachedQuestions.filter(x => x.quiz_date === question.quiz_date && x.status === "published");
+    if (question.status === "published" || sameDateOpen.length) {
+      if (!confirm("இந்தத் தேதியின் கேள்விகள் இன்னும் திறந்துள்ளன. இப்போதே கேள்விகளை மூடி, சரியான பதில்களை வெளியிட்டு வெற்றியாளரைத் தேர்வு செய்யவா?")) return;
+      for (const oq of sameDateOpen) await invokeAdmin("close_question", { question_id: oq.id });
     }
     const hasW = cachedWinners.some(w => w.question_id === question.id);
+    const allCorrectOnly = $("allCorrectOnlyToggle").checked;
     const modeLabel = entryId ? "கைமுறைத் தேர்வில் (Manual)" : "தானியங்கி குலுக்கல் முறையில் (Auto Lucky Draw)";
-    if (!confirm(`${hasW ? "ஏற்கனவே உள்ள வெற்றியாளரை மாற்றி, " : ""}${modeLabel} வெற்றியாளரைத் தேர்வு செய்து பொதுப் பக்கத்தில் வெளியிடவா?`)) return;
+    if (!confirm(`${hasW ? "ஏற்கனவே உள்ள வெற்றியாளரை மாற்றி, " : ""}${allCorrectOnly ? "அனைத்துக் கேள்விகளுக்கும் சரியான பதில் அளித்தவர்களிலிருந்து " : ""}${modeLabel} வெற்றியாளரைத் தேர்வு செய்து பொதுப் பக்கத்தில் வெளியிடவா?`)) return;
     const btn = entryId ? $("manualDrawBtn") : $("drawWinnerBtn");
     btn.disabled = true;
     try {
-      const payload = { question_id: question.id, replace: hasW };
+      const payload = { question_id: question.id, replace: hasW, all_correct_on_date: allCorrectOnly };
       if (entryId) payload.entry_id = entryId;
       const r = await invokeAdmin("draw_winner", payload);
       const w = r.winner || r;
-      showNotice($("drawResult"), `🏆 வெற்றியாளர் (${entryId ? "கைமுறை தேர்வு" : "குலுக்கல் தேர்வு"}): ${w.winner_name || "தேர்வு முடிந்தது"} – ${w.winner_village || ""}\nசரியான பதிலும் வெற்றியாளர் பெயரும் பொதுப் பக்கத்தில் வெளியிடப்பட்டன!`, "ok");
+      showNotice($("drawResult"), `🏆 வெற்றியாளர் (${entryId ? "கைமுறை தேர்வு" : "குலுக்கல் தேர்வு"}): ${w.winner_name || "தேர்வு முடிந்தது"} – ${w.winner_village || ""}\nசரியான பதில்களும் வெற்றியாளர் பெயரும் பொதுப் பக்கத்தில் வெளியிடப்பட்டன!`, "ok");
       await refreshAll();
     } catch(err) { showNotice($("drawResult"), err.message, "err"); }
     finally { btn.disabled = false; }
