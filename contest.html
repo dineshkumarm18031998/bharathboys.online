@@ -28,6 +28,10 @@ header h1{font-size:clamp(1rem,3.8vw,1.15rem);margin:0;line-height:1.35;overflow
 .panel{display:none;min-width:0;max-width:100%;animation:fade .25s}.panel.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
 .card{width:100%;max-width:100%;min-width:0;overflow:hidden;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:16px}
 .card h3{margin:0 0 10px;font-size:1.1rem;line-height:1.35;overflow-wrap:break-word}
+.qswitcher{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
+.qpill{background:var(--card2);border:1.5px solid var(--line);color:var(--txt);padding:8px 14px;border-radius:30px;font:inherit;font-size:.86rem;font-weight:700;cursor:pointer;transition:.15s}
+.qpill.active{border-color:var(--or);background:linear-gradient(135deg,#ff550033,#f5a62322);color:#fff}
+.qpill.done{border-color:var(--ok);color:#b6f0cf}
 .meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
 .chip{max-width:100%;background:var(--card2);border:1px solid var(--line);border-radius:30px;padding:5px 12px;font-size:.82rem;color:var(--mut);overflow-wrap:break-word}
 .chip b{color:var(--txt)}
@@ -35,9 +39,11 @@ header h1{font-size:clamp(1rem,3.8vw,1.15rem);margin:0;line-height:1.35;overflow
 .opt{display:flex;gap:10px;align-items:flex-start;min-width:0;max-width:100%;background:var(--card2);border:1.5px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px;cursor:pointer;transition:.15s}
 .opt:hover{border-color:#3b4d6b}.opt input{margin-top:5px;accent-color:var(--or);width:18px;height:18px;flex:0 0 auto}
 .opt.sel{border-color:var(--or);background:#ff550014}.opt span{min-width:0;flex:1;white-space:pre-wrap;overflow-wrap:anywhere}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%;min-width:0}
+.grid2>*{min-width:0;max-width:100%}
 label.f{display:block;font-weight:600;font-size:.9rem;margin:12px 0 6px;overflow-wrap:break-word}
-input.in{display:block;width:100%;max-width:100%;min-width:0;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:#0e1522;color:var(--txt);font:inherit;font-size:15px}
-input.in:focus{outline:none;border-color:var(--gold)}
+input.in,select.in{display:block;width:100%;max-width:100%;min-width:0;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:#0e1522;color:var(--txt);font:inherit;font-size:15px}
+input.in:focus,select.in:focus{outline:none;border-color:var(--gold)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;max-width:100%;border:0;border-radius:12px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;transition:.15s;overflow-wrap:break-word;text-align:center}
 .btn.pri{background:linear-gradient(135deg,#ff5500,#f5a623);color:#fff;width:100%;margin-top:16px;font-size:1.05rem}
 .btn.sec{background:var(--card2);color:var(--txt);border:1px solid var(--line);padding:9px 12px;font-weight:600;flex:1 1 auto}
@@ -49,8 +55,9 @@ input.in:focus{outline:none;border-color:var(--gold)}
 .mut{color:var(--mut)}.small{font-size:.82rem}.hidden{display:none!important}
 .count{font-weight:800;color:var(--gold)}
 ul.rules{margin:6px 0 0;padding-left:20px;overflow-wrap:break-word}ul.rules li{margin:3px 0}
-.res{border-top:1px solid var(--line);padding:10px 0;overflow-wrap:break-word}.res:first-child{border-top:0}
-.win{color:#ffd27a;font-weight:700}
+.res{border-top:1px solid var(--line);padding:12px 0;overflow-wrap:break-word}.res:first-child{border-top:0}
+.win{color:#ffd27a;font-weight:700;margin-top:4px}
+.ans{color:#9be7b9;font-weight:600;margin-top:4px}
 .picker{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:6px}
 .picker label{min-width:0;max-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:16px;border:1.5px dashed #3b4d6b;border-radius:14px;cursor:pointer;background:#0e1522;text-align:center;font-weight:600;overflow-wrap:break-word}
 .picker input{display:none}
@@ -59,9 +66,9 @@ ul.rules{margin:6px 0 0;padding-left:20px;overflow-wrap:break-word}ul.rules li{m
 #cv{max-width:100%;display:block;cursor:crosshair}
 #sel{position:absolute;border:2px dashed var(--gold);background:#f5a62322;pointer-events:none;display:none}
 .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.winners li{margin:4px 0;overflow-wrap:break-word}
+.winners li{margin:6px 0;overflow-wrap:break-word}
 footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
-@media(max-width:520px){.wrap{padding:12px}.card{padding:14px;border-radius:14px}.hero{padding:16px;border-radius:16px}.tabs{grid-template-columns:minmax(0,1fr);gap:8px}.picker{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){.wrap{padding:12px}.card{padding:14px;border-radius:14px}.hero{padding:16px;border-radius:16px}.tabs{grid-template-columns:minmax(0,1fr);gap:8px}.picker,.grid2{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -78,33 +85,37 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   </section>
 
   <nav class="tabs">
-    <button class="tab active" data-p="quiz">❓ தினசரி வினாடி வினா<span>தினம் ஒரு கேள்வி</span></button>
-    <button class="tab" data-p="drawing">🎨 ஆண்டு ஓவியப் போட்டி<span>உங்கள் ஓவியத்தைச் சமர்ப்பிக்கவும்</span></button>
+    <button class="tab active" data-p="quiz">❓ தினசரி வினாடி வினா<span>அறிவுப் போட்டி &amp; முடிவுகள்</span></button>
+    <button class="tab" data-p="drawing">🎨 ஆண்டு ஓவியப் போட்டி<span>வகுப்பு &amp; வயது வாரியாக பங்கேற்கவும்</span></button>
   </nav>
 
   <!-- ================= DAILY QUIZ ================= -->
   <section id="quiz" class="panel active">
     <div class="card" id="quizCard">
-      <h3>இன்றைய கேள்வி</h3>
+      <h3 id="quizHeading">இன்றைய கேள்விகள்</h3>
       <div id="quizLoading" class="mut">ஏற்றப்படுகிறது…</div>
       <div id="quizNone" class="msg info"></div>
+      <div id="quizSwitcher" class="qswitcher hidden"></div>
       <form id="quizForm" class="hidden" novalidate>
         <div class="meta" id="quizMeta"></div>
         <div class="q" id="quizText"></div>
         <div id="quizOpts" role="radiogroup" aria-label="பதில் விருப்பங்கள்"></div>
         <label class="f" for="qName">முழு பெயர் *</label><input class="in" id="qName" maxlength="100" autocomplete="name" required>
-        <label class="f" for="qMobile">கைபேசி எண் (10 இலக்கம்) *</label><input class="in" id="qMobile" inputmode="numeric" maxlength="14" autocomplete="tel" required>
-        <label class="f" for="qVillage">ஊர் *</label><input class="in" id="qVillage" maxlength="100" required>
+        <div class="grid2">
+          <div><label class="f" for="qMobile">கைபேசி எண் (10 இலக்கம்) *</label><input class="in" id="qMobile" inputmode="numeric" maxlength="14" autocomplete="tel" required></div>
+          <div><label class="f" for="qVillage">ஊர் *</label><input class="in" id="qVillage" maxlength="100" required></div>
+        </div>
         <div id="quizMsg" class="msg"></div>
         <button class="btn pri" id="quizSubmit" type="submit">பதிலைச் சமர்ப்பி</button>
-        <p class="small mut">ஒரு கைபேசி எண்ணுக்கு ஒரு கேள்விக்கு ஒரு பதில் மட்டுமே. சரியான பதில் அளித்தவர்களிலிருந்து போட்டி முடிந்த பின் குலுக்கல் முறையில் வெற்றியாளர் தேர்வு செய்யப்படுவார்.</p>
+        <p class="small mut">ஒரு கைபேசி எண்ணுக்கு ஒரு கேள்விக்கு ஒரு பதில் மட்டுமே. பல கேள்விகள் இருந்தால் ஒவ்வொரு கேள்விக்கும் தனித்தனியாகப் பதிலளிக்கலாம்.</p>
       </form>
       <div id="quizDone" class="msg ok"></div>
+      <button type="button" id="nextQuizBtn" class="btn sec hidden" style="margin-top:8px;width:100%">அடுத்த கேள்விக்குச் செல் →</button>
     </div>
     <div class="card"><h3>📜 விதிமுறைகள்</h3><ul class="rules">
       <li>அனைத்து விவரங்களும் கட்டாயம்.</li><li>கடைசி நேரம் முடிந்த பின் பதில்கள் ஏற்கப்படாது.</li>
-      <li>சரியான பதில் போட்டி முடிந்த பிறகே வெளியிடப்படும்.</li><li>உங்கள் கைபேசி எண் பொதுவில் காட்டப்படாது.</li></ul></div>
-    <div class="card"><h3>🏆 சமீபத்திய முடிவுகள்</h3><div id="results" class="mut small">ஏற்றப்படுகிறது…</div></div>
+      <li>சரியான பதில் மற்றும் வெற்றியாளர் பெயர் போட்டி முடிந்த பிறகு கீழே வெளியிடப்படும்.</li><li>உங்கள் கைபேசி எண் பொதுவில் காட்டப்படாது.</li></ul></div>
+    <div class="card"><h3>🏆 சமீபத்திய சரியான பதில்கள் &amp; வெற்றியாளர்கள்</h3><div id="results" class="mut small">ஏற்றப்படுகிறது…</div></div>
   </section>
 
   <!-- ================= ANNUAL DRAWING ================= -->
@@ -117,12 +128,50 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
         <div class="meta" id="dMeta"></div>
         <p id="dDesc" class="hidden" style="white-space:pre-wrap"></p>
         <div><b>வழிமுறைகள்</b><div id="dInstr" style="white-space:pre-wrap" class="hidden"></div>
-          <ul class="rules" id="dDefaultRules"><li>உங்கள் சொந்த ஓவியத்தை மட்டுமே சமர்ப்பிக்கவும்.</li><li>படம்: JPEG, PNG அல்லது WebP, அதிகபட்சம் 5 MB.</li><li>ஓவியம் முழுமையாகத் தெரியும்படி தெளிவான வெளிச்சத்தில் புகைப்படம் எடுக்கவும்.</li><li>ஒரு கைபேசி எண்ணுக்கு ஒரு பதிவு மட்டுமே.</li><li>உங்கள் ஓவியம் பொதுவில் காட்டப்படாது; நடுவர்கள் மட்டுமே பார்ப்பார்கள்.</li></ul></div>
+          <ul class="rules" id="dDefaultRules"><li>1 முதல் 12-ஆம் வகுப்பு மாணவர்கள், கல்லூரி (Degree) மாணவர்கள் மற்றும் பொதுப் பிரிவினர் தங்கள் பிரிவைத் தேர்ந்தெடுத்துப் பங்கேற்கலாம்.</li><li>உங்கள் சொந்த ஓவியத்தை மட்டுமே சமர்ப்பிக்கவும் (JPEG, PNG அல்லது WebP, அதிகபட்சம் 5 MB).</li><li>ஓவியம் முழுமையாகத் தெரியும்படி தெளிவான வெளிச்சத்தில் புகைப்படம் எடுக்கவும்.</li><li>ஒரு கைபேசி எண்ணுக்கு ஒரு பதிவு மட்டுமே.</li><li>இறுதி வெற்றியாளர் ஓவியங்கள் நமது Instagram Reels மற்றும் இணையதளத்தில் வெளியிடப்படும்!</li></ul></div>
       </div>
       <form id="dForm" class="hidden" novalidate>
         <label class="f" for="dName">முழு பெயர் *</label><input class="in" id="dName" maxlength="100" autocomplete="name" required>
-        <label class="f" for="dMobile">கைபேசி எண் (10 இலக்கம்) *</label><input class="in" id="dMobile" inputmode="numeric" maxlength="14" autocomplete="tel" required>
-        <label class="f" for="dVillage">ஊர் *</label><input class="in" id="dVillage" maxlength="100" required>
+        <div class="grid2">
+          <div><label class="f" for="dMobile">கைபேசி எண் (10 இலக்கம்) *</label><input class="in" id="dMobile" inputmode="numeric" maxlength="14" autocomplete="tel" required></div>
+          <div><label class="f" for="dVillage">ஊர் *</label><input class="in" id="dVillage" maxlength="100" required></div>
+        </div>
+        <div class="grid2">
+          <div>
+            <label class="f" for="dStandard">வகுப்பு / கல்விப் பிரிவு *</label>
+            <select class="in" id="dStandard" required>
+              <option value="">— வகுப்பு / பிரிவைத் தேர்ந்தெடுக்கவும் —</option>
+              <optgroup label="தொடக்கப் பள்ளி (1 – 5 வகுப்பு)">
+                <option value="1-ஆம் வகுப்பு">1-ஆம் வகுப்பு (1st Std)</option>
+                <option value="2-ஆம் வகுப்பு">2-ஆம் வகுப்பு (2nd Std)</option>
+                <option value="3-ஆம் வகுப்பு">3-ஆம் வகுப்பு (3rd Std)</option>
+                <option value="4-ஆம் வகுப்பு">4-ஆம் வகுப்பு (4th Std)</option>
+                <option value="5-ஆம் வகுப்பு">5-ஆம் வகுப்பு (5th Std)</option>
+              </optgroup>
+              <optgroup label="நடுநிலைப் பள்ளி (6 – 8 வகுப்பு)">
+                <option value="6-ஆம் வகுப்பு">6-ஆம் வகுப்பு (6th Std)</option>
+                <option value="7-ஆம் வகுப்பு">7-ஆம் வகுப்பு (7th Std)</option>
+                <option value="8-ஆம் வகுப்பு">8-ஆம் வகுப்பு (8th Std)</option>
+              </optgroup>
+              <optgroup label="உயர்நிலைப் பள்ளி (9 – 10 வகுப்பு)">
+                <option value="9-ஆம் வகுப்பு">9-ஆம் வகுப்பு (9th Std)</option>
+                <option value="10-ஆம் வகுப்பு">10-ஆம் வகுப்பு (10th Std)</option>
+              </optgroup>
+              <optgroup label="மேல்நிலைப் பள்ளி (11 – 12 வகுப்பு)">
+                <option value="11-ஆம் வகுப்பு">11-ஆம் வகுப்பு (11th Std)</option>
+                <option value="12-ஆம் வகுப்பு">12-ஆம் வகுப்பு (12th Std)</option>
+              </optgroup>
+              <optgroup label="கல்லூரி &amp; பிற பிரிவுகள்">
+                <option value="கல்லூரி / பட்டப்படிப்பு (Degree)">கல்லூரி / பட்டப்படிப்பு (College / Degree)</option>
+                <option value="பொதுப் பிரிவு (Open)">பொதுப் பிரிவு (Open Category)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label class="f" for="dAge">வயது (Age) *</label>
+            <input class="in" id="dAge" type="number" min="3" max="90" inputmode="numeric" placeholder="எ.கா: 14" required>
+          </div>
+        </div>
         <label class="f">ஓவியப் படம் *</label>
         <div class="picker" id="picker">
           <label>🖼️ கேலரியிலிருந்து தேர்வு<input type="file" id="fGallery" accept="image/jpeg,image/png,image/webp"></label>
@@ -145,7 +194,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
       </form>
       <div id="dDone" class="msg ok"></div>
     </div>
-    <div class="card hidden" id="winCard"><h3>🏆 வெற்றியாளர்கள்</h3><div id="winners"></div></div>
+    <div class="card hidden" id="winCard"><h3>🏆 ஓவியப் போட்டி வெற்றியாளர்கள்</h3><div id="winners"></div></div>
   </section>
 
   <footer>© பாரத் பாய்ஸ் நற்பணி மன்றம் · <a href="index.html">bharathboys.online</a></footer>
@@ -207,23 +256,59 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   tabs.forEach((t) => t.addEventListener("click", () => openTab(t.dataset.p)));
   if (location.hash === "#drawing") openTab("drawing");
 
-  // ================= QUIZ =================
-  let question = null, timer = null;
+  // ================= QUIZ (SUPPORTS MULTIPLE ACTIVE QUESTIONS) =================
+  let questions = [], question = null, qIndex = 0, timer = null;
+  const answeredIds = new Set();
+
   async function loadQuiz() {
     try {
       const d = await api("public-contest", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
       $("quizLoading").classList.add("hidden");
-      question = d.question;
-      if (!question) { show($("quizNone"), "இன்றைய கேள்வி இன்னும் வெளியிடப்படவில்லை அல்லது நேரம் முடிந்துவிட்டது. பின்னர் மீண்டும் பார்க்கவும்!", "info"); }
-      else renderQuestion();
+      questions = Array.isArray(d.questions) && d.questions.length ? d.questions : (d.question ? [d.question] : []);
+      if (!questions.length) {
+        show($("quizNone"), "தற்போது திறந்த கேள்விகள் எதுவும் இல்லை. கீழே சமீபத்திய சரியான பதில்கள் மற்றும் வெற்றியாளர்களைப் பார்க்கலாம்!", "info");
+      } else {
+        $("quizHeading").textContent = questions.length > 1 ? `இன்றைய கேள்விகள் (${questions.length})` : "இன்றைய கேள்வி";
+        selectQuestion(0);
+      }
       renderResults(d.results || []);
     } catch (e) {
       $("quizLoading").classList.add("hidden"); show($("quizNone"), e.message, "err"); $("results").textContent = "—";
     }
   }
+
+  function renderSwitcher() {
+    const sw = $("quizSwitcher");
+    sw.replaceChildren();
+    if (questions.length <= 1) { sw.classList.add("hidden"); return; }
+    sw.classList.remove("hidden");
+    questions.forEach((q, idx) => {
+      const done = answeredIds.has(q.id);
+      const btn = el("button", {
+        type: "button",
+        className: "qpill" + (idx === qIndex ? " active" : "") + (done ? " done" : ""),
+        textContent: `${done ? "✓ " : ""}கேள்வி ${idx + 1}`,
+      });
+      btn.addEventListener("click", () => selectQuestion(idx));
+      sw.append(btn);
+    });
+  }
+
+  function selectQuestion(idx) {
+    qIndex = idx;
+    question = questions[idx];
+    renderSwitcher();
+    hide($("quizMsg"));
+    hide($("quizDone"));
+    $("nextQuizBtn").classList.add("hidden");
+    $("quizSubmit").disabled = false;
+    renderQuestion();
+  }
+
   function renderQuestion() {
     const m = $("quizMeta"); m.replaceChildren();
     const chip = (label, val, id) => { const c = el("span", { className: "chip" }); c.append(label + " ", el("b", { textContent: val, id: id || "" })); m.append(c); };
+    if (questions.length > 1) chip("🔢 கேள்வி:", `${qIndex + 1} / ${questions.length}`);
     chip("📅 தேதி:", fmtDate(question.quiz_date));
     chip("⏰ கடைசி நேரம்:", fmtDateTime(question.closes_at));
     chip("⌛ மீதம்:", "", "cd");
@@ -239,6 +324,7 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     $("quizForm").classList.remove("hidden");
     tick(); clearInterval(timer); timer = setInterval(tick, 1000);
   }
+
   function tick() {
     const ms = new Date(question.closes_at).getTime() - Date.now(), cd = $("cd");
     if (!cd) return;
@@ -246,18 +332,25 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     const h = Math.floor(ms / 3600000), mi = Math.floor(ms % 3600000 / 60000), s = Math.floor(ms % 60000 / 1000);
     cd.textContent = `${h} மணி ${mi} நிமி ${s} வி`;
   }
+
   function renderResults(rs) {
     const box = $("results"); box.replaceChildren();
     if (!rs.length) { box.textContent = "இன்னும் முடிவுகள் இல்லை."; return; }
     for (const r of rs) {
       const d = el("div", { className: "res" });
-      d.append(el("div", { className: "small mut", textContent: "📅 " + fmtDate(r.quiz_date) }));
-      d.append(el("div", { textContent: r.question_text }));
-      if (r.correct_answer) d.append(el("div", { className: "small", textContent: "✅ சரியான பதில்: " + r.correct_answer }));
-      d.append(el("div", { className: r.winner ? "win" : "small mut", textContent: r.winner ? `🏆 வெற்றியாளர்: ${r.winner.name} – ${r.winner.village}` : "வெற்றியாளர் இன்னும் அறிவிக்கப்படவில்லை." }));
+      d.append(el("div", { className: "small mut", textContent: "📅 " + fmtDate(r.quiz_date) + (r.prize_text ? " · 🎁 " + r.prize_text : "") }));
+      d.append(el("div", { style: "font-weight:700;margin-top:2px", textContent: r.question_text }));
+      if (r.correct_answer) d.append(el("div", { className: "ans small", textContent: "✅ சரியான பதில்: " + r.correct_answer }));
+      d.append(el("div", { className: r.winner ? "win" : "small mut", textContent: r.winner ? `🏆 வெற்றியாளர்: ${r.winner.name} (${r.winner.village})` : "⏳ வெற்றியாளர் விரைவில் அறிவிக்கப்படுவார்." }));
       box.append(d);
     }
   }
+
+  $("nextQuizBtn").addEventListener("click", () => {
+    const nextIdx = questions.findIndex((q, i) => i > qIndex && !answeredIds.has(q.id));
+    selectQuestion(nextIdx >= 0 ? nextIdx : (qIndex + 1) % questions.length);
+  });
+
   $("quizForm").addEventListener("submit", async (ev) => {
     ev.preventDefault(); hide($("quizMsg"));
     const sel = document.querySelector('input[name="opt"]:checked');
@@ -268,8 +361,13 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     try {
       const r = await api("submit-entry", { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question_id: question.id, full_name: name.trim(), mobile: normMobile(mobile), village: village.trim(), selected_option: Number(sel.value) }) });
+      answeredIds.add(question.id);
+      renderSwitcher();
       $("quizForm").classList.add("hidden"); clearInterval(timer);
-      show($("quizDone"), "✅ " + (r.message || "உங்கள் பதில் வெற்றிகரமாக பதிவு செய்யப்பட்டது.") + "\nமுடிவுகள் போட்டி நேரம் முடிந்த பிறகு இங்கே அறிவிக்கப்படும்.", "ok");
+      const hasMore = questions.some((q) => !answeredIds.has(q.id));
+      show($("quizDone"), "✅ " + (r.message || "உங்கள் பதில் வெற்றிகரமாக பதிவு செய்யப்பட்டது.") +
+        (hasMore ? "\nஇன்னும் பிற கேள்விகள் உள்ளன – கீழே உள்ள பொத்தானை அழுத்தி அடுத்த கேள்விக்கும் பதிலளிக்கலாம்!" : "\nமுடிவுகள் போட்டி நேரம் முடிந்த பிறகு கீழே அறிவிக்கப்படும்."), "ok");
+      if (questions.length > 1 && hasMore) $("nextQuizBtn").classList.remove("hidden");
     } catch (e) { show($("quizMsg"), e.message, "err"); }
     finally { btn.disabled = false; btn.textContent = "பதிலைச் சமர்ப்பி"; }
   });
@@ -298,7 +396,10 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
       const w = d.winners || [];
       if (w.length) {
         const ul = el("ul", { className: "winners" });
-        for (const x of w) ul.append(el("li", { textContent: `🏆 ${x.name} – ${x.village} (${x.competition_year})` }));
+        for (const x of w) {
+          const catTxt = [x.standard_category, x.age ? `வயது ${x.age}` : ""].filter(Boolean).join(" · ");
+          ul.append(el("li", { textContent: `🏆 ${x.name} – ${x.village}${catTxt ? ` [${catTxt}]` : ""} (${x.competition_year})` }));
+        }
         $("winners").replaceChildren(ul); $("winCard").classList.remove("hidden");
       }
     } catch (e) { $("dLoading").classList.add("hidden"); show($("dNone"), e.message, "err"); }
@@ -322,7 +423,6 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
     if (f.size > 25 * 1024 * 1024) return show($("dMsg"), "படம் மிகப் பெரியது.", "err");
     try {
       const bmp = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(); i.src = URL.createObjectURL(f); });
-      // downscale very large photos to max 2400px long side
       const k = Math.min(1, 2400 / Math.max(bmp.width, bmp.height));
       const c = document.createElement("canvas"); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
       c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height); URL.revokeObjectURL(bmp.src);
@@ -367,14 +467,23 @@ footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px 0 40px}
   $("dForm").addEventListener("submit", async (ev) => {
     ev.preventDefault(); hide($("dMsg"));
     const name = $("dName").value, mobile = $("dMobile").value, village = $("dVillage").value;
-    const err = validPerson(name, mobile, village) || (!work ? "ஓவியப் படத்தைத் தேர்ந்தெடுக்கவும்." : "");
+    const standard = $("dStandard").value, age = Number($("dAge").value);
+    const err = validPerson(name, mobile, village)
+      || (!standard ? "வகுப்பு / கல்விப் பிரிவைத் தேர்ந்தெடுக்கவும்." : "")
+      || (!Number.isInteger(age) || age < 3 || age > 90 ? "சரியான வயதை உள்ளிடவும் (3–90)." : "")
+      || (!work ? "ஓவியப் படத்தைத் தேர்ந்தெடுக்கவும்." : "");
     if (err) return show($("dMsg"), err, "err");
     const btn = $("dSubmit"); btn.disabled = true; btn.textContent = "பதிவேற்றப்படுகிறது…";
     try {
       const blob = await exportBlob();
       if (!blob) throw new Error("படம் 5 MB-க்குள் வரவில்லை. சிறிய படத்தைத் தேர்ந்தெடுக்கவும்.");
       const fd = new FormData();
-      fd.append("competition_id", comp.id); fd.append("full_name", name.trim()); fd.append("mobile", normMobile(mobile)); fd.append("village", village.trim());
+      fd.append("competition_id", comp.id);
+      fd.append("full_name", name.trim());
+      fd.append("mobile", normMobile(mobile));
+      fd.append("village", village.trim());
+      fd.append("standard_category", standard);
+      fd.append("age", String(age));
       fd.append("image", new File([blob], "drawing.jpg", { type: "image/jpeg" }));
       const r = await api("submit-drawing", { method: "POST", body: fd });
       $("dForm").classList.add("hidden");

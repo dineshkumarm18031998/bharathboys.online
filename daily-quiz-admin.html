@@ -187,25 +187,43 @@
       <section id="entriesPanel" class="card panel hidden">
         <div class="row"><h2 class="section-title grow">பங்கேற்பாளர் பதிவுகள்</h2><button class="light" id="refreshEntries">புதுப்பி</button><button class="green" id="exportEntries">CSV பதிவிறக்கம்</button></div>
         <div class="grid" style="margin-bottom:12px">
-          <div class="field"><label for="entriesDate">தேதி</label><input id="entriesDate" type="date"></div>
-          <div class="field"><label for="answerFilter">பதில் வகை</label><select id="answerFilter"><option value="all">அனைத்தும்</option><option value="correct">சரியான பதில்</option><option value="incorrect">தவறான பதில்</option></select></div>
+          <div class="field"><label for="entriesDate">தேதி வடிகட்டி (அனைத்து தேதிகளுக்கும் காலியாக விடலாம்)</label><input id="entriesDate" type="date"></div>
+          <div class="field"><label for="answerFilter">பதில் வகை</label><select id="answerFilter"><option value="all">அனைத்தும்</option><option value="correct">சரியான பதில் மட்டும்</option><option value="incorrect">தவறான பதில் மட்டும்</option></select></div>
+          <div class="field full"><label for="entriesQuestionSelect">கேள்வியைத் தேர்ந்தெடுக்கவும் (ஒரே நாளில் பல கேள்விகள் இருந்தால் இங்கே மாற்றலாம்)</label><select id="entriesQuestionSelect"></select></div>
         </div>
-        <div class="tablewrap"><table><thead><tr><th>பெயர்</th><th>கைபேசி</th><th>ஊர்</th><th>பதில்</th><th>முடிவு</th><th>நேரம்</th></tr></thead><tbody id="entriesBody"><tr><td colspan="6">தேதியைத் தேர்ந்தெடுத்து புதுப்பிக்கவும்.</td></tr></tbody></table></div>
+        <div class="tablewrap"><table><thead><tr><th>பெயர்</th><th>கைபேசி</th><th>ஊர்</th><th>பதில்</th><th>முடிவு</th><th>நேரம்</th><th>கைமுறை தேர்வு</th></tr></thead><tbody id="entriesBody"><tr><td colspan="7">கேள்வியைத் தேர்ந்தெடுத்து புதுப்பிக்கவும்.</td></tr></tbody></table></div>
       </section>
 
       <section id="winnersPanel" class="card panel hidden">
         <div class="row winners-heading">
-          <h2 class="section-title grow">தினசரி வெற்றியாளர் தேர்வு மற்றும் அனைத்து வெற்றியாளர் பட்டியல்</h2>
+          <h2 class="section-title grow">வெற்றியாளர் தேர்வு (குலுக்கல் &amp; கைமுறை) மற்றும் சரியான பதில் வெளியீடு</h2>
           <div class="winners-toolbar">
             <button class="light" id="refreshWinners">புதுப்பி</button>
             <button class="success" id="exportWinners">வெற்றியாளர் பட்டியல் பதிவிறக்கம்</button>
           </div>
         </div>
-        <div class="field"><label for="drawDate">கேள்வி தேதி</label><input id="drawDate" type="date"></div>
-        <p class="small muted">கேள்வியின் கடைசி நேரம் முடிந்த பிறகே வெற்றியாளர் தேர்வு செய்ய முடியும். கீழே அனைத்து தேதிகளின் வெற்றியாளர்களும் காட்டப்படுவார்கள்.</p>
-        <button class="danger" id="drawWinnerBtn">வெற்றியாளரைத் தேர்வு செய்</button>
+        <div class="grid">
+          <div class="field"><label for="drawDate">தேதி வடிகட்டி</label><input id="drawDate" type="date"></div>
+          <div class="field"><label for="drawQuestionSelect">கேள்வியைத் தேர்ந்தெடுக்கவும்</label><select id="drawQuestionSelect"></select></div>
+        </div>
+        <div id="drawQuestionInfo" class="card" style="background:#f8fafd;margin-bottom:14px;padding:13px"></div>
+        <div class="grid" style="margin-bottom:10px">
+          <div class="card" style="margin-bottom:0;background:#fffaf3;border-color:#f5d5a7">
+            <h3 class="section-title" style="font-size:16px;margin-bottom:6px">🎲 1. தானியங்கி குலுக்கல் தேர்வு (Auto Lucky Draw)</h3>
+            <p class="small muted" style="margin-top:0">சரியான பதில் அளித்தவர்களிலிருந்து கணினி குலுக்கல் முறையில் ஒருவரைத் தானாகத் தேர்வு செய்து பதிலையும் வெற்றியாளரையும் வெளியிடும்.</p>
+            <button class="danger" id="drawWinnerBtn" style="width:100%">🎲 குலுக்கல் முறையில் வெற்றியாளரைத் தேர்வு செய்</button>
+          </div>
+          <div class="card" style="margin-bottom:0;background:#f3fbf6;border-color:#b8e2c8">
+            <h3 class="section-title" style="font-size:16px;margin-bottom:6px">👆 2. கைமுறை தேர்வு (Manual Winner Selection)</h3>
+            <div class="field" style="margin-bottom:8px">
+              <label for="manualWinnerSelect" class="small">சரியான பதில் அளித்த பங்கேற்பாளரைத் தேர்ந்தெடுக்கவும்</label>
+              <select id="manualWinnerSelect"><option value="">— முதலில் கேள்வியைத் தேர்ந்தெடுக்கவும் —</option></select>
+            </div>
+            <button class="green" id="manualDrawBtn" style="width:100%">👆 தேர்ந்தெடுத்தவரை வெற்றியாளராக அறிவி</button>
+          </div>
+        </div>
         <div id="drawResult" class="notice"></div>
-        <div class="tablewrap" style="margin-top:16px"><table><thead><tr><th>தேதி</th><th>வெற்றியாளர்</th><th>ஊர்</th><th>தேர்வு நேரம்</th><th>தொடர்பு</th></tr></thead><tbody id="winnersBody"><tr><td colspan="5">தகவல் ஏற்றப்படவில்லை.</td></tr></tbody></table></div>
+        <div class="tablewrap" style="margin-top:16px"><table><thead><tr><th>தேதி</th><th>கேள்வி &amp; சரியான பதில்</th><th>வெற்றியாளர்</th><th>ஊர்</th><th>தேர்வு நேரம்</th><th>தொடர்பு / செயல்</th></tr></thead><tbody id="winnersBody"><tr><td colspan="6">தகவல் ஏற்றப்படவில்லை.</td></tr></tbody></table></div>
       </section>
       <footer class="small muted" style="text-align:center;padding:12px">பாரத் பாய்ஸ் நற்பணி மன்றம்</footer>
     </section>
@@ -301,16 +319,40 @@
       await refreshAll();
     }
   }
+  const STATUS_LABEL = { draft:"வரைவு", published:"வெளியீடு", closed:"மூடப்பட்டது (பதில் வெளியீடு)", cancelled:"ரத்து" };
+  function fmtDmy(d) { return String(d || "").split("-").reverse().join("-"); }
+  function qLabel(q, idx) {
+    const short = String(q.question_text || "").replace(/\s+/g, " ").slice(0, 48);
+    const hasW = cachedWinners.some(w => w.question_id === q.id);
+    return `${fmtDmy(q.quiz_date)} · #${idx + 1} ${short}${q.question_text?.length > 48 ? "…" : ""} [${STATUS_LABEL[q.status] || q.status}${hasW ? " · 🏆" : ""}]`;
+  }
+  function populateQuestionDropdowns() {
+    const eDate = $("entriesDate").value;
+    const dDate = $("drawDate").value;
+    const eList = eDate ? cachedQuestions.filter(q => q.quiz_date === eDate) : cachedQuestions;
+    const dList = dDate ? cachedQuestions.filter(q => q.quiz_date === dDate) : cachedQuestions;
+    const fill = (sel, list, allFallback) => {
+      const prev = sel.value;
+      const items = list.length ? list : allFallback;
+      sel.innerHTML = items.length
+        ? items.map((q, i) => `<option value="${escapeHtml(q.id)}">${escapeHtml(qLabel(q, i))}</option>`).join("")
+        : `<option value="">— கேள்விகள் இல்லை —</option>`;
+      if (prev && items.some(q => q.id === prev)) sel.value = prev;
+    };
+    fill($("entriesQuestionSelect"), eList, cachedQuestions);
+    fill($("drawQuestionSelect"), dList, cachedQuestions);
+  }
+
   async function fetchEntriesForSelectedDate() {
-    const selectedDate = $("entriesDate").value || indiaDate();
-    const question = cachedQuestions.find(q => q.quiz_date === selectedDate);
-    // The deployed Edge Function requires question_id, not quiz_date.
+    const qid = $("entriesQuestionSelect").value;
+    const question = cachedQuestions.find(q => q.id === qid) || cachedQuestions.find(q => q.quiz_date === ($("entriesDate").value || indiaDate())) || cachedQuestions[0];
     if (!question) {
       cachedEntries = [];
       renderEntries();
       renderStats();
       return;
     }
+    if ($("entriesQuestionSelect").value !== question.id) $("entriesQuestionSelect").value = question.id;
     const result = await invokeAdmin("list_entries", { question_id: question.id });
     let rows = result.participants || result.entries || [];
     const filter = $("answerFilter").value;
@@ -319,6 +361,49 @@
     cachedEntries = rows;
     renderEntries();
     renderStats();
+  }
+
+  async function updateDrawQuestionPanel() {
+    const qid = $("drawQuestionSelect").value;
+    const q = cachedQuestions.find(x => x.id === qid);
+    const infoBox = $("drawQuestionInfo");
+    const manSel = $("manualWinnerSelect");
+    if (!q) {
+      infoBox.innerHTML = `<span class="muted small">கேள்வியைத் தேர்ந்தெடுக்கவும்.</span>`;
+      manSel.innerHTML = `<option value="">— கேள்வி இல்லை —</option>`;
+      return;
+    }
+    const ansLetter = ["A","B","C","D"][Number(q.correct_option)] || "";
+    const ansText = (q.options || [])[Number(q.correct_option)] || "—";
+    const win = cachedWinners.find(w => w.question_id === q.id);
+    let entries = [];
+    try {
+      const r = await invokeAdmin("list_entries", { question_id: q.id });
+      entries = r.participants || r.entries || [];
+    } catch (_) {}
+    const correctList = entries.filter(e => e.is_correct === true);
+    infoBox.innerHTML = `
+      <div style="font-weight:700;margin-bottom:4px">📅 ${escapeHtml(fmtDmy(q.quiz_date))} · <span class="pill">${escapeHtml(STATUS_LABEL[q.status] || q.status)}</span></div>
+      <div style="margin-bottom:6px">${escapeHtml(q.question_text)}</div>
+      <div class="small" style="color:#0f6b3c;font-weight:700">✅ சரியான பதில்: (${escapeHtml(ansLetter)}) ${escapeHtml(ansText)}</div>
+      <div class="small muted" style="margin-top:4px">மொத்தப் பங்கேற்பாளர்கள்: <b>${entries.length}</b> · சரியான பதில் அளித்த தகுதியானவர்கள்: <b>${correctList.length}</b></div>
+      ${win ? `<div class="small" style="margin-top:6px;color:#b45309;font-weight:700">🏆 தற்போதைய வெற்றியாளர்: ${escapeHtml(win.winner_name)} (${escapeHtml(win.winner_village)})</div>` : ""}
+      ${q.status === "published" ? `<div style="margin-top:8px"><button type="button" class="light" id="quickClosePublishBtn">📢 இப்போதே கேள்வியை மூடி சரியான பதிலை பொதுப் பக்கத்தில் வெளியிடு</button></div>` : ""}
+    `;
+    const qc = $("quickClosePublishBtn");
+    if (qc) qc.onclick = async () => {
+      if (!confirm("இந்தக் கேள்வியை இப்போதே மூடி, சரியான பதிலை பொதுப் பக்கத்தில் வெளியிடவா?")) return;
+      qc.disabled = true;
+      try {
+        await invokeAdmin("close_question", { question_id: q.id });
+        showNotice($("drawResult"), "கேள்வி மூடப்பட்டு சரியான பதில் பொதுப் பக்கத்தில் வெளியிடப்பட்டது! இப்போது வெற்றியாளரைத் தேர்வு செய்யலாம்.", "ok");
+        await refreshAll();
+      } catch (err) { showNotice($("drawResult"), err.message, "err"); qc.disabled = false; }
+    };
+    manSel.innerHTML = correctList.length
+      ? `<option value="">— சரியான பதில் அளித்தவரைத் தேர்ந்தெடுக்கவும் (${correctList.length} பேர்) —</option>` +
+        correctList.map(e => `<option value="${escapeHtml(e.id)}">${escapeHtml(e.full_name)} – ${escapeHtml(e.village)} (${escapeHtml(e.mobile)})</option>`).join("")
+      : `<option value="">— சரியான பதில் அளித்தவர்கள் யாரும் இல்லை —</option>`;
   }
 
   async function refreshAll() {
@@ -331,7 +416,9 @@
       cachedQuestions = q.questions || [];
       cachedDashboard = stats || null;
       cachedWinners = w.winners || [];
+      populateQuestionDropdowns();
       await fetchEntriesForSelectedDate();
+      await updateDrawQuestionPanel();
       renderQuestions(); renderEntries(); renderWinners(); renderStats();
       clearNotice($("appNotice"));
     } catch (err) {
@@ -383,8 +470,26 @@
     $("entriesBody").innerHTML = cachedEntries.length ? cachedEntries.map(e => `
       <tr><td>${escapeHtml(e.full_name)}</td><td>${escapeHtml(e.mobile)}</td><td>${escapeHtml(e.village)}</td>
       <td>${["A","B","C","D"][Number(e.selected_option)] ?? "-"}</td>
-      <td>${e.is_correct ? "சரி" : "தவறு"}</td><td>${escapeHtml(e.created_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(e.created_at)) : "")}</td></tr>`).join("")
-      : `<tr><td colspan="6">பதிவுகள் இல்லை.</td></tr>`;
+      <td>${e.is_correct ? '<span class="pill" style="background:#e9f7ef;color:#116239;font-weight:700">✓ சரி</span>' : "தவறு"}</td>
+      <td>${escapeHtml(e.created_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(e.created_at)) : "")}</td>
+      <td>${e.is_correct ? `<button type="button" class="green" style="padding:7px 10px;font-size:12.5px" data-pick-entry="${escapeHtml(e.id)}" data-pick-q="${escapeHtml(e.question_id)}" data-pick-name="${escapeHtml(e.full_name)}">🏆 வெற்றியாளராக்கு</button>` : "—"}</td></tr>`).join("")
+      : `<tr><td colspan="7">பதிவுகள் இல்லை.</td></tr>`;
+    $("entriesBody").querySelectorAll("[data-pick-entry]").forEach(btn => btn.addEventListener("click", async () => {
+      const qid = btn.dataset.pickQ, eid = btn.dataset.pickEntry, nm = btn.dataset.pickName;
+      const q = cachedQuestions.find(x => x.id === qid);
+      if (q && q.status === "published") {
+        if (!confirm(`இந்தக் கேள்வி இன்னும் திறந்துள்ளது. முதலில் கேள்வியை மூடிவிட்டு "${nm}" அவர்களை வெற்றியாளராகத் தேர்வு செய்யவா?`)) return;
+        await invokeAdmin("close_question", { question_id: qid });
+      } else if (!confirm(`"${nm}" அவர்களை இந்தக் கேள்விக்கான வெற்றியாளராக அறிவிக்கவா?`)) return;
+      const hasW = cachedWinners.some(w => w.question_id === qid);
+      if (hasW && !confirm("ஏற்கனவே உள்ள வெற்றியாளரை மாற்றி இவரை வெற்றியாளராக்கவா?")) return;
+      btn.disabled = true;
+      try {
+        await invokeAdmin("draw_winner", { question_id: qid, entry_id: eid, replace: hasW });
+        showNotice($("appNotice"), `🏆 ${nm} வெற்றியாளராகத் தேர்வு செய்யப்பட்டு பொதுப் பக்கத்தில் வெளியிடப்பட்டார்!`, "ok");
+        await refreshAll();
+      } catch (err) { showNotice($("appNotice"), err.message, "err"); btn.disabled = false; }
+    }));
   }
   function renderWinners() {
     const orderedWinners = [...cachedWinners].sort((a, b) => {
@@ -394,6 +499,9 @@
     });
     $("winnersBody").innerHTML = orderedWinners.length ? orderedWinners.map(w => {
       const quizDate = w.question?.quiz_date || w.quiz_date || "—";
+      const qText = w.question?.question_text || "";
+      const opts = w.question?.options || [];
+      const cAns = opts[Number(w.question?.correct_option)] || "";
       const mobile = String(w.entry?.mobile || w.contest_entries?.mobile || "").replace(/\D/g, "");
       const message = [
         "🎉 மனமார்ந்த வாழ்த்துகள்! 🎉",
@@ -420,12 +528,23 @@
       const contactButton = whatsappUrl
         ? `<a class="success whatsapp-winner-btn" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">WhatsApp</a>`
         : `<span class="small muted">எண் இல்லை</span>`;
-      return `<tr><td>${escapeHtml(quizDate)}</td><td>${escapeHtml(w.winner_name || "—")}</td>
+      return `<tr><td>${escapeHtml(fmtDmy(quizDate))}</td>
+        <td><div style="font-weight:700">${escapeHtml(qText.slice(0, 70))}${qText.length > 70 ? "…" : ""}</div>${cAns ? `<div class="small" style="color:#0f6b3c">✅ ${escapeHtml(cAns)}</div>` : ""}</td>
+        <td><b>${escapeHtml(w.winner_name || "—")}</b></td>
         <td>${escapeHtml(w.winner_village || "—")}</td>
         <td>${escapeHtml(w.drawn_at ? new Intl.DateTimeFormat("ta-IN", { timeZone:"Asia/Kolkata", dateStyle:"short", timeStyle:"short" }).format(new Date(w.drawn_at)) : "")}</td>
-        <td>${contactButton}</td></tr>`;
+        <td><div class="row">${contactButton}<button type="button" class="light" style="padding:7px 10px;font-size:12px" data-del-winner="${escapeHtml(w.question_id)}">🔄 மாற்று</button></div></td></tr>`;
     }).join("")
-      : `<tr><td colspan="5">வெற்றியாளர் பதிவுகள் இல்லை.</td></tr>`;
+      : `<tr><td colspan="6">வெற்றியாளர் பதிவுகள் இல்லை.</td></tr>`;
+    $("winnersBody").querySelectorAll("[data-del-winner]").forEach(btn => btn.addEventListener("click", async () => {
+      if (!confirm("இந்த வெற்றியாளர் பதிவை நீக்கிவிட்டு வேறு வெற்றியாளரைத் தேர்வு செய்யவா?")) return;
+      btn.disabled = true;
+      try {
+        await invokeAdmin("remove_winner", { question_id: btn.dataset.delWinner });
+        showNotice($("drawResult"), "வெற்றியாளர் பதிவு நீக்கப்பட்டது. இப்போது மீண்டும் தேர்வு செய்யலாம்.", "ok");
+        await refreshAll();
+      } catch (err) { showNotice($("drawResult"), err.message, "err"); btn.disabled = false; }
+    }));
   }
   function exportWinnersCsv() {
     const orderedWinners = [...cachedWinners].sort((a, b) => {
@@ -614,25 +733,41 @@
     } catch(err) { showNotice($("appNotice"), err.message, "err"); }
   });
   $("answerFilter").addEventListener("change", () => $("refreshEntries").click());
-  $("entriesDate").addEventListener("change", () => $("refreshEntries").click());
+  $("entriesDate").addEventListener("change", () => { populateQuestionDropdowns(); $("refreshEntries").click(); });
+  $("entriesQuestionSelect").addEventListener("change", () => $("refreshEntries").click());
   $("exportEntries").addEventListener("click", () => downloadCsv(cachedEntries, `bharath-boys-entries-${$("entriesDate").value || indiaDate()}.csv`));
   $("refreshWinners").addEventListener("click", refreshAll);
   $("exportWinners").addEventListener("click", exportWinnersCsv);
-  $("drawWinnerBtn").addEventListener("click", async () => {
-    const date = $("drawDate").value;
-    if (!date) return showNotice($("drawResult"), "தேதியைத் தேர்ந்தெடுக்கவும்.", "err");
-    if (!confirm(`${date} தேதிக்கான வெற்றியாளரைத் தேர்வு செய்யவா? சரியான பதில் அளித்தவர்களிலிருந்து server குலுக்கல் முறையில் ஒருவரைத் தேர்வு செய்யும். இதை மாற்ற முடியாது.`)) return;
-    const drawBtn = $("drawWinnerBtn"); drawBtn.disabled = true;
+  $("drawDate").addEventListener("change", async () => { populateQuestionDropdowns(); await updateDrawQuestionPanel(); });
+  $("drawQuestionSelect").addEventListener("change", updateDrawQuestionPanel);
+
+  async function runDrawWinner(entryId = null) {
+    const qid = $("drawQuestionSelect").value;
+    const question = cachedQuestions.find(q => q.id === qid) || cachedQuestions.find(q => q.quiz_date === $("drawDate").value);
+    if (!question) return showNotice($("drawResult"), "முதலில் கேள்வியைத் தேர்ந்தெடுக்கவும்.", "err");
+    if (entryId === "" || (entryId !== null && !entryId)) return showNotice($("drawResult"), "கைமுறைத் தேர்வுக்கு ஒரு பங்கேற்பாளரைத் தேர்ந்தெடுக்கவும்.", "err");
+    if (question.status === "published") {
+      if (!confirm("இந்தக் கேள்வி இன்னும் திறந்துள்ளது. இப்போதே கேள்வியை மூடி, சரியான பதிலை வெளியிட்டு வெற்றியாளரைத் தேர்வு செய்யவா?")) return;
+      await invokeAdmin("close_question", { question_id: question.id });
+    }
+    const hasW = cachedWinners.some(w => w.question_id === question.id);
+    const modeLabel = entryId ? "கைமுறைத் தேர்வில் (Manual)" : "தானியங்கி குலுக்கல் முறையில் (Auto Lucky Draw)";
+    if (!confirm(`${hasW ? "ஏற்கனவே உள்ள வெற்றியாளரை மாற்றி, " : ""}${modeLabel} வெற்றியாளரைத் தேர்வு செய்து பொதுப் பக்கத்தில் வெளியிடவா?`)) return;
+    const btn = entryId ? $("manualDrawBtn") : $("drawWinnerBtn");
+    btn.disabled = true;
     try {
-      const question = cachedQuestions.find(q => q.quiz_date === date);
-      if (!question) throw new Error("இந்த தேதிக்கான கேள்வி இல்லை.");
-      const r = await invokeAdmin("draw_winner", { question_id:question.id });
+      const payload = { question_id: question.id, replace: hasW };
+      if (entryId) payload.entry_id = entryId;
+      const r = await invokeAdmin("draw_winner", payload);
       const w = r.winner || r;
-      showNotice($("drawResult"), `வெற்றியாளர்: ${w.winner_name || w.name || w.full_name || "தேர்வு முடிந்தது"}\nஊர்: ${w.winner_village || w.village || ""}`, "ok");
+      showNotice($("drawResult"), `🏆 வெற்றியாளர் (${entryId ? "கைமுறை தேர்வு" : "குலுக்கல் தேர்வு"}): ${w.winner_name || "தேர்வு முடிந்தது"} – ${w.winner_village || ""}\nசரியான பதிலும் வெற்றியாளர் பெயரும் பொதுப் பக்கத்தில் வெளியிடப்பட்டன!`, "ok");
       await refreshAll();
     } catch(err) { showNotice($("drawResult"), err.message, "err"); }
-    finally { drawBtn.disabled = false; }
-  });
+    finally { btn.disabled = false; }
+  }
+
+  $("drawWinnerBtn").addEventListener("click", () => runDrawWinner(null));
+  $("manualDrawBtn").addEventListener("click", () => runDrawWinner($("manualWinnerSelect").value || ""));
 
   setDefaultDates();
   supabase.auth.onAuthStateChange(() => { refreshSessionView(); });
