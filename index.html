@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ta" data-theme="light">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>பாரத் பாய்ஸ் நற்பணி மன்றம் | Bharath Boys | புஞ்சை துறையம்பாளையம்</title>
@@ -8,8 +9,8 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="பாரத் பாய்ஸ் நற்பணி மன்றம்">
 <meta name="geo.region" content="IN-TN">
-<meta name="geo.placename" content="Punjai Thuraiyampalayam, Coimbatore, Tamil Nadu">
-<link rel="canonical" href="https://bharathboys.online">
+<meta name="geo.placename" content="Punjai Thuraiyampalayam, Gobichettipalayam, Erode, Tamil Nadu">
+<link rel="canonical" href="https://bharathboys.online/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="பாரத் பாய்ஸ் நற்பணி மன்றம் | Bharath Boys">
 <meta property="og:description" content="இரத்த தானம், மரம் நடல், கல்வி உதவி, சமூக சேவை — 2006 முதல் 500+ இரத்த தானங்கள்.">
@@ -307,6 +308,9 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
 .wa-float{position:fixed;bottom:1.5rem;left:1.5rem;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:800;box-shadow:0 4px 20px rgba(37,211,102,0.4);border:none;transition:.2s;}
 .wa-float:hover{transform:scale(1.08);}
 .music-float{position:fixed;bottom:5.5rem;left:1.5rem;background:var(--surface);color:var(--orange);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:800;box-shadow:0 4px 20px rgba(255,85,0,0.3);border:1.5px solid var(--border2);transition:.2s;}
+body.music-open .wa-float{bottom:4.6rem;}
+body.music-open .music-float{bottom:8.6rem;}
+body.music-open .gift-float{bottom:8.6rem;}
 .music-float:hover{background:var(--orange);color:#fff;}.music-float svg{width:22px;height:22px;}
 .music-float.playing{animation:musicPulse 1.5s ease-in-out infinite;}
 @keyframes musicPulse{0%,100%{box-shadow:0 4px 20px rgba(255,85,0,0.3);}50%{box-shadow:0 4px 32px rgba(255,85,0,0.6);}}
@@ -684,21 +688,21 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <div class="ovtitle">⚙ Admin Panel</div>
     <div class="ovsubtitle" id="adminSubtitle">பிரதான நிர்வாகி மின்னஞ்சல் மற்றும் கடவுச்சொல்லைப் பயன்படுத்தவும்</div>
     <div id="adminLoginForm">
-      <div class="fg"><label>மின்னஞ்சல்</label><input type="email" id="adminEmailInput" placeholder="admin@example.com" autocomplete="username"></div><div class="fg"><label>கடவுச்சொல்</label><input type="password" id="adminPwd" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')checkAdmin()"></div>
+      <div class="fg"><label>மின்னஞ்சல்</label><input type="email" id="adminEmailInput" placeholder="admin@example.com" autocomplete="username" onkeydown="if(event.key==='Enter')checkAdmin()"></div><div class="fg"><label>கடவுச்சொல்</label><input type="password" id="adminPwd" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')checkAdmin()"></div>
       <div class="pwd-err" id="pwdErr">❌ கடவுச்சொல் தவறு</div>
-      <button class="pri-btn" onclick="checkAdmin()">உள்நுழைவு</button>
+      <button class="pri-btn" id="adminLoginBtn" onclick="checkAdmin()">உள்நுழைவு</button>
     </div>
     <div id="admLogoutW" style="display:none;">
       <div style="font-size:.65rem;color:var(--teal);font-family:'DM Mono',monospace;margin-bottom:.8rem;padding:.5rem .8rem;background:rgba(0,196,167,0.06);border-radius:8px;border:1px solid rgba(0,196,167,0.15);">✓ Admin mode active</div>
       <a href="central-admin.html" class="pri-btn" style="display:flex;justify-content:center;text-decoration:none;margin-bottom:.8rem;">🛠 மைய நிர்வாகக் கட்டுப்பாட்டு மையம் திற</a>
-      <div class="fg" style="margin-bottom:.5rem;"><label>🎵 Anthem Upload</label><input type="file" accept="audio/*" onchange="uploadAnthem(event)" style="color:var(--text2);font-size:.72rem;"></div>
+      <div class="fg" style="margin-bottom:.5rem;"><label>🎵 Anthem Upload</label><input type="file" id="anthemUploadInput" accept="audio/*" onchange="uploadAnthem(event)" style="color:var(--text2);font-size:.72rem;"></div>
       <div class="pwd-setup">
         <div class="pwd-setup-h">🔑 கடவுச்சொல் மாற்று</div>
         <div class="fg" style="margin-bottom:.4rem;"><label>தற்போதைய கடவுச்சொல்</label><input type="password" id="curPwd" placeholder="தற்போதைய கடவுச்சொல்" autocomplete="current-password"></div>
         <div class="fg" style="margin-bottom:.4rem;"><label>புதிய கடவுச்சொல்</label><input type="password" id="newPwd1" placeholder="புதிய கடவுச்சொல்" oninput="checkPwdStrength()"></div>
         <div class="pwd-strength"><div class="pwd-strength-fill" id="pwdStrFill" style="width:0%"></div></div>
         <div class="fg" style="margin-top:.4rem;"><label>உறுதிப்படுத்தவும்</label><input type="password" id="newPwd2" placeholder="மீண்டும் உள்ளிடவும்"></div>
-        <button class="sub-btn" style="margin-top:.4rem;width:100%;justify-content:center;display:flex;" onclick="changePwd()">கடவுச்சொல் மாற்று</button>
+        <button class="sub-btn" id="changePwdBtn" style="margin-top:.4rem;width:100%;justify-content:center;display:flex;" onclick="changePwd()">கடவுச்சொல் மாற்று</button>
       </div>
       <button onclick="logoutAdmin()" class="sub-btn" style="width:100%;justify-content:center;display:flex;margin-top:.8rem;">வெளியேறு</button>
     </div>
@@ -710,7 +714,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <div class="ovtitle" id="dOvT">இரத்த வீரர் சேர்</div><div class="ovsubtitle">விவரங்கள் உள்ளிடவும்</div>
     <input type="hidden" id="de-idx">
     <div class="av-wrap"><img id="dAvP" alt=""><span id="dAvE">🩸</span></div>
-    <label class="av-label">📷 புகைப்படம்<input type="file" accept="image/*" style="display:none" onchange="prevAvDonor(event)"></label>
+    <label class="av-label">📷 புகைப்படம்<input type="file" id="donorFileInput" accept="image/*" style="display:none" onchange="prevAvDonor(event)"></label>
     <div class="fg"><label>பெயர்</label><input type="text" id="de-n" placeholder="முழு பெயர்"></div>
     <div class="f2">
       <div class="fg"><label>பதவி</label><input type="text" id="de-role" placeholder="உறுப்பினர்"></div>
@@ -725,7 +729,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <button class="ov-close" aria-label="மூடு" onclick="closeOv('galOv')">✕</button>
     <div class="ovtitle">நிகழ்வு சேர்</div><div class="ovsubtitle">புகைப்படம் அல்லது வீடியோ சேர்க்கவும்</div>
     <div class="gal-prev-box" id="galPrevBox">📷</div>
-    <label class="av-label" style="margin-bottom:.8rem;">📷/🎬 கோப்பு தேர்வு<input type="file" accept="image/*,video/*" style="display:none" onchange="prevGal(event)"></label>
+    <label class="av-label" style="margin-bottom:.8rem;">📷/🎬 கோப்பு தேர்வு<input type="file" id="galFileInput" accept="image/*,video/*" style="display:none" onchange="prevGal(event)"></label>
     <div class="fg"><label>தலைப்பு</label><input type="text" id="gl-t" placeholder="நிகழ்வு பெயர்"></div>
     <div class="fg"><label>தேதி</label><input type="text" id="gl-d" placeholder="2024"></div>
     <button class="pri-btn" onclick="addGal()">💾 சேமி</button>
@@ -736,7 +740,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <button class="ov-close" aria-label="மூடு" onclick="closeOv('reelOv')">✕</button>
     <div class="ovtitle">ரீல் சேர்</div><div class="ovsubtitle">வீடியோ அல்லது புகைப்படம் சேர்க்கவும்</div>
     <div class="gal-prev-box" id="reelPrevBox">📽</div>
-    <label class="av-label">📷/🎬 கோப்பு தேர்வு<input type="file" accept="image/*,video/*" style="display:none" onchange="prevReel(event)"></label>
+    <label class="av-label">📷/🎬 கோப்பு தேர்வு<input type="file" id="reelFileInput" accept="image/*,video/*" style="display:none" onchange="prevReel(event)"></label>
     <div class="fg"><label>தலைப்பு</label><input type="text" id="rl-t" placeholder="நிகழ்வு பெயர்"></div>
     <div class="fg"><label>தேதி</label><input type="text" id="rl-d" placeholder="2024"></div>
     <button class="pri-btn" onclick="addReel()">💾 சேமி</button>
@@ -748,7 +752,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <div class="ovtitle" id="mOvT">புதிய உறுப்பினர்</div><div class="ovsubtitle" id="mOvS">விவரங்கள் உள்ளிடவும்</div>
     <input type="hidden" id="em-idx">
     <div class="av-wrap"><img id="mAvP" alt=""><span id="mAvE">😊</span></div>
-    <label class="av-label">📷 புகைப்படம்<input type="file" accept="image/*" style="display:none" onchange="prevAvMem(event)"></label>
+    <label class="av-label">📷 புகைப்படம்<input type="file" id="memFileInput" accept="image/*" style="display:none" onchange="prevAvMem(event)"></label>
     <div class="fg"><label>பெயர்</label><input type="text" id="em-n" placeholder="முழு பெயர்"></div>
     <div class="f2">
       <div class="fg"><label>பதவி</label><input type="text" id="em-r" placeholder="உறுப்பினர்"></div>
@@ -762,7 +766,7 @@ footer::before{content:"";position:absolute;top:0;left:50%;transform:translateX(
     <button class="ov-close" aria-label="மூடு" onclick="closeOv('waOv')">✕</button>
     <div class="ovtitle">💬 WhatsApp</div><div class="ovsubtitle">பாரத் பாய்ஸ் குழுவுடன் நேரடி தொடர்பு</div>
     <div class="fg"><label>உங்கள் பெயர்</label><input type="text" id="wa-name" placeholder="உங்கள் பெயர்"></div>
-    <div class="fg"><label>செய்தி</label><textarea id="wa-msg" rows="3" placeholder="உங்கள் செய்தி..." style="resize:vertical;padding:9px 12px;width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;font-size:.78rem;color:var(--text);font-family:inherit;outline:none;"></textarea></div>
+    <div class="fg"><label>செய்தி</label><textarea id="wa-msg" rows="3" placeholder="உங்கள் செய்தி..." style="resize:vertical;padding:9px 12px;width:100%;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;font-size:.78rem;color:var(--fg-input);font-family:inherit;outline:none;"></textarea></div>
     <button class="wabtn" onclick="sendWA()">📲 WhatsApp திற</button>
   </div>
 </div>
@@ -785,9 +789,12 @@ try {
   if(window.supabase) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
 } catch(e){console.warn("Supabase init:",e);}
 
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
 const DB = {
   _c:{},
-  async _save(key,val){if(!sb)return;try{const r=await sb.from("settings").upsert({key,value:JSON.stringify(val)},{onConflict:"key"});if(r.error)throw r.error;}catch(e){console.warn("DB save:",e.message);try{toast("❌ சேமிக்க முடியவில்லை – மீண்டும் உள்நுழையவும்: "+e.message);}catch{}}},
+  async _save(key,val){if(!sb)return false;try{const r=await sb.from("settings").upsert({key,value:JSON.stringify(val)},{onConflict:"key"});if(r.error)throw r.error;return true;}catch(e){console.warn("DB save:",e.message);try{toast("❌ சேமிக்க முடியவில்லை – மீண்டும் உள்நுழையவும்: "+e.message);}catch{}return false;}},
+  async _del(key){delete this._c[key];if(!sb)return false;try{const r=await sb.from("settings").delete().eq("key",key);if(r.error)throw r.error;return true;}catch(e){console.warn("DB del:",e.message);try{toast("❌ நீக்க முடியவில்லை – மீண்டும் உள்நுழையவும்: "+e.message);}catch{}return false;}},
   async init(){
     if(!sb)return;
     const{data,error}=await sb.from("settings").select("key,value").not("key","like","galimg_%").not("key","like","reelimg_%").not("key","like","anthem_data").neq("key","admin_pwd_hash");
@@ -800,19 +807,28 @@ const DB = {
     try{const{data}=await sb.from("settings").select("value").eq("key",key).single();if(data){try{this._c[key]=JSON.parse(data.value);}catch{this._c[key]=data.value;}}}catch{}
     return this._c[key]||null;
   },
-  getLogo(){return this._c["logo"]||"";},setLogo(v){this._c["logo"]=v;this._save("logo",v);},
-  getLeader(k){return this._c["leader_"+k]||"";},setLeader(k,v){this._c["leader_"+k]=v;this._save("leader_"+k,v);},
-  delLeader(k){delete this._c["leader_"+k];if(sb)sb.from("settings").delete().eq("key","leader_"+k).then(r=>{if(r.error){try{toast("❌ நீக்க முடியவில்லை – மீண்டும் உள்நுழையவும்: "+r.error.message);}catch{}}});},
-  getDonors(){return this._c["bbm_donors"]||[];},setDonors(a){this._c["bbm_donors"]=a;this._save("bbm_donors",a);},
-  getGallery(){return this._c["bbm_gal"]||[];},setGallery(a){this._c["bbm_gal"]=a;this._save("bbm_gal",a);},
-  async getGalImg(k){return await this.loadKey("galimg_"+k);},setGalImg(k,v){this._c["galimg_"+k]=v;this._save("galimg_"+k,v);},
-  getReels(){return this._c["bbm_reels"]||[];},setReels(a){this._c["bbm_reels"]=a;this._save("bbm_reels",a);},
-  async getReelImg(k){return await this.loadKey("reelimg_"+k);},setReelImg(k,v){this._c["reelimg_"+k]=v;this._save("reelimg_"+k,v);},
-  getMembers(){return this._c["bbm_mem"]||[];},setMembers(a){this._c["bbm_mem"]=a;this._save("bbm_mem",a);},
-  async loadAnthem(){return await this.loadKey("anthem_data");},setAnthem(src,name){this._c["anthem_data"]={src,name};this._save("anthem_data",{src,name});},
+  getLogo(){return this._c["logo"]||"";},async setLogo(v){this._c["logo"]=v;return await this._save("logo",v);},
+  getLeader(k){return this._c["leader_"+k]||"";},async setLeader(k,v){this._c["leader_"+k]=v;return await this._save("leader_"+k,v);},
+  async delLeader(k){return await this._del("leader_"+k);},
+  getDonors(){return this._c["bbm_donors"]||[];},async setDonors(a){this._c["bbm_donors"]=a;return await this._save("bbm_donors",a);},
+  getGallery(){return this._c["bbm_gal"]||[];},async setGallery(a){this._c["bbm_gal"]=a;return await this._save("bbm_gal",a);},
+  async getGalImg(k){return await this.loadKey("galimg_"+k);},async setGalImg(k,v){this._c["galimg_"+k]=v;return await this._save("galimg_"+k,v);},
+  async delGalImg(k){return await this._del("galimg_"+k);},
+  getReels(){return this._c["bbm_reels"]||[];},async setReels(a){this._c["bbm_reels"]=a;return await this._save("bbm_reels",a);},
+  async getReelImg(k){return await this.loadKey("reelimg_"+k);},async setReelImg(k,v){this._c["reelimg_"+k]=v;return await this._save("reelimg_"+k,v);},
+  async delReelImg(k){return await this._del("reelimg_"+k);},
+  getMembers(){return this._c["bbm_mem"]||[];},async setMembers(a){this._c["bbm_mem"]=a;return await this._save("bbm_mem",a);},
+  async loadAnthem(){return await this.loadKey("anthem_data");},async setAnthem(src,name){this._c["anthem_data"]={src,name};return await this._save("anthem_data",{src,name});},
 };
 
-function compressImage(file,maxW,quality,cb){const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);cb(c.toDataURL('image/jpeg',quality));};img.src=ev.target.result;};r.readAsDataURL(file);}
+function compressImage(file,maxW,quality,cb){
+  if(!file||!/^image\//.test(file.type)){toast('⚠️ படக் கோப்பை மட்டும் தேர்ந்தெடுக்கவும்');return;}
+  if(file.size>10*1024*1024){toast('⚠️ படம் மிகப் பெரியது (10 MB வரை)');return;}
+  const r=new FileReader();
+  r.onerror=()=>toast('❌ கோப்பைப் படிக்க முடியவில்லை');
+  r.onload=ev=>{const img=new Image();img.onerror=()=>toast('❌ படம் சேதமடைந்துள்ளது');img.onload=()=>{const c=document.createElement('canvas');let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);cb(c.toDataURL('image/jpeg',quality));};img.src=ev.target.result;};
+  r.readAsDataURL(file);
+}
 
 document.getElementById('yrStat').textContent=YRS+'+';
 document.getElementById('yrCntF').textContent=YRS;
@@ -826,31 +842,37 @@ function applyLogo(src){
     else if(el){el.style.display='none';if(fb)fb.style.display='';}
   });
 }
-function uploadLogo(e){const f=e.target.files[0];if(!f)return;compressImage(f,400,.82,c=>{DB.setLogo(c);applyLogo(c);toast('Logo சேமிக்கப்பட்டது ✅');});}
+function uploadLogo(e){const f=e.target.files[0];if(!f)return;compressImage(f,400,.82,async c=>{if(await DB.setLogo(c)){applyLogo(c);toast('Logo சேமிக்கப்பட்டது ✅');}e.target.value='';});}
 function trigUpload(id){const el=document.getElementById(id);if(el)el.click();}
 let lImgs={l1:'',l2:''};
-function applyLImg(key,src){const img=document.getElementById(key+'img'),em=document.getElementById(key+'emoji');if(src&&img){img.src=src;img.style.display='block';if(em)em.style.display='none';}else if(img){img.style.display='none';if(em)em.style.display='inline';}}
-function uploadLImg(key,e){const f=e.target.files[0];if(!f)return;compressImage(f,700,.8,c=>{lImgs[key]=c;DB.setLeader(key,c);applyLImg(key,c);toast('புகைப்படம் சேமிக்கப்பட்டது ✅');});}
-function removeLImg(key){lImgs[key]='';DB.delLeader(key);applyLImg(key,'');toast('நீக்கப்பட்டது');}
+function applyLImg(key,src){const img=document.getElementById(key+'img'),em=document.getElementById(key+'emoji');const card=document.getElementById(key+'wrap')?.closest('.leader-card');const rem=card?.querySelector('.lrem-btn');if(src&&img){img.src=src;img.style.display='block';if(em)em.style.display='none';if(rem)rem.style.visibility='visible';}else if(img){img.style.display='none';if(em)em.style.display='inline';if(rem)rem.style.visibility='hidden';}}
+function uploadLImg(key,e){const f=e.target.files[0];if(!f)return;compressImage(f,700,.8,async c=>{if(await DB.setLeader(key,c)){lImgs[key]=c;applyLImg(key,c);toast('புகைப்படம் சேமிக்கப்பட்டது ✅');}e.target.value='';});}
+async function removeLImg(key){if(!isAdmin||!lImgs[key])return;if(!confirm('இந்தப் புகைப்படத்தை நீக்கவா?'))return;if(await DB.delLeader(key)){lImgs[key]='';applyLImg(key,'');toast('நீக்கப்பட்டது');}}
 
 /* ── NEW: hero group-photo backdrop ── */
 
 function checkPwdStrength(){const p=document.getElementById('newPwd1').value,fill=document.getElementById('pwdStrFill');let s=0;if(p.length>=8)s++;if(/[A-Z]/.test(p))s++;if(/[0-9]/.test(p))s++;if(/[^A-Za-z0-9]/.test(p))s++;const pct=s*25;fill.style.width=pct+'%';fill.style.background=pct<50?'#E53935':pct<75?'#F5A623':'#4CAF50';}
 
+let _authBusy=false;
 async function checkAdmin(){
   if(!sb){toast('❌ Supabase இணைப்பு இல்லை');return;}
+  if(_authBusy)return;
   const email=document.getElementById('adminEmailInput').value.trim();
   const password=document.getElementById('adminPwd').value;
   if(!email||!password){toast('மின்னஞ்சல் மற்றும் கடவுச்சொல் உள்ளிடவும்');return;}
-  const {data,error}=await sb.auth.signInWithPassword({email,password});
-  if(error||!data?.user){document.getElementById('pwdErr').classList.add('show');toast('❌ உள்நுழைவு தோல்வி');return;}
-  const gate=await sb.functions.invoke('central-admin',{body:{action:'ping'}});
-  if(gate.error||gate.data?.error){await sb.auth.signOut();document.getElementById('pwdErr').classList.add('show');toast('❌ இந்தக் கணக்கிற்கு நிர்வாக அனுமதி இல்லை');return;}
-  document.getElementById('pwdErr').classList.remove('show');
-  document.getElementById('adminPwd').value='';
-  document.getElementById('adminLoginForm').style.display='none';
-  document.getElementById('admLogoutW').style.display='block';
-  isAdmin=true;enableAdmin();closeOv('adminOv');toast('✅ Admin Mode இயக்கப்பட்டது');
+  const btn=document.getElementById('adminLoginBtn');
+  _authBusy=true;if(btn)btn.disabled=true;
+  try{
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    if(error||!data?.user){document.getElementById('pwdErr').textContent='❌ மின்னஞ்சல் அல்லது கடவுச்சொல் தவறு';document.getElementById('pwdErr').classList.add('show');toast('❌ உள்நுழைவு தோல்வி');return;}
+    const gate=await sb.functions.invoke('central-admin',{body:{action:'ping'}});
+    if(gate.error||gate.data?.error){await sb.auth.signOut();document.getElementById('pwdErr').textContent='❌ இந்தக் கணக்கிற்கு நிர்வாக அனுமதி இல்லை';document.getElementById('pwdErr').classList.add('show');toast('❌ இந்தக் கணக்கிற்கு நிர்வாக அனுமதி இல்லை');return;}
+    document.getElementById('pwdErr').classList.remove('show');
+    document.getElementById('adminPwd').value='';
+    document.getElementById('adminLoginForm').style.display='none';
+    document.getElementById('admLogoutW').style.display='block';
+    isAdmin=true;enableAdmin();closeOv('adminOv');toast('✅ Admin Mode இயக்கப்பட்டது');
+  }finally{_authBusy=false;if(btn)btn.disabled=false;}
 }
 async function changePwd(){
   const cur=document.getElementById('curPwd').value,p1=document.getElementById('newPwd1').value,p2=document.getElementById('newPwd2').value;
@@ -858,22 +880,40 @@ async function changePwd(){
   if(!p1||p1.length<8){toast('⚠️ குறைந்தது 8 எழுத்துகள் தேவை');return;}
   if(p1!==p2){toast('❌ பொருந்தவில்லை');return;}
   if(p1===cur){toast('⚠️ புதிய கடவுச்சொல் வேறுபட வேண்டும்');return;}
-  const {data:{user}}=await sb.auth.getUser();
-  if(!user){toast('❌ உள்நுழைவு காலாவதியானது – மீண்டும் உள்நுழையவும்');return;}
-  const chk=await sb.auth.signInWithPassword({email:user.email,password:cur});
-  if(chk.error){toast('❌ தற்போதைய கடவுச்சொல் தவறு');return;}
-  const {error}=await sb.auth.updateUser({password:p1});
-  if(error){toast('❌ '+error.message);return;}
-  document.getElementById('curPwd').value='';document.getElementById('newPwd1').value='';document.getElementById('newPwd2').value='';document.getElementById('pwdStrFill').style.width='0%';toast('✅ Supabase கடவுச்சொல் மாற்றப்பட்டது!');
+  const btn=document.getElementById('changePwdBtn');
+  _authBusy=true;if(btn)btn.disabled=true;
+  try{
+    const {data:{user}}=await sb.auth.getUser();
+    if(!user){toast('❌ உள்நுழைவு காலாவதியானது – மீண்டும் உள்நுழையவும்');return;}
+    const chk=await sb.auth.signInWithPassword({email:user.email,password:cur});
+    if(chk.error){toast('❌ தற்போதைய கடவுச்சொல் தவறு');return;}
+    const {error}=await sb.auth.updateUser({password:p1});
+    if(error){toast('❌ '+error.message);return;}
+    document.getElementById('curPwd').value='';document.getElementById('newPwd1').value='';document.getElementById('newPwd2').value='';document.getElementById('pwdStrFill').style.width='0%';toast('✅ Supabase கடவுச்சொல் மாற்றப்பட்டது!');
+  }finally{_authBusy=false;if(btn)btn.disabled=false;}
 }
 async function logoutAdmin(){if(sb)await sb.auth.signOut();isAdmin=false;document.getElementById('admLogoutW').style.display='none';document.getElementById('adminLoginForm').style.display='block';closeOv('adminOv');disableAdmin();toast('Admin Mode முடிக்கப்பட்டது');}
-function enableAdmin(){document.body.classList.add('admin-mode');document.getElementById('btAdmBar').classList.add('show');document.getElementById('mediaAdmBtns').style.display='flex';document.getElementById('memAdmBtn').style.display='block';document.getElementById('dadm').classList.add('show');document.getElementById('memAdmBtns').classList.add('show');buildMediaStrip();buildMem();}
+function enableAdmin(){document.body.classList.add('admin-mode');document.getElementById('btAdmBar').classList.add('show');document.getElementById('mediaAdmBtns').style.display='flex';document.getElementById('memAdmBtn').style.display='block';document.getElementById('dadm').classList.toggle('show',visibleDonors.length>0);document.getElementById('memAdmBtns').classList.toggle('show',members.length>0);buildMediaStrip();buildMem();}
 function disableAdmin(){document.body.classList.remove('admin-mode');document.getElementById('btAdmBar').classList.remove('show');document.getElementById('mediaAdmBtns').style.display='none';document.getElementById('memAdmBtn').style.display='none';document.getElementById('dadm').classList.remove('show');document.getElementById('memAdmBtns').classList.remove('show');buildMediaStrip();buildMem();}
 
-let qIdx=0;
+let qIdx=0,qAnimTimer=null,qAutoTimer=null;
 const qdots=document.querySelectorAll('.qdot');
-function goQ(i){document.getElementById('qs'+qIdx).classList.remove('on');document.getElementById('qs'+qIdx).classList.add('out');qdots[qIdx].classList.remove('on');qIdx=i;setTimeout(()=>{document.querySelectorAll('.q-slide').forEach(s=>s.classList.remove('out','on'));document.getElementById('qs'+qIdx).classList.add('on');qdots[qIdx].classList.add('on');},350);}
-setInterval(()=>goQ((qIdx+1)%2),6000);
+function startQAuto(){if(qAutoTimer)clearInterval(qAutoTimer);qAutoTimer=setInterval(()=>goQ((qIdx+1)%2,true),6000);}
+function goQ(i,auto=false){
+  if(i===qIdx&&!auto)return;
+  if(qAnimTimer)clearTimeout(qAnimTimer);
+  document.getElementById('qs'+qIdx).classList.remove('on');
+  document.getElementById('qs'+qIdx).classList.add('out');
+  qdots[qIdx].classList.remove('on');
+  qIdx=i;
+  qAnimTimer=setTimeout(()=>{
+    document.querySelectorAll('.q-slide').forEach(s=>s.classList.remove('out','on'));
+    document.getElementById('qs'+qIdx).classList.add('on');
+    qdots[qIdx].classList.add('on');
+  },350);
+  if(!auto)startQAuto();
+}
+startQAuto();
 
 const defaultDonors=[
   {n:'ரமேஷ்',bg:'AB+',ph:'99658 30770',role:'உறுப்பினர்',photo:''},{n:'கோபிரத்தினவாசன்',bg:'A1-',ph:'70194 10670',role:'உறுப்பினர்',photo:''},{n:'தங்கவேல்',bg:'A1+',ph:'97157 49306',role:'உறுப்பினர்',photo:''},{n:'திவாகர்',bg:'A1+',ph:'80567 89789',role:'உறுப்பினர்',photo:''},{n:'திருவேங்கடம்',bg:'A+',ph:'97155 08407',role:'உறுப்பினர்',photo:''},{n:'கோகுல்ராம்',bg:'A+',ph:'96299 97787',role:'உறுப்பினர்',photo:''},{n:'மணிகண்டன்',bg:'A+',ph:'98408 09751',role:'உறுப்பினர்',photo:''},{n:'மணிமன்னன்',bg:'A+',ph:'79046 66868',role:'உறுப்பினர்',photo:''},{n:'சூர்யா',bg:'A+',ph:'63820 14103',role:'உறுப்பினர்',photo:''},{n:'பொன்மணி',bg:'A1+',ph:'95007 19407',role:'உறுப்பினர்',photo:''},{n:'சிவசக்தி',bg:'B+',ph:'99524 96728',role:'உறுப்பினர்',photo:''},{n:'கார்த்தி',bg:'B+',ph:'95664 21231',role:'உறுப்பினர்',photo:''},{n:'சசிக்குமார்',bg:'B+',ph:'94887 77711',role:'செயலாளர்',photo:''},{n:'மூர்த்தி',bg:'B+',ph:'73733 22947',role:'உறுப்பினர்',photo:''},{n:'ரஞ்சித்',bg:'B+',ph:'90039 55170',role:'உறுப்பினர்',photo:''},{n:'பிரவின் குமார்',bg:'B+',ph:'99420 24159',role:'உறுப்பினர்',photo:''},{n:'நாகேந்திரன்',bg:'B+',ph:'96005 81858',role:'உறுப்பினர்',photo:''},{n:'தனபால்',bg:'B+',ph:'99000 38306',role:'உறுப்பினர்',photo:''},{n:'கலைச்செல்வன்',bg:'B+',ph:'93445 38530',role:'உறுப்பினர்',photo:''},{n:'மணிகண்டன்',bg:'B+',ph:'63748 72621',role:'உறுப்பினர்',photo:''},{n:'கதிர்வேல்',bg:'B+',ph:'97156 75764',role:'தலைவர்',photo:''},{n:'ஆதிஷ்வரன்',bg:'B+',ph:'72007 69506',role:'உறுப்பினர்',photo:''},{n:'கோகுல்',bg:'B+',ph:'74505 27108',role:'உறுப்பினர்',photo:''},{n:'கார்த்திக்',bg:'O+',ph:'80124 37542',role:'உறுப்பினர்',photo:''},{n:'ஜோதிமணிகண்டன்',bg:'O+',ph:'63816 87299',role:'உறுப்பினர்',photo:''},{n:'கௌதமன்',bg:'O+',ph:'80126 81023',role:'உறுப்பினர்',photo:''},{n:'தினேஷ்குமார்',bg:'O+',ph:'63806 61637',role:'உறுப்பினர்',photo:''},{n:'கார்த்திக்',bg:'O+',ph:'99652 09909',role:'உறுப்பினர்',photo:''},{n:'அஜித்குமார்',bg:'O+',ph:'93428 18149',role:'உறுப்பினர்',photo:''},{n:'கார்த்திகேயன்',bg:'O+',ph:'73394 69956',role:'உறுப்பினர்',photo:''},{n:'ஹரிதாசன்',bg:'O+',ph:'93641 14942',role:'உறுப்பினர்',photo:''},{n:'வேல்முருகன்',bg:'O+',ph:'98652 72793',role:'உறுப்பினர்',photo:''},{n:'ரதீஸ்',bg:'O+',ph:'73588 14755',role:'உறுப்பினர்',photo:''},{n:'சங்கர்',bg:'O+',ph:'96884 03393',role:'உறுப்பினர்',photo:''},{n:'முத்துக்குமார்',bg:'O+',ph:'90956 67666',role:'உறுப்பினர்',photo:''},{n:'ரமேஷ்',bg:'O+',ph:'99529 75522',role:'உறுப்பினர்',photo:''},{n:'பால்பீட்டர்',bg:'O+',ph:'97892 41556',role:'உறுப்பினர்',photo:''},{n:'கார்த்திக்',bg:'O+',ph:'95249 30191',role:'உறுப்பினர்',photo:''},{n:'ஹரிகிருஷ்ணன்',bg:'O+',ph:'99444 01901',role:'உறுப்பினர்',photo:''},{n:'யுவராஜ்',bg:'O-',ph:'94886 91403',role:'உறுப்பினர்',photo:''},
@@ -895,27 +935,40 @@ const defReels=[
 
 /* ── DONORS ── */
 let donors=[],dsIdx=0,dsTimer=null,editDonorIdx=null,pendDonorPhoto='',donorFilter='ALL',visibleDonors=[];
-function bgCol(g){if(g.startsWith('O'))return'#C62828';if(g.startsWith('A'))return'#E65100';if(g.startsWith('B'))return'#00695C';return'#6A1B9A';}
-function bgEmo(g){if(g.startsWith('O'))return'🔴';if(g.startsWith('A'))return'🟠';if(g.startsWith('B'))return'🟢';return'🟣';}
+function bgCol(g){const s=String(g||'');if(s.startsWith('O'))return'#C62828';if(s.startsWith('A'))return'#E65100';if(s.startsWith('B'))return'#00695C';return'#6A1B9A';}
+function bgEmo(g){const s=String(g||'');if(s.startsWith('O'))return'🔴';if(s.startsWith('A'))return'🟠';if(s.startsWith('B'))return'🟢';return'🟣';}
 function buildDFilter(){
   const row=document.getElementById('dFilterRow');if(!row)return;
-  const groups=['ALL',...new Set(donors.map(d=>d.bg))];
-  row.innerHTML=groups.map(g=>`<button class="dfchip${donorFilter===g?' on':''}" onclick="setDonorFilter('${g}')">${g==='ALL'?'அனைத்தும்':g}</button>`).join('');
+  const groups=['ALL',...new Set(donors.map(d=>d.bg).filter(Boolean))];
+  if(!groups.includes(donorFilter))donorFilter='ALL';
+  row.innerHTML=groups.map(g=>`<button class="dfchip${donorFilter===g?' on':''}" data-bg="${esc(g)}">${g==='ALL'?'அனைத்தும்':esc(g)}</button>`).join('');
+  row.querySelectorAll('.dfchip').forEach(b=>b.onclick=()=>setDonorFilter(b.dataset.bg));
 }
-function setDonorFilter(g){donorFilter=g;buildDFilter();buildDonors();}
+function setDonorFilter(g){donorFilter=g;buildDonors();}
 function applyDonorFilter(){
   visibleDonors=donors.map((d,i)=>i).filter(i=>donorFilter==='ALL'||donors[i].bg===donorFilter);
-  if(!visibleDonors.length)visibleDonors=donors.map((d,i)=>i);
+  if(!visibleDonors.length&&donors.length){donorFilter='ALL';visibleDonors=donors.map((d,i)=>i);}
 }
-function buildDonors(){buildDFilter();applyDonorFilter();const slides=document.getElementById('dsSlides'),dots=document.getElementById('dsdots');slides.innerHTML=visibleDonors.map((realI,i)=>{const d=donors[realI];return `<div class="dsl${i===0?' active':''}" id="dss${i}"><div class="dav" style="border-color:${bgCol(d.bg)}">${d.photo?`<img src="${d.photo}" alt="${d.n}" loading="lazy" decoding="async">`:`<span>${bgEmo(d.bg)}</span>`}</div><div class="dgrp" style="background:${bgCol(d.bg)}">${d.bg}</div><div class="dname">${d.n}</div><div class="drole">${d.role||'உறுப்பினர்'}</div><div class="dph"><a href="tel:${d.ph.replace(/ /g,'')}">📱 ${d.ph}</a></div><div class="dctr">${i+1} / ${visibleDonors.length}</div></div>`;}).join('');dots.innerHTML=visibleDonors.map((_,i)=>`<div class="dsdot${i===0?' on':''}" onclick="goDS(${i})"></div>`).join('');dsIdx=0;startDSAuto();}
-function goDS(n){document.querySelectorAll('.dsl').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.dsdot').forEach((d,i)=>d.classList.toggle('on',i===n));dsIdx=n;const el=document.getElementById('dss'+n);if(el)el.classList.add('active');}
-function chDS(d){if(!visibleDonors.length)return;goDS((dsIdx+d+visibleDonors.length)%visibleDonors.length);}
-function startDSAuto(){if(dsTimer)clearInterval(dsTimer);dsTimer=setInterval(()=>chDS(1),3500);}
-function openAddDonor(){editDonorIdx=null;pendDonorPhoto='';document.getElementById('de-idx').value='';document.getElementById('de-n').value='';document.getElementById('de-bg').value='O+';document.getElementById('de-ph').value='';document.getElementById('de-role').value='உறுப்பினர்';document.getElementById('dAvP').style.display='none';document.getElementById('dAvE').style.display='inline';document.getElementById('dOvT').textContent='இரத்த வீரர் சேர்';openOv('donorOv');}
-function editCurDonor(){if(!isAdmin)return;const realI=visibleDonors[dsIdx];const d=donors[realI];editDonorIdx=realI;pendDonorPhoto=d.photo||'';document.getElementById('de-idx').value=realI;document.getElementById('de-n').value=d.n;document.getElementById('de-bg').value=d.bg;document.getElementById('de-ph').value=d.ph;document.getElementById('de-role').value=d.role||'உறுப்பினர்';if(d.photo){document.getElementById('dAvP').src=d.photo;document.getElementById('dAvP').style.display='block';document.getElementById('dAvE').style.display='none';}else{document.getElementById('dAvP').style.display='none';document.getElementById('dAvE').style.display='inline';}document.getElementById('dOvT').textContent='விவரம் திருத்து';openOv('donorOv');}
-function delCurDonor(){if(!isAdmin)return;const realI=visibleDonors[dsIdx];if(confirm('இவரை நீக்கவா?')){donors.splice(realI,1);DB.setDonors(donors);buildDonors();toast('நீக்கப்பட்டது');}}
+function buildDonors(){
+  buildDFilter();applyDonorFilter();
+  const slides=document.getElementById('dsSlides'),dots=document.getElementById('dsdots');
+  document.getElementById('dadm').classList.toggle('show',isAdmin&&visibleDonors.length>0);
+  if(!visibleDonors.length){
+    slides.innerHTML=`<div class="dsl active" style="padding:1.5rem"><div style="font-size:2.4rem;margin-bottom:.5rem">🩸</div><div style="font-size:.82rem;color:var(--text2)">இரத்த தானர்கள் இல்லை</div></div>`;
+    dots.innerHTML='';dsIdx=0;if(dsTimer)clearInterval(dsTimer);return;
+  }
+  slides.innerHTML=visibleDonors.map((realI,i)=>{const d=donors[realI];const tel=String(d.ph||'').replace(/[^0-9+]/g,'');return `<div class="dsl${i===0?' active':''}" id="dss${i}"><div class="dav" style="border-color:${bgCol(d.bg)}">${d.photo?`<img src="${esc(d.photo)}" alt="${esc(d.n)}" loading="lazy" decoding="async">`:`<span>${bgEmo(d.bg)}</span>`}</div><div class="dgrp" style="background:${bgCol(d.bg)}">${esc(d.bg)}</div><div class="dname">${esc(d.n)}</div><div class="drole">${esc(d.role||'உறுப்பினர்')}</div><div class="dph">${tel?`<a href="tel:${esc(tel)}">📱 ${esc(d.ph)}</a>`:`<span style="font-size:.75rem;color:var(--muted)">எண் இல்லை</span>`}</div><div class="dctr">${i+1} / ${visibleDonors.length}</div></div>`;}).join('');
+  dots.innerHTML=visibleDonors.map((_,i)=>`<div class="dsdot${i===0?' on':''}" onclick="goDS(${i},true)"></div>`).join('');
+  dsIdx=0;startDSAuto();
+}
+function goDS(n,manual=false){if(!visibleDonors.length)return;document.querySelectorAll('.dsl').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.dsdot').forEach((d,i)=>d.classList.toggle('on',i===n));dsIdx=n;const el=document.getElementById('dss'+n);if(el)el.classList.add('active');if(manual)startDSAuto();}
+function chDS(d,manual=true){if(!visibleDonors.length)return;goDS((dsIdx+d+visibleDonors.length)%visibleDonors.length,manual);}
+function startDSAuto(){if(dsTimer)clearInterval(dsTimer);if(visibleDonors.length>1)dsTimer=setInterval(()=>chDS(1,false),3500);}
+function openAddDonor(){editDonorIdx=null;pendDonorPhoto='';document.getElementById('de-idx').value='';document.getElementById('de-n').value='';document.getElementById('de-bg').value='O+';document.getElementById('de-ph').value='';document.getElementById('de-role').value='உறுப்பினர்';document.getElementById('donorFileInput').value='';document.getElementById('dAvP').style.display='none';document.getElementById('dAvE').style.display='inline';document.getElementById('dOvT').textContent='இரத்த வீரர் சேர்';openOv('donorOv');}
+function editCurDonor(){if(!isAdmin||!visibleDonors.length)return;const realI=visibleDonors[dsIdx];const d=donors[realI];if(!d)return;editDonorIdx=realI;pendDonorPhoto=d.photo||'';document.getElementById('de-idx').value=realI;document.getElementById('de-n').value=d.n;document.getElementById('de-bg').value=d.bg;document.getElementById('de-ph').value=d.ph;document.getElementById('de-role').value=d.role||'உறுப்பினர்';document.getElementById('donorFileInput').value='';if(d.photo){document.getElementById('dAvP').src=d.photo;document.getElementById('dAvP').style.display='block';document.getElementById('dAvE').style.display='none';}else{document.getElementById('dAvP').style.display='none';document.getElementById('dAvE').style.display='inline';}document.getElementById('dOvT').textContent='விவரம் திருத்து';openOv('donorOv');}
+async function delCurDonor(){if(!isAdmin||!visibleDonors.length)return;const realI=visibleDonors[dsIdx];if(realI===undefined)return;if(confirm('இவரை நீக்கவா?')){const prev=[...donors];donors.splice(realI,1);if(await DB.setDonors(donors)){buildDonors();toast('நீக்கப்பட்டது');}else{donors=prev;}}}
 function prevAvDonor(e){const f=e.target.files[0];if(!f)return;compressImage(f,400,.75,c=>{pendDonorPhoto=c;document.getElementById('dAvP').src=c;document.getElementById('dAvP').style.display='block';document.getElementById('dAvE').style.display='none';});}
-function saveDonor(){const idx=document.getElementById('de-idx').value;const obj={n:document.getElementById('de-n').value.trim()||'பெயரில்லா',bg:document.getElementById('de-bg').value,ph:document.getElementById('de-ph').value.trim(),role:document.getElementById('de-role').value.trim()||'உறுப்பினர்',photo:pendDonorPhoto||''};if(idx===''||editDonorIdx===null)donors.push(obj);else donors[parseInt(idx)]=obj;DB.setDonors(donors);buildDonors();closeOv('donorOv');toast('சேமிக்கப்பட்டது! ✅');}
+async function saveDonor(){if(!isAdmin)return;const name=document.getElementById('de-n').value.trim();if(!name){toast('⚠️ பெயர் உள்ளிடவும்');return;}const idx=document.getElementById('de-idx').value;const obj={n:name,bg:document.getElementById('de-bg').value,ph:document.getElementById('de-ph').value.trim(),role:document.getElementById('de-role').value.trim()||'உறுப்பினர்',photo:pendDonorPhoto||''};const prev=[...donors];if(idx===''||editDonorIdx===null)donors.push(obj);else donors[parseInt(idx)]=obj;if(await DB.setDonors(donors)){buildDonors();closeOv('donorOv');toast('சேமிக்கப்பட்டது! ✅');}else{donors=prev;}}
 
 /* ── MEDIA (gallery photos + reel videos combined into one big slideshow) ── */
 let gallery=[],reels=[],pendGal=null,pendReelFile=null;
@@ -933,13 +986,13 @@ function mediaCellHTML(m,isCenter){
   if(m.src){
     if(m.type==='vid'){
       media = isCenter
-        ? `<video src="${m.src}" muted loop autoplay playsinline id="msCenterVid"></video><div class="ms-vtag">▶ VIDEO</div><button class="ms-mute" onclick="event.stopPropagation();toggleMsMute()" aria-label="ஒலி இயக்கு/நிறுத்து">🔇</button>`
-        : `<video src="${m.src}" muted preload="metadata"></video><div class="ms-vtag">▶</div>`;
+        ? `<video src="${esc(m.src)}" muted loop autoplay playsinline id="msCenterVid"></video><div class="ms-vtag">▶ VIDEO</div><button class="ms-mute" onclick="event.stopPropagation();toggleMsMute()" aria-label="ஒலி இயக்கு/நிறுத்து">🔇</button>`
+        : `<video src="${esc(m.src)}" muted preload="metadata"></video><div class="ms-vtag">▶</div>`;
     }else{
-      media=`<img src="${m.src}" alt="${m.t||''}" loading="lazy">`;
+      media=`<img src="${esc(m.src)}" alt="${esc(m.t||'')}" loading="lazy">`;
     }
   }else{
-    media=`<div class="ms-fallback" style="background:${m.bg||'linear-gradient(135deg,#111,#1a1a1a)'};"><div class="msf-e">${m.e||'📷'}</div></div>`;
+    media=`<div class="ms-fallback" style="background:${m.bg||'linear-gradient(135deg,#111,#1a1a1a)'};"><div class="msf-e">${esc(m.e||'📷')}</div></div>`;
   }
   return media;
 }
@@ -949,7 +1002,7 @@ function buildMediaStrip(){
   const all=getAllMedia();
   const useDefaults=all.length===0;
   msList=useDefaults?[...defGal,...defReels].map((m,i)=>({...m,source:'default',idx:i})):all;
-  document.getElementById('msDots').innerHTML=msList.length>1?msList.map((_,i)=>`<div class="ms-dot${i===0?' on':''}" onclick="goMediaSlide(${i})" role="button" aria-label="புகைப்படம் ${i+1}"></div>`).join(''):'';
+  document.getElementById('msDots').innerHTML=msList.length>1?msList.map((_,i)=>`<div class="ms-dot${i===0?' on':''}" onclick="goMediaSlide(${i},true)" role="button" aria-label="புகைப்படம் ${i+1}"></div>`).join(''):'';
   msIdx=0;
   renderMsFrame();
   startMsAuto();
@@ -960,7 +1013,7 @@ function renderMsFrame(){
   if(!center||!n)return;
   const c=msList[msIdx];
   const delBtn=(c.source&&c.source!=='default')?`<button class="ms-del" onclick="event.stopPropagation();deleteMediaItem('${c.source}',${c.idx})">🗑</button>`:'';
-  center.innerHTML=mediaCellHTML(c,true)+`<div class="ms-caption"><div class="ms-cap-t">${c.t||''}</div><div class="ms-cap-d">📅 ${c.d||''}</div></div>${delBtn}`;
+  center.innerHTML=mediaCellHTML(c,true)+`<div class="ms-caption"><div class="ms-cap-t">${esc(c.t||'')}</div><div class="ms-cap-d">📅 ${esc(c.d||'')}</div></div>${delBtn}`;
   if(n>1){
     const prevI=(msIdx-1+n)%n,nextI=(msIdx+1)%n;
     peekPrev.innerHTML=mediaCellHTML(msList[prevI],false);
@@ -979,18 +1032,19 @@ function toggleMsMute(){
   const btn=document.querySelector('.ms-mute');
   if(btn)btn.textContent=v.muted?'🔇':'🔊';
 }
-function goMediaSlide(i){
+function goMediaSlide(i,manual=false){
   if(!msList.length)return;
   msIdx=i;
   renderMsFrame();
+  if(manual)startMsAuto();
 }
-function chMediaSlide(dir){
+function chMediaSlide(dir,manual=true){
   if(!msList.length)return;
-  goMediaSlide((msIdx+dir+msList.length)%msList.length);
+  goMediaSlide((msIdx+dir+msList.length)%msList.length,manual);
 }
 function startMsAuto(){
   if(msTimer)clearInterval(msTimer);
-  if(msList.length>1)msTimer=setInterval(()=>chMediaSlide(1),4500);
+  if(msList.length>1)msTimer=setInterval(()=>chMediaSlide(1,false),4500);
 }
 (function(){
   const wrap=document.getElementById('mediaSliderWrap');
@@ -1018,6 +1072,9 @@ function openGalleryFull(){
 }
 function showLB(){
   if(!lbList.length)return;
+  if(msTimer)clearInterval(msTimer);
+  const bgVid=document.getElementById('msCenterVid');
+  if(bgVid){bgVid.muted=true;bgVid.pause();}
   document.getElementById('lb').classList.add('open');
   document.body.style.overflow='hidden';
   renderLB();
@@ -1026,12 +1083,13 @@ function renderLB(){
   const item=lbList[lbIndex];
   if(!item)return;
   const box=document.getElementById('lbC');
+  const prevVid=box.querySelector('video');if(prevVid)prevVid.pause();
   if(item.src){
     box.innerHTML = (item.type==='vid')
-      ? `<video src="${item.src}" controls autoplay></video>`
-      : `<img src="${item.src}" alt="${item.t||''}">`;
+      ? `<video src="${esc(item.src)}" controls autoplay></video>`
+      : `<img src="${esc(item.src)}" alt="${esc(item.t||'')}">`;
   }else{
-    box.innerHTML=`<div style="min-width:260px;min-height:220px;background:${item.bg||'#111'};border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:2rem;"><div style="font-size:5rem">${item.e||'📷'}</div><div style="color:#fff;font-size:1rem;font-weight:700;text-align:center;">${item.t}</div></div>`;
+    box.innerHTML=`<div style="min-width:260px;min-height:220px;background:${item.bg||'#111'};border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;padding:2rem;"><div style="font-size:5rem">${esc(item.e||'📷')}</div><div style="color:#fff;font-size:1rem;font-weight:700;text-align:center;">${esc(item.t)}</div></div>`;
   }
   document.getElementById('lbcap').textContent=(item.t||'')+(item.d?' — '+item.d:'');
   const multi=lbList.length>1;
@@ -1044,7 +1102,15 @@ function navLB(dir){
   lbIndex=(lbIndex+dir+lbList.length)%lbList.length;
   renderLB();
 }
-function closeLB(){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
+function closeLB(){
+  const box=document.getElementById('lbC');
+  const v=box.querySelector('video');if(v){v.pause();v.removeAttribute('src');v.load();}
+  box.innerHTML='';
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow='';
+  const bgVid=document.getElementById('msCenterVid');if(bgVid)bgVid.play().catch(()=>{});
+  startMsAuto();
+}
 document.addEventListener('keydown',e=>{
   if(!document.getElementById('lb').classList.contains('open'))return;
   if(e.key==='Escape')closeLB();
@@ -1054,15 +1120,23 @@ document.addEventListener('keydown',e=>{
 let _lbtx=0;
 document.getElementById('lbC').addEventListener('touchstart',e=>{_lbtx=e.touches[0].clientX;},{passive:true});
 document.getElementById('lbC').addEventListener('touchend',e=>{const dx=_lbtx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)navLB(dx>0?1:-1);},{passive:true});
-function deleteMediaItem(source,idx){
+async function deleteMediaItem(source,idx){
   if(!isAdmin)return;
   if(!confirm('நீக்கவா?'))return;
   if(source==='gal'){
+    const removed=gallery[idx];
+    const prev=[...gallery];
     gallery.splice(idx,1);
-    DB.setGallery(gallery.map(g=>({...g,src:g.srcKey?'__load__':g.src})));
+    const ok=await DB.setGallery(gallery.map(g=>({...g,src:g.srcKey?'__load__':g.src})));
+    if(!ok){gallery=prev;return;}
+    if(removed?.srcKey)await DB.delGalImg(removed.srcKey);
   }else{
+    const removed=reels[idx];
+    const prev=[...reels];
     reels.splice(idx,1);
-    DB.setReels(reels.map(r=>({...r,src:r.srcKey?'__load__':r.src})));
+    const ok=await DB.setReels(reels.map(r=>({...r,src:r.srcKey?'__load__':r.src})));
+    if(!ok){reels=prev;return;}
+    if(removed?.srcKey)await DB.delReelImg(removed.srcKey);
   }
   buildMediaStrip();
   toast('நீக்கப்பட்டது');
@@ -1071,67 +1145,154 @@ function deleteMediaItem(source,idx){
 function buildGal(){buildMediaStrip();}
 function buildReels(){buildMediaStrip();}
 
-function prevGal(e){const f=e.target.files[0];if(!f)return;const box=document.getElementById('galPrevBox');if(f.type.startsWith('video')){const r=new FileReader();r.onload=ev=>{pendGal={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;border-radius:6px;" controls></video>`;};r.readAsDataURL(f);}else{compressImage(f,900,.72,c=>{pendGal={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;border-radius:6px;object-fit:contain;">`;});}}
-function addGalItem(){const t=document.getElementById('gl-t').value.trim()||'நிகழ்வு';const d=document.getElementById('gl-d').value.trim()||CY+'';const idx='img_'+Date.now();const newItem={type:pendGal?.type||'img',srcKey:pendGal?.src?idx:'',src:pendGal?.src||'',t,d,e:'📷',c:'#aaa',bg:'linear-gradient(135deg,#111,#1a1a1a)'};if(pendGal?.src&&pendGal.type!=='vid')DB.setGalImg(idx,pendGal.src);gallery.unshift(newItem);const meta=gallery.map(g=>({...g,src:g.srcKey?'__load__':g.src}));DB.setGallery(meta);buildMediaStrip();closeOv('galOv');pendGal=null;document.getElementById('galPrevBox').innerHTML='📷';document.getElementById('gl-t').value='';document.getElementById('gl-d').value='';toast('நிகழ்வு சேர்க்கப்பட்டது! ✅');}
+function prevGal(e){
+  const f=e.target.files[0];if(!f)return;
+  const box=document.getElementById('galPrevBox');
+  if(f.type.startsWith('video')){
+    if(f.size>5*1024*1024){toast('⚠️ வீடியோ அளவு 5 MB-க்குள் இருக்க வேண்டும்');e.target.value='';return;}
+    const r=new FileReader();r.onerror=()=>toast('❌ கோப்பைப் படிக்க முடியவில்லை');
+    r.onload=ev=>{pendGal={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;border-radius:6px;" controls></video>`;};
+    r.readAsDataURL(f);
+  }else{
+    compressImage(f,900,.72,c=>{pendGal={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;border-radius:6px;object-fit:contain;">`;});
+  }
+}
+async function addGalItem(){
+  if(!isAdmin)return;
+  if(!pendGal?.src){toast('⚠️ முதலில் புகைப்படம் அல்லது வீடியோவைத் தேர்ந்தெடுக்கவும்');return;}
+  const t=document.getElementById('gl-t').value.trim()||'நிகழ்வு';
+  const d=document.getElementById('gl-d').value.trim()||CY+'';
+  const idx='img_'+Date.now();
+  const newItem={type:pendGal.type||'img',srcKey:idx,src:pendGal.src,t,d,e:'📷',c:'#aaa',bg:'linear-gradient(135deg,#111,#1a1a1a)'};
+  const okMedia=await DB.setGalImg(idx,pendGal.src);
+  if(!okMedia)return;
+  const prev=[...gallery];
+  gallery.unshift(newItem);
+  const meta=gallery.map(g=>({...g,src:g.srcKey?'__load__':g.src}));
+  if(!(await DB.setGallery(meta))){gallery=prev;await DB.delGalImg(idx);return;}
+  buildMediaStrip();closeOv('galOv');toast('நிகழ்வு சேர்க்கப்பட்டது! ✅');
+}
 function addGal(){addGalItem();}
 
-function prevReel(e){const f=e.target.files[0];if(!f)return;const box=document.getElementById('reelPrevBox');if(f.type.startsWith('video')){const r=new FileReader();r.onload=ev=>{pendReelFile={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;" controls></video>`;};r.readAsDataURL(f);}else{compressImage(f,900,.72,c=>{pendReelFile={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;object-fit:contain;">`;});}}
-function addReelItem(){const t=document.getElementById('rl-t').value.trim()||'நிகழ்வு';const d=document.getElementById('rl-d').value.trim()||CY+'';const idx='reel_'+Date.now();const newReel={type:pendReelFile?.type||'ph',srcKey:pendReelFile?.src?idx:'',src:pendReelFile?.src||'',e:'📷',t,d,dur:4,bg:'#111'};if(pendReelFile?.src&&pendReelFile.type!=='vid')DB.setReelImg(idx,pendReelFile.src);reels.unshift(newReel);DB.setReels(reels.map(r=>({...r,src:r.srcKey?'__load__':r.src})));buildMediaStrip();closeOv('reelOv');pendReelFile=null;document.getElementById('reelPrevBox').innerHTML='📽';document.getElementById('rl-t').value='';document.getElementById('rl-d').value='';toast('ரீல் சேர்க்கப்பட்டது! ✅');}
+function prevReel(e){
+  const f=e.target.files[0];if(!f)return;
+  const box=document.getElementById('reelPrevBox');
+  if(f.type.startsWith('video')){
+    if(f.size>5*1024*1024){toast('⚠️ வீடியோ அளவு 5 MB-க்குள் இருக்க வேண்டும்');e.target.value='';return;}
+    const r=new FileReader();r.onerror=()=>toast('❌ கோப்பைப் படிக்க முடியவில்லை');
+    r.onload=ev=>{pendReelFile={src:ev.target.result,type:'vid'};box.innerHTML=`<video src="${ev.target.result}" style="max-height:100%;max-width:100%;" controls></video>`;};
+    r.readAsDataURL(f);
+  }else{
+    compressImage(f,900,.72,c=>{pendReelFile={src:c,type:'img'};box.innerHTML=`<img src="${c}" style="max-height:100%;max-width:100%;object-fit:contain;">`;});
+  }
+}
+async function addReelItem(){
+  if(!isAdmin)return;
+  if(!pendReelFile?.src){toast('⚠️ முதலில் வீடியோ அல்லது புகைப்படத்தைத் தேர்ந்தெடுக்கவும்');return;}
+  const t=document.getElementById('rl-t').value.trim()||'நிகழ்வு';
+  const d=document.getElementById('rl-d').value.trim()||CY+'';
+  const idx='reel_'+Date.now();
+  const newReel={type:pendReelFile.type||'ph',srcKey:idx,src:pendReelFile.src,e:'📷',t,d,dur:4,bg:'#111'};
+  const okMedia=await DB.setReelImg(idx,pendReelFile.src);
+  if(!okMedia)return;
+  const prev=[...reels];
+  reels.unshift(newReel);
+  if(!(await DB.setReels(reels.map(r=>({...r,src:r.srcKey?'__load__':r.src}))))){reels=prev;await DB.delReelImg(idx);return;}
+  buildMediaStrip();closeOv('reelOv');toast('ரீல் சேர்க்கப்பட்டது! ✅');
+}
 function addReel(){addReelItem();}
 
 /* ── MEMBERS ── */
 let members=[],memIdx=0,editMemIdx=null,pendMemPhoto='',memAutoTimer=null;
 function memBgCol(bg){if(!bg)return'#FF5500';if(bg.startsWith('O'))return'#C62828';if(bg.startsWith('A'))return'#E65100';if(bg.startsWith('B'))return'#00695C';return'#6A1B9A';}
 function updateMemArc(idx,total){const arc=document.getElementById('memArc');if(!arc||total===0)return;arc.style.strokeDashoffset=94.25-(94.25*(idx+1)/total);}
-function buildMem(){const slides=document.getElementById('memSlides'),dots=document.getElementById('memDots'),hint=document.getElementById('memSwipeHint');if(!members||members.length===0){slides.innerHTML=`<div class="mem-slide active" style="padding:2.5rem 1.5rem;"><div style="font-size:3rem;margin-bottom:.8rem;">👥</div><div style="font-size:.82rem;color:var(--text2);">உறுப்பினர்கள் இல்லை</div></div>`;dots.innerHTML='';if(hint)hint.style.display='none';document.getElementById('memStat').textContent='40+';return;}
+function buildMem(){
+  const slides=document.getElementById('memSlides'),dots=document.getElementById('memDots'),hint=document.getElementById('memSwipeHint');
+  document.getElementById('memAdmBtns').classList.toggle('show',isAdmin&&members&&members.length>0);
+  if(!members||members.length===0){slides.innerHTML=`<div class="mem-slide active" style="padding:2.5rem 1.5rem;"><div style="font-size:3rem;margin-bottom:.8rem;">👥</div><div style="font-size:.82rem;color:var(--text2);">உறுப்பினர்கள் இல்லை</div></div>`;dots.innerHTML='';if(hint)hint.style.display='none';document.getElementById('memStat').textContent='40+';if(memAutoTimer)clearInterval(memAutoTimer);return;}
   if(hint)hint.style.display=members.length>1?'block':'none';
-  slides.innerHTML=members.map((m,i)=>{const col=memBgCol(m.bg);const photo=m.photo?`<img src="${m.photo}" alt="${m.n}" loading="lazy" decoding="async">`:`<span style="font-size:4rem;">👤</span>`;return`<div class="mem-slide${i===0?' active':''}" id="ms${i}"><div class="mem-bg-badge" style="background:${col}">${m.bg||''}</div><div class="mem-photo-wrap" style="border-color:${col}40;box-shadow:0 8px 32px ${col}25,0 0 0 6px ${col}10;">${photo}</div><div class="mem-name">${m.n}</div><div class="mem-role">${m.r||'உறுப்பினர்'}</div><div class="mem-counter">${i+1} / ${members.length}</div></div>`;}).join('');
-  const maxDots=Math.min(members.length,20);dots.innerHTML=members.slice(0,maxDots).map((_,i)=>`<div class="mem-dot${i===0?' on':''}" onclick="goMem(${i})"></div>`).join('')+(members.length>maxDots?`<span style="font-size:.6rem;color:var(--muted);font-family:'DM Mono',monospace;">+${members.length-maxDots}</span>`:'');
-  memIdx=0;updateMemArc(0,members.length);document.getElementById('memStat').textContent=members.length+'+';startMemAuto();}
-function goMem(n){if(!members.length)return;document.querySelectorAll('.mem-slide').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.mem-dot').forEach((d,i)=>d.classList.toggle('on',i===n));memIdx=n;const el=document.getElementById('ms'+n);if(el)el.classList.add('active');updateMemArc(n,members.length);}
-function chMem(dir){if(!members.length)return;goMem((memIdx+dir+members.length)%members.length);}
-function startMemAuto(){if(memAutoTimer)clearInterval(memAutoTimer);if(members.length>1)memAutoTimer=setInterval(()=>chMem(1),4000);}
+  slides.innerHTML=members.map((m,i)=>{const col=memBgCol(m.bg);const photo=m.photo?`<img src="${esc(m.photo)}" alt="${esc(m.n)}" loading="lazy" decoding="async">`:`<span style="font-size:4rem;">👤</span>`;return`<div class="mem-slide${i===0?' active':''}" id="ms${i}"><div class="mem-bg-badge" style="background:${col}">${esc(m.bg||'')}</div><div class="mem-photo-wrap" style="border-color:${col}40;box-shadow:0 8px 32px ${col}25, 0 0 0 6px ${col}10;">${photo}</div><div class="mem-name">${esc(m.n)}</div><div class="mem-role">${esc(m.r||'உறுப்பினர்')}</div><div class="mem-counter">${i+1} / ${members.length}</div></div>`;}).join('');
+  const maxDots=Math.min(members.length,20);dots.innerHTML=members.slice(0,maxDots).map((_,i)=>`<div class="mem-dot${i===0?' on':''}" onclick="goMem(${i},true)"></div>`).join('')+(members.length>maxDots?`<span style="font-size:.6rem;color:var(--muted);font-family:'DM Mono',monospace;">+${members.length-maxDots}</span>`:'');
+  memIdx=0;updateMemArc(0,members.length);document.getElementById('memStat').textContent=members.length+'+';startMemAuto();
+}
+function goMem(n,manual=false){if(!members.length)return;document.querySelectorAll('.mem-slide').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.mem-dot').forEach((d,i)=>d.classList.toggle('on',i===n));memIdx=n;const el=document.getElementById('ms'+n);if(el)el.classList.add('active');updateMemArc(n,members.length);if(manual)startMemAuto();}
+function chMem(dir,manual=true){if(!members.length)return;goMem((memIdx+dir+members.length)%members.length,manual);}
+function startMemAuto(){if(memAutoTimer)clearInterval(memAutoTimer);if(members.length>1)memAutoTimer=setInterval(()=>chMem(1,false),4000);}
 function editCurMem(){if(!isAdmin||!members.length)return;editMem(memIdx);}
-function delCurMem(){if(!isAdmin||!members.length)return;if(confirm('இந்த உறுப்பினரை நீக்கவா?')){members.splice(memIdx,1);DB.setMembers(members);if(memIdx>=members.length)memIdx=0;buildMem();toast('நீக்கப்பட்டது');}}
-function openAddMem(){editMemIdx=null;pendMemPhoto='';document.getElementById('em-idx').value='';document.getElementById('em-n').value='';document.getElementById('em-r').value='உறுப்பினர்';document.getElementById('em-bg').value='O+';document.getElementById('mAvP').style.display='none';document.getElementById('mAvE').style.display='inline';document.getElementById('mOvT').textContent='புதிய உறுப்பினர்';document.getElementById('mOvS').textContent='விவரங்கள் உள்ளிடவும்';openOv('memOv');}
-function editMem(i){editMemIdx=i;const m=members[i];document.getElementById('em-idx').value=i;document.getElementById('em-n').value=m.n;document.getElementById('em-r').value=m.r;document.getElementById('em-bg').value=m.bg;pendMemPhoto=m.photo||'';if(m.photo){document.getElementById('mAvP').src=m.photo;document.getElementById('mAvP').style.display='block';document.getElementById('mAvE').style.display='none';}else{document.getElementById('mAvP').style.display='none';document.getElementById('mAvE').style.display='inline';}document.getElementById('mOvT').textContent='திருத்து';document.getElementById('mOvS').textContent=m.n;openOv('memOv');}
+async function delCurMem(){if(!isAdmin||!members.length)return;if(confirm('இந்த உறுப்பினரை நீக்கவா?')){const prev=[...members];members.splice(memIdx,1);if(await DB.setMembers(members)){if(memIdx>=members.length)memIdx=0;buildMem();toast('நீக்கப்பட்டது');}else{members=prev;}}}
+function openAddMem(){editMemIdx=null;pendMemPhoto='';document.getElementById('em-idx').value='';document.getElementById('em-n').value='';document.getElementById('em-r').value='உறுப்பினர்';document.getElementById('em-bg').value='O+';document.getElementById('memFileInput').value='';document.getElementById('mAvP').style.display='none';document.getElementById('mAvE').style.display='inline';document.getElementById('mOvT').textContent='புதிய உறுப்பினர்';document.getElementById('mOvS').textContent='விவரங்கள் உள்ளிடவும்';openOv('memOv');}
+function editMem(i){editMemIdx=i;const m=members[i];if(!m)return;document.getElementById('em-idx').value=i;document.getElementById('em-n').value=m.n;document.getElementById('em-r').value=m.r;document.getElementById('em-bg').value=m.bg;document.getElementById('memFileInput').value='';pendMemPhoto=m.photo||'';if(m.photo){document.getElementById('mAvP').src=m.photo;document.getElementById('mAvP').style.display='block';document.getElementById('mAvE').style.display='none';}else{document.getElementById('mAvP').style.display='none';document.getElementById('mAvE').style.display='inline';}document.getElementById('mOvT').textContent='திருத்து';document.getElementById('mOvS').textContent=m.n;openOv('memOv');}
 function prevAvMem(e){const f=e.target.files[0];if(!f)return;compressImage(f,400,.75,c=>{pendMemPhoto=c;document.getElementById('mAvP').src=c;document.getElementById('mAvP').style.display='block';document.getElementById('mAvE').style.display='none';});}
-function saveMem(){const idx=document.getElementById('em-idx').value;const obj={n:document.getElementById('em-n').value.trim()||'பெயரில்லா',r:document.getElementById('em-r').value.trim()||'உறுப்பினர்',bg:document.getElementById('em-bg').value,photo:pendMemPhoto||''};if(idx===''||editMemIdx===null)members.push(obj);else members[parseInt(idx)]=obj;DB.setMembers(members);buildMem();closeOv('memOv');editMemIdx=null;pendMemPhoto='';toast('சேமிக்கப்பட்டது! ✅');}
+async function saveMem(){if(!isAdmin)return;const name=document.getElementById('em-n').value.trim();if(!name){toast('⚠️ பெயர் உள்ளிடவும்');return;}const idx=document.getElementById('em-idx').value;const obj={n:name,r:document.getElementById('em-r').value.trim()||'உறுப்பினர்',bg:document.getElementById('em-bg').value,photo:pendMemPhoto||''};const prev=[...members];if(idx===''||editMemIdx===null)members.push(obj);else members[parseInt(idx)]=obj;if(await DB.setMembers(members)){buildMem();closeOv('memOv');editMemIdx=null;pendMemPhoto='';toast('சேமிக்கப்பட்டது! ✅');}else{members=prev;}}
 const memBox=document.getElementById('memCardBox');let _mtx=0;
 memBox.addEventListener('touchstart',e=>{_mtx=e.touches[0].clientX;if(memAutoTimer)clearInterval(memAutoTimer);},{passive:true});
 memBox.addEventListener('touchend',e=>{const dx=_mtx-e.changedTouches[0].clientX;if(Math.abs(dx)>40)chMem(dx>0?1:-1);startMemAuto();});
 
 /* ── MUSIC ── */
 const anthem=document.getElementById('anthemAudio');anthem.loop=true;
-function toggleMusicFloat(){if(!anthem.src||anthem.src===window.location.href){if(isAdmin){toast('Admin: anthem உள்ளிடவும்');openOv('adminOv');}else{toast('🎵 Anthem விரைவில் வருகிறது...');}return;}const bar=document.getElementById('musicBar');if(!bar.classList.contains('show')){bar.classList.add('show');anthem.play().catch(()=>{});document.getElementById('mbPlayBtn').textContent='⏸';document.getElementById('mbDisc').classList.add('spin');document.getElementById('musicFloat').classList.add('playing');}else{toggleMusicPlay();}}
-function toggleMusicPlay(){if(anthem.paused){anthem.play();document.getElementById('mbPlayBtn').textContent='⏸';document.getElementById('mbDisc').classList.add('spin');document.getElementById('musicFloat').classList.add('playing');}else{anthem.pause();document.getElementById('mbPlayBtn').textContent='▶';document.getElementById('mbDisc').classList.remove('spin');document.getElementById('musicFloat').classList.remove('playing');}}
-function hideMusicBar(){anthem.pause();document.getElementById('musicBar').classList.remove('show');document.getElementById('mbPlayBtn').textContent='▶';document.getElementById('mbDisc').classList.remove('spin');document.getElementById('musicFloat').classList.remove('playing');}
+function setMusicUI(playing){
+  document.getElementById('mbPlayBtn').textContent=playing?'⏸':'▶';
+  document.getElementById('mbDisc').classList.toggle('spin',playing);
+  document.getElementById('musicFloat').classList.toggle('playing',playing);
+}
+function toggleMusicFloat(){
+  if(!anthem.src||anthem.src===window.location.href){if(isAdmin){toast('Admin: anthem உள்ளிடவும்');openOv('adminOv');}else{toast('🎵 Anthem விரைவில் வருகிறது...');}return;}
+  const bar=document.getElementById('musicBar');
+  if(!bar.classList.contains('show')){bar.classList.add('show');document.body.classList.add('music-open');anthem.play().then(()=>setMusicUI(true)).catch(()=>{setMusicUI(false);toast('⚠️ இசையை இயக்க ▶ பொத்தானை அழுத்தவும்');});}
+  else{toggleMusicPlay();}
+}
+function toggleMusicPlay(){
+  if(anthem.paused){anthem.play().then(()=>setMusicUI(true)).catch(()=>{setMusicUI(false);toast('⚠️ இசையை இயக்க முடியவில்லை');});}
+  else{anthem.pause();setMusicUI(false);}
+}
+function hideMusicBar(){anthem.pause();document.getElementById('musicBar').classList.remove('show');document.body.classList.remove('music-open');setMusicUI(false);}
 function musicScrub(e){if(!anthem.duration)return;const rect=e.currentTarget.getBoundingClientRect();anthem.currentTime=((e.clientX-rect.left)/rect.width)*anthem.duration;}
 anthem.addEventListener('timeupdate',()=>{if(!anthem.duration)return;document.getElementById('mbFill').style.width=(anthem.currentTime/anthem.duration*100)+'%';const m=Math.floor(anthem.currentTime/60),s=Math.floor(anthem.currentTime%60);document.getElementById('mbTime').textContent=m+':'+(s<10?'0':'')+s;});
 async function fnCall(body){const r=await sb.functions.invoke('central-admin',{body});if(r.error){let m=r.error.message;try{m=(await r.error.context.json()).error||m}catch{}throw new Error(m)}if(r.data?.error)throw new Error(r.data.error);return r.data}
-async function uploadAnthem(e){const f=e.target.files[0];if(!f)return;if(!sb||!isAdmin){toast('நிர்வாக உள்நுழைவு தேவை');return;}if(!/\.(mp3|wav|ogg|m4a|aac)$/i.test(f.name)||f.size>10*1024*1024){toast('MP3/WAV/OGG/M4A/AAC – 10 MB வரை மட்டும்');return;}try{const ext=(f.name.split('.').pop()||'').toLowerCase();const u=await fnCall({action:'anthem_upload_url',ext});const up=await sb.storage.from('site-assets').uploadToSignedUrl(u.path,u.token,f,{contentType:u.content_type});if(up.error)throw up.error;const name=f.name.replace(/\.[^.]+$/,'');const fin=await fnCall({action:'anthem_finalize',path:u.path,name});anthem.src=fin.anthem.src;DB._c['anthem_data']=fin.anthem;document.getElementById('mbName').textContent=name;document.getElementById('musicBar').classList.add('show');toast('🎵 Anthem சேமிக்கப்பட்டது!');}catch(err){console.error(err);toast('❌ Anthem upload: '+err.message);}}
+async function uploadAnthem(e){const f=e.target.files[0];if(!f)return;if(!sb||!isAdmin){toast('நிர்வாக உள்நுழைவு தேவை');return;}if(!/\.(mp3|wav|ogg|m4a|aac)$/i.test(f.name)||f.size>10*1024*1024){toast('MP3/WAV/OGG/M4A/AAC – 10 MB வரை மட்டும்');e.target.value='';return;}try{const ext=(f.name.split('.').pop()||'').toLowerCase();const u=await fnCall({action:'anthem_upload_url',ext});const up=await sb.storage.from('site-assets').uploadToSignedUrl(u.path,u.token,f,{contentType:u.content_type});if(up.error)throw up.error;const name=f.name.replace(/\.[^.]+$/,'');const fin=await fnCall({action:'anthem_finalize',path:u.path,name});anthem.pause();setMusicUI(false);anthem.src=fin.anthem.src;DB._c['anthem_data']=fin.anthem;document.getElementById('mbName').textContent=name;document.getElementById('mbFill').style.width='0%';document.getElementById('mbTime').textContent='0:00';document.getElementById('musicBar').classList.add('show');document.body.classList.add('music-open');e.target.value='';toast('🎵 Anthem சேமிக்கப்பட்டது!');}catch(err){console.error(err);toast('❌ Anthem upload: '+err.message);}}
 
 /* ── WHATSAPP ── */
-function sendWA(){window.open(WA_NUMBER,'_blank');closeOv('waOv');toast('WhatsApp திறக்கப்படுகிறது...');}
-function submitBlood(){
+async function sendWA(){
+  const name=document.getElementById('wa-name').value.trim();
+  const msg=document.getElementById('wa-msg').value.trim();
+  let copied=false;
+  if(name||msg){
+    const txt=`💬 *பாரத் பாய்ஸ் தொடர்பு செய்தி*${name?`\n➤ பெயர்: ${name}`:''}${msg?`\n➤ செய்தி: ${msg}`:''}`;
+    try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(txt);copied=true;}}catch(_){}
+  }
+  document.getElementById('wa-name').value='';
+  document.getElementById('wa-msg').value='';
+  window.open(WA_NUMBER,'_blank','noopener,noreferrer');
+  closeOv('waOv');
+  toast(copied?'💬 செய்தி நகலெடுக்கப்பட்டது! WhatsApp குழுவில் Paste செய்து அனுப்பவும்.':'WhatsApp குழு திறக்கப்படுகிறது...');
+}
+async function submitBlood(){
   const n=document.getElementById('bp-n').value.trim(),bg=document.getElementById('bp-bg').value;
   if(!n||!bg){toast('⚠️ பெயர் மற்றும் இரத்த வகை கொடுக்கவும்');return;}
   const u=document.getElementById('bp-u').value||'',l=document.getElementById('bp-l').value.trim()||'—',p=document.getElementById('bp-p').value.trim()||'—',w=document.getElementById('bp-w').value||'உடனே';
   const txt=`🩸 *அவசர இரத்தத் தேவை (பாரத் பாய்ஸ் நற்பணி மன்றம்)*\n➤ நோயாளி பெயர்: ${n}\n➤ இரத்த வகை: *${bg}* (${u})\n➤ மருத்துவமனை: ${l}\n➤ தொடர்பு எண்: ${p}\n➤ எப்போது தேவை: ${w}`;
-  try{navigator.clipboard?.writeText(txt);}catch(_){}
-  window.open(WA_NUMBER,'_blank');
-  toast('🩸 விவரம் நகலெடுக்கப்பட்டது! WhatsApp குழுவில் Paste செய்து அனுப்பவும்.');
+  let copied=false;
+  try{if(navigator.clipboard?.writeText){await navigator.clipboard.writeText(txt);copied=true;}}catch(_){}
+  window.open(WA_NUMBER,'_blank','noopener,noreferrer');
+  toast(copied?'🩸 விவரம் நகலெடுக்கப்பட்டது! WhatsApp குழுவில் Paste செய்து அனுப்பவும்.':'🩸 WhatsApp குழு திறக்கப்படுகிறது — இரத்தத் தேவை விவரத்தைப் பகிரவும்.');
 }
 
 /* ── NAV ── */
 let mobOpen=false;
 function toggleMob(){mobOpen=!mobOpen;document.getElementById('mobm').classList.toggle('show',mobOpen);}
 function closeMob(){mobOpen=false;document.getElementById('mobm').classList.remove('show');}
-window.addEventListener('scroll',()=>{document.getElementById('nav').style.borderBottomColor=scrollY>20?'rgba(255,85,0,0.15)':'rgba(255,255,255,0.07)';});
+window.addEventListener('scroll',()=>{document.getElementById('nav').style.borderBottomColor=scrollY>20?'rgba(255,85,0,0.15)':'var(--border)';});
 
 /* ── OVERLAYS ── */
-function openOv(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
-function closeOv(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+function openOv(id){
+  if(id==='adminOv')document.getElementById('pwdErr').classList.remove('show');
+  document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';
+}
+function closeOv(id){
+  document.getElementById(id).classList.remove('open');document.body.style.overflow='';
+  if(id==='galOv'){pendGal=null;document.getElementById('galPrevBox').innerHTML='📷';document.getElementById('gl-t').value='';document.getElementById('gl-d').value='';const fi=document.getElementById('galFileInput');if(fi)fi.value='';}
+  if(id==='reelOv'){pendReelFile=null;document.getElementById('reelPrevBox').innerHTML='📽';document.getElementById('rl-t').value='';document.getElementById('rl-d').value='';const fi=document.getElementById('reelFileInput');if(fi)fi.value='';}
+}
 function closeBG(e,id){if(e.target.id===id)closeOv(id);}
 function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),3200);}
 
@@ -1147,7 +1308,6 @@ function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-th
 /* ── LOGO CLICK ── */
 let _logoTaps=0,_logoTimer=null;
 function handleLogoClick(){
-  if(window.innerWidth<=768){openOv('adminOv');return;}
   if(isAdmin){trigUpload('navLogoFile');return;}
   _logoTaps++;clearTimeout(_logoTimer);
   _logoTimer=setTimeout(()=>{_logoTaps=0;},600);
@@ -1155,7 +1315,7 @@ function handleLogoClick(){
 }
 
 /* ── LOAD BAR ── */
-function setLoadBar(pct){const bar=document.getElementById('dbBar');bar.style.width=pct+'%';if(pct>=100){bar.classList.add('done');setTimeout(()=>bar.remove(),800);}}
+function setLoadBar(pct){const bar=document.getElementById('dbBar');if(!bar)return;bar.style.width=pct+'%';if(pct>=100){bar.classList.add('done');setTimeout(()=>bar.remove(),800);}}
 
 /* ── BOOT ── */
 function renderDefaults(){donors=[...defaultDonors];gallery=[];reels=[];members=[];buildDonors();buildMediaStrip();buildMem();}
@@ -1210,13 +1370,17 @@ const ok=s=>typeof s==='string'&&s.trim().length>0;
 if(ok(c.hero_w))document.getElementById('heroW').textContent=c.hero_w.trim()+' ';
 if(ok(c.hero_o))document.getElementById('heroO').textContent=c.hero_o.trim();
 if(ok(c.address))document.getElementById('conAddr').textContent=c.address.trim();
-if(Array.isArray(c.phones)&&c.phones.length){const box=document.getElementById('conNums');box.textContent='';c.phones.forEach(p=>{const d=String(p||'').replace(/\D/g,'').slice(-10);if(d.length!==10)return;const w=document.createElement('div');w.className='connum';const a=document.createElement('a');a.href='tel:'+d;a.textContent=d.slice(0,5)+' '+d.slice(5);w.appendChild(a);box.appendChild(w);});}
+if(Array.isArray(c.phones)&&c.phones.length){
+  const validPhones=c.phones.map(p=>String(p||'').replace(/\D/g,'').slice(-10)).filter(d=>d.length===10);
+  if(validPhones.length){const box=document.getElementById('conNums');box.textContent='';validPhones.forEach(d=>{const w=document.createElement('div');w.className='connum';const a=document.createElement('a');a.href='tel:'+d;a.textContent=d.slice(0,5)+' '+d.slice(5);w.appendChild(a);box.appendChild(w);});}
+}
 if(ok(c.announcement)){document.getElementById('siteAnnTxt').textContent=c.announcement.trim();document.getElementById('siteAnn').style.display='block';}
 try{fitOneLine()}catch{}}catch(e){console.warn('site_content',e)}}
 
-async function restoreAdminSession(){if(!sb)return;const {data:{session}}=await sb.auth.getSession();if(session){const gate=await sb.functions.invoke('central-admin',{body:{action:'ping'}});isAdmin=!gate.error&&!gate.data?.error;if(!isAdmin)await sb.auth.signOut();}if(isAdmin){document.getElementById('adminLoginForm').style.display='none';document.getElementById('admLogoutW').style.display='block';enableAdmin();}}
+let _restoredUid=null;
+async function restoreAdminSession(){if(!sb||_authBusy)return;const {data:{session}}=await sb.auth.getSession();if(session){const gate=await sb.functions.invoke('central-admin',{body:{action:'ping'}});isAdmin=!gate.error&&!gate.data?.error;_restoredUid=isAdmin?session.user.id:null;if(!isAdmin)await sb.auth.signOut();}else{_restoredUid=null;isAdmin=false;}if(isAdmin){document.getElementById('adminLoginForm').style.display='none';document.getElementById('admLogoutW').style.display='block';enableAdmin();}}
 restoreAdminSession();
-sb?.auth.onAuthStateChange((_event,session)=>{if(!session){isAdmin=false;document.getElementById('admLogoutW').style.display='none';document.getElementById('adminLoginForm').style.display='block';disableAdmin();}else{restoreAdminSession();}});
+sb?.auth.onAuthStateChange((event,session)=>{if(_authBusy)return;if(event==='SIGNED_OUT'){_restoredUid=null;isAdmin=false;document.getElementById('admLogoutW').style.display='none';document.getElementById('adminLoginForm').style.display='block';disableAdmin();}else if(event==='SIGNED_IN'&&session?.user?.id!==_restoredUid){restoreAdminSession();}});
 </script>
 </body>
 </html>
